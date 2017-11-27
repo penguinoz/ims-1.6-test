@@ -1,0 +1,126 @@
+<template name="imLogin">
+  <!-- content -->
+<div class="login-content login-main">
+  <div class="login-container">
+    <div class="login-left">
+      <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+
+            <div class="item active">
+              <img src="/images/bg/login_slide_1.png" alt="Los Angeles">
+              <!-- <div class="carousel-caption">
+              </div> -->
+            </div>
+
+            <div class="item">
+              <img src="/images/bg/login_slide_1.png" alt="Chicago">
+              <!-- <div class="carousel-caption">
+              </div> -->
+            </div>
+
+            <div class="item">
+              <img src="/images/bg/login_slide_1.png" alt="New York">
+              <!-- <div class="carousel-caption">
+              </div> -->
+            </div>
+
+          </div>
+
+          <!-- Left and right controls -->
+          <!-- <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+          </a> -->
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-head" style="margin-bottom:26px;">
+          <p class="title">잇츠마이스토리</p>
+      </div>
+      <!-- login-body -->
+      <div class="login-body">
+        <!-- login-box -->
+        <div class="login-box" >
+          <!-- box-body -->
+          <div class="box-body">
+            <!-- row -->
+            <div class="row ">
+              <div class="login-id">
+                <input type="text" id="userId" placeholder="아이디"/>
+                <i class="imsr-icon icon-lg0003"></i>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="login-passwd">
+                <input type="password" id="password" placeholder="비밀번호"/>
+                <i class="imsr-icon icon-lg0003"></i>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="login-option" >
+              <div class="save-id-box">
+                <input type="checkbox" id="loginIdSaveCheck">
+                <label class="save-id" for="loginIdSaveCheck" style="position:relative;">  아이디 저장</label>
+              </div>
+              <div class="find-box" style="float:right;">
+                <a href="javascript:void(0)" class="find-id" name="findId">아이디 찾기</a> /
+                <a href="javascript:void(0)" class="find-password" name="findPw">비밀번호 찾기</a>
+              </div>
+            </div>
+            <!-- //row -->
+          </div>
+        </div>
+        <!-- //login-box -->
+      </div>
+      <!-- //login-body -->
+
+      <!-- login-btn-group -->
+      <div class="login-btn-group" style="margin: 68px 0 60px 0;" >
+        <!-- <a href="javascript:void(0)" class="login-btn" id="btnJoin">회원가입(임시)</a> -->
+        <div class="login-btn-div">
+          <a href="javascript:void(0)" class="login-btn" id="btnLogin">로그인하기</a>
+        </div>
+        <div class="login-btn-div">
+          <a href="javascript:void(0)" class="join-btn" id="btnJoin">회원가입하기</a>
+        </div>
+      </div>
+
+      <!-- //login-btn-group -->
+      <div class="login-info">
+        <!-- <a href="/register">지금 가입하세요.</a> -->
+        <!-- <a href="javascript:void(0)" class="login-btn" id="btnJoin">회원가입</a> -->
+        <div class="">
+          <span>회원가입코드 : </span>
+          <input type="password" id="joininpass" style="width:100px; border: 1px solid #dedede;height: 19px;"/>
+        </div>
+      </div>
+
+    </div>
+    <div class="login-footer corp-info">
+      <span><strong>유한회사 더푸르츠</strong></span> |
+      <span><strong>사업자번호</strong> : 780-81-00202 </span> |
+      <span><strong>이메일</strong> : supporter@itsmystory.com</span> |
+      <span><strong>전화번호</strong> : 02-2282-7377</span> |
+      <span class="privacy-policy" ><strong data-modal-template='imPrivacyPolicyPopup'>개인정보 취급방침</strong></span>
+    </div>
+  </div>
+</div>
+  <!-- //content -->
+</template>

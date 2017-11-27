@@ -1,0 +1,13 @@
+<template name="imLifeTraceViewerPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">보금자리 보기</h4>
+  </div>
+  <div class="modal-body">
+  <div class="map-container" id="lifeTraceMapPop"></div>
+    <h1 hidden>{{collection}}</h1>
+    <div class="rangeSlider hidden" id="sliderPopDiv">
+      <input type="rangeslide" id="lifeTraceSlidePop" name="lifeTraceSlidePop" value="" />
+    </div>
+  </div>
+</template>

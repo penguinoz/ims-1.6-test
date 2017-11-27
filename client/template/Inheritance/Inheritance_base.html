@@ -1,0 +1,24 @@
+<!-- main, menu, history항목을 얹을 템플릿 -->
+<template name="inheritanceBase">
+  <!-- container -->
+  <div class="inh-content">
+    <!-- inh-gnb -->
+    <div class="inh-gnb">
+      {{> inheritanceMenu}}
+    </div>
+    <!-- //inh-gnb -->
+    <!-- inh-main -->
+    <div class="inh-main">
+        {{> inheritanceMain}}
+    </div>
+
+    <!-- //inh-main -->
+    <!-- inh-history -->
+    <div class="inh-history">
+        {{> inheritanceHistory}}
+    </div>
+    <!-- //inh-history -->
+    <a id="closeInh" class="closeInh imsr-tooltip" href="javascript:void(0)" data-toggle="tooltip" title="닫기"><i class="ion-close"></i></a>
+  </div>
+  <!-- //container -->
+</template>

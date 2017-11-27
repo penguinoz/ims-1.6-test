@@ -1,0 +1,113 @@
+<!-- 나의 상속인 -->
+<template name="inheritanceInheritor">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2>나의 상속인</h2>
+      <p class="title-sm">유언을 남기거나 상속을 위해서는 상속인을 먼저 추가하셔야 합니다.</p>
+    </div>
+    <!-- inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- inh-btnSet -->
+      <div class="inh-btnSet text-right">
+        <a href="javascript:void(0)" class="inh-btn-last" name="alastLetter">마지막 편지</a>
+        <!-- <a href="javascript:void(0)" class="inh-btn-my" name="aInheritanceAsset">자산 상속</a> -->
+        <a href="javascript:void(0)" class="inh-btn-content" name="aInheritanceContents">컨텐츠 상속</a>
+      </div>
+      <!-- //inh-btnSet -->
+      <!-- inh-inheritorList -->
+      <div class="inh-inheritorList">
+
+        <!-- add thumbnail -->
+        <div class="thumbnail">
+          <img src="/images/bg/bg_addimg.png" alt="..." class="img-circle addInheritor" data-modal-template="inheritanceAddFriendsPopup"/>
+          <p class="name"> </p>
+          <!-- <div class="thumb-btnSet">
+            <a href="javascript:void(0)" class="inh-sx-last" ><i class="ion-email"></i></a>
+            <a href="javascript:void(0)" class="inh-sx-my"><i class="ion-cash"></i></a>
+            <a href="javascript:void(0)" class="inh-sx-content"><i class="ion-android-archive"></i></a>
+          </div> -->
+          <!-- <div class="thumb-over">
+            <div class="thumb-over-bg"></div>
+            <div class="thumb-over-btnSet">
+              <a href="javascript:void(0)" class="close-btn"><i class="ion-close"></i></a>
+              <a href="javascript:void(0)" class="thumb-over-btn">수정</a>
+              <a href="javascript:void(0)" class="thumb-over-btn">엔딩노트</a>
+            </div>
+          </div> -->
+        </div>
+        <!-- //add thumbnail -->
+
+
+        {{#each hpInheritors}}
+        <!-- thumbnail -->
+        <div class="thumbnail">
+          <!-- /images/bg/avata_big.png -->
+          {{#if g_isExist name}}
+            <img src="/images/bg/avata_big.png" alt="..." class="img-circle inheritorImg"/>
+            <p class="name">
+              {{name}}
+            </p>
+          {{else}}
+            <img src="{{g_getProfileImg inheritorId 'thumb'}}" alt="..." class="img-circle inheritorImg"/>
+            <span class="black_rebon {{g_isUseBlackRebon inheritorId}}"></span>
+            <p class="name">
+              {{g_getNickName inheritorId}}
+            </p>
+          {{/if}}
+
+
+          {{> inheritorButtons data=this}}
+
+          <div class="thumb-over">
+            <div class="thumb-over-bg"></div>
+            <div class="thumb-over-btnSet">
+              <a href="javascript:void(0)" class="close-btn"><i class="ion-close"></i></a>
+              <!-- <a href="javascript:void(0)" class="thumb-over-btn" id="endingNote">엔딩노트</a> -->
+              {{#if hpIsInhContentsExist contents isParentDataExist}}
+                <a href="{{pathFor 'inheritanceTimelineBody' _id=this._id isNote='card' ownerId=this.inheritorId}}" class="thumb-over-btn" target="_blank">엔딩노트</a>
+              {{else}} {{#if hpIsInhDataExist asset}}
+                <a href="{{pathFor 'inheritanceTimelineBody' _id=this._id isNote='card' ownerId=this.inheritorId}}" class="thumb-over-btn" target="_blank">엔딩노트</a>
+              {{else}} {{#if hpIsInhDataExist lastLetter}}
+                <a href="{{pathFor 'inheritanceTimelineBody' _id=this._id isNote='card' ownerId=this.inheritorId}}" class="thumb-over-btn" target="_blank">엔딩노트</a>
+              {{/if}}
+              {{/if}}
+              {{/if}}
+
+              {{#if g_isExist name}}
+                <a href="javascript:void(0)" class="thumb-over-btn" id="edit" data-modal-template="inheritanceEditFriendsPopup">수정</a>
+              {{else}}
+                {{#if hpIsInhContentsExist contents isParentDataExist}}
+                  <a href="javascript:void(0)" class="thumb-over-btn" id="instInheritance" data-id="{{this._id}}" inheritorId="{{this.inheritorId}}">지금상속</a>
+                {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <!-- //thumbnail -->
+        {{/each}}
+      </div>
+    <!-- //inh-inheritorList -->
+    </div>
+    <!-- content -->
+
+  </div>
+</template>
+
+<template name="inheritorButtons">
+  <div class="thumb-btnSet">
+    <!-- 마지막 편지 -->
+    <a href="javascript:void(0)" class="inh-sx-last {{#if hpIsInhDataExist data.lastLetter}} active {{/if}} imsr-tooltip" name="lastLetter" data-toggle="tooltip" title="마지막편지작성">
+      <i class="imsr-icon icon-in0001"></i>
+    </a>
+    <!-- 자산 -->
+    <!-- <a href="javascript:void(0)" class="inh-sx-my {{#if hpIsInhDataExist data.asset}} active {{/if}} imsr-tooltip" name="assetDetail" data-toggle="tooltip" title="자산상속">
+      <i class="imsr-icon icon-in0002 {{#if hpIsInhDataExist data.asset}} active {{/if}}" value="{{data._id}}"></i>
+    </a> -->
+    <!-- 컨텐츠 -->
+    <a href="javascript:void(0)" class="inh-sx-content {{#if hpIsInhContentsExist data.contents data.isParentDataExist}} active {{/if}} imsr-tooltip" name="inheritContent" data-toggle="tooltip" title="컨텐츠상속">
+      <i class="imsr-icon icon-in0003 {{#if hpIsInhContentsExist data.contents data.isParentDataExist}} active {{/if}}" value="{{data._id}}" inheritorId="{{data.inheritorId}}"></i>
+    </a>
+  </div>
+</template>

@@ -1,0 +1,525 @@
+<!-- 타임캡슐 상세 -->
+<template name="timeCapsuleDetail">
+  <!-- content -->
+  <div class="content h-scroll type-timecapsul hr-scroll">
+  <div>
+    {{#with hpCollection}}
+      <!-- container -->
+      <div class="container-fluid detail-container {{#if hpStatusTypeCheck 'BR' status}} bg-type {{/if}}">
+        <!-- row -->
+        <div class="row detail-article">
+          <!-- list-group-item -->
+          <div class="detail-group">
+            {{#if hpStatusTypeCheck 'PB' status}}
+              <div class="media-body body-group">
+                  <p class="member"><span class="date">등록일 : {{g_dateFormChange regDate 'defaultHMS'}}</span></p>
+                  <p class="subject">{{title}}</p>
+              </div>
+            {{else}}
+              {{#if g_isEqual authorType 'group'}}
+                <a class="group-btn"><span>그룹</span></a>
+              {{/if}}
+              {{#if hpStatusTypeCheck 'PR' status}}
+                <div class="media-left subject-group">
+                    <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                      {{#if g_refreash}}
+                        <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                      {{else}}
+                        <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                      {{/if}}
+                    </a>
+                    {{> dropdownMenuUserCard targetUserId=this.userId}}
+                </div>
+                <div class="media-body body-group">
+                    <p class="member">
+                      {{#if g_isEqual authorType 'private'}}
+                        {{this.nickName}}의 타임캡슐<span class="date">등록 : {{g_dateFormChange buryDate 'defaultHMS'}}</span>
+                      {{else}}
+                        <!-- 생성자 : {{this.nickName}}, 그룹타임캡슐<span class="date">등록 : {{g_dateFormChange buryDate 'defaultHMS'}}</span> -->
+                        생성자 : {{this.nickName}}<span class="date">등록 : {{g_dateFormChange buryDate 'defaultHMS'}}</span>
+                      {{/if}}
+                    </p>
+                    <p class="subject">{{title}}</p>
+                </div>
+              {{else}}
+                <!-- <a class="group-btn"><span>그룹</span></a> -->
+                <div class="media-left subject-group">
+                    <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                </div>
+                <div class="media-body body-group">
+
+                  <p class="member">
+                    {{#if g_isEqual authorType 'private'}}
+                        {{this.nickName}}의 타임캡슐<span class="date">매립일 : {{g_dateFormChange buryDate 'defaultHMS'}}</span>
+                      {{else}}
+                        생성자 : {{this.nickName}}, 그룹타임캡슐<span class="date">매립일 : {{g_dateFormChange buryDate 'defaultHMS'}}</span>
+                      {{/if}}
+                  </p>
+                  <p class="subject">{{title}}</p>
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+          <!-- //list-group-item -->
+          <!-- row -->
+          <div class="row detail-btnContainer">
+            <!-- col -->
+            <div class="col-xs-6 nopm">
+              <div class="group-box" role="group" aria-label="...">
+                <!-- 공개일 경우만 좋아요항목 표시를 한다 -->
+                {{#if hpStatusTypeCheck 'PB' status}}
+                  <!-- <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnLikeList" >
+                    <i class="imsr-icon icon-me0045 red heart" aria-hidden="true" id="btnLikeList" ></i>0
+                  </a> -->
+                  <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnLikeList" postId="{{_id}}">
+                    <i class="imsr-icon {{#if hpLikeFlag this.like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart" aria-hidden="true" id="btnLikeList" postId="{{this._id}}"></i>{{this.like.length}}
+                  </a>
+                  {{> endingNoteLikeList}}
+                {{/if}}
+                {{#unless hpStatusTypeCheck 'PR' status}}
+                <span class="group-xs" name="commentCount"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{hpCollection.comments.length}}</span>
+                <span class="group-xs" name="openCount"><i class="imsr-icon icon-me0024  "  aria-hidden="true"></i>{{hpCollection.open}}</span>
+                {{/unless}}
+              </div>
+            </div>
+            <!-- //col -->
+            <!-- col -->
+            <div class="col-xs-6 text-right detail-btn nopm">
+              <!-- btn-group -->
+              {{#if hpisFromPopup}}
+              {{#if hpStatusTypeCheck 'PR' status}}
+                {{#if g_userAuth userId}}
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailBury" >매립</a>
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailMod" >수정</a>
+                {{/if}}
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailDelete">삭제</a>
+              {{else}} {{#if hpStatusTypeCheck 'BR' status}}
+              <!-- 매립일경우 수신인 정보수정 버튼막기 (시범오픈때 사용하지 않음) -->
+                <!-- {{#if g_userAuth userId}}
+                  {{#if hpIsExistNoneUser nonUserGroupMember}}
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailEditUser" data-modal-template="timeCapsuleEditNoneuserPopup">수신인 정보수정</a>
+                  {{/if}}
+                {{/if}} -->
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailDelete">삭제</a>
+              {{else}} {{#if hpStatusTypeCheck 'US' status}}
+                  <!-- <a class="btn btn-default btn-sm icon-type" href="javascript:void(0)" role="button" id="DetailOpen" ><i class="imsr-icon icon-tc0009"></i>공개</a> -->
+                  <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailDelete">삭제</a>
+              {{else}} {{#if hpStatusTypeCheck 'PB' status}}
+                <!-- <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailLike" >좋아요</a> -->
+                {{> endingNoteLike g_setLikeParameters this 'timeCapsuleDetail'}}
+                {{#if g_userAuth userId}}
+                <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="pbEditButton" >수정</a>
+                <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailDelete">삭제</a>
+                {{/if}}
+                <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="DetailShare" >공유</a>
+              {{/if}} {{/if}} {{/if}} {{/if}} {{/if}}
+              <!-- //btn-group -->
+            </div>
+            <!-- //col -->
+          </div>
+          <!-- Single button -->
+        </div>
+
+      <!-- 매립일경우 -->
+        {{#if hpStatusTypeCheck 'BR' status}}
+        <!-- Single button -->
+        <div class="row detail-article detail-body {{#if hpStatusTypeCheck 'PR' status}}nobd{{/if}}">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="col-xs-5 text-center">
+                <!-- egg -->
+                <div class="egg">
+                  <div class="egg-inner">
+                    <span class="egg-date">{{g_dateFormChange unsealDate 'defaultYMD'}}</span>
+                  </div>
+                </div>
+                <!-- egg -->
+              </div>
+              <div class="col-xs-7 info-list">
+                <!-- d-day -->
+                <div class="d-day">
+                  {{#with hpCalcDday unsealDate}}
+                    {{#if g_isEqual dDate 'day'}}
+                      <span class="dTxt">D  -  {{dDate}}</span>
+                    {{else}}
+                    <span class="dTxt">D  {{flag}}</span>
+                      {{#each dDate}}
+                        <span class="bgNumber" style="padding-top:3px;">{{dateNum}}</span>
+                      {{/each}}
+                    {{/if}}
+                  {{/with}}
+                  <small>일 {{dDayTime}}</small>
+                </div>
+                <!-- //d-day -->
+                <p class="mem">
+                {{#if g_isGreaterThan groupMember.length 1}}
+                  {{#if g_isEqual authorType 'private' }}
+                  <i class="imsr-icon icon-tc0017" aria-hidden="true" style="margin-left:-1px;"></i>
+                  {{else}}
+                  <span class="group-name"><i class="imsr-icon icon-bu0013" aria-hidden="true"></i>{{#if groupName}}({{groupName}}){{/if}}</span>
+                  {{/if}}
+                {{else}}
+                <i class="imsr-icon icon-in0016" aria-hidden="true" style="font-size:12px !important;margin-left:-2px;"></i> {{this.nickName}}
+                {{/if}}
+                  {{#each groupMember}}
+                    {{#if g_isEqual ../authorType 'private'}}
+                      {{#unless g_userAuth this.userId}}
+                        {{this.nickName}}
+
+                        {{#unless g_isEqual @index (g_subtraction ../groupMember.length 1)}}, {{else}} {{#if g_isGreaterThan ../nonUserGroupMember.length 0}}, {{/if}} {{/unless}}
+                      <!-- {{#if hpAuthorCheckGroup ../userId userId}}
+                        <a href="javascript:void(0)" class="btn-tagDelete" name="delListTag" id='{{userId}}'></a>,
+                      {{/if}} -->
+                      {{/unless}}
+                    {{else}}
+                      {{this.nickName}}
+
+                      {{#unless g_isEqual @index (g_subtraction ../groupMember.length 1)}}, {{else}} {{#if g_isGreaterThan ../nonUserGroupMember.length 0}}, {{/if}} {{/unless}}
+                    <!-- {{#if hpAuthorCheckGroup ../userId userId}}
+                      <a href="javascript:void(0)" class="btn-tagDelete" name="delListTag" id='{{userId}}'></a>,
+                    {{/if}} -->
+                    {{/if}}
+                  {{/each}}
+                  {{#each nonUserGroupMember}}
+                    <a class="defaultmouse" href="javascript:void(0)" id="nonUser">{{nonUserName}}</a>
+                    <!-- 매립이후에는 비유저 제거 버튼 삭제 -->
+                    <!-- <a href="javascript:void(0)" class="btn-tagDelete" name="delNonListTag" id='{{nonUserName}}'></a> -->
+                    {{#unless g_isEqual @index (g_subtraction ../nonUserGroupMember.length 1)}}, {{/unless}}
+                  {{/each}}
+
+                </p>
+
+                <p><i class="imsr-icon icon-tc0003" aria-hidden="true" style="font-size:15px;margin-top:5px;"></i> {{buryLocationName}}</p>
+                <p><i class="imsr-icon icon-tc0014" aria-hidden="true" style="font-size:19px;"></i> <span style="font-weight:500;">{{messageCount}}</span> 건의 작성된 메세지 존재</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {{else}}
+        {{#if hpStatusTypeCheck 'PB' status}}
+          <!-- 공개개시물이 들어갈 부분 -->
+        <!-- {{#if hpIsExistPublicContentAndTag}} -->
+          <div class="row detail-article detail-body public nobd">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <!-- 공개사연 -->
+                {{#if g_isExist publicContent}}
+                  {{{publicContent}}}
+                {{else}}
+                  <!-- 사연이 없으면 타이틀을 화면에 표시 -->
+                  {{title}}
+                {{/if}}
+                <!-- 공개태그 -->
+                {{#if g_isExist tagList}}
+                  <div class="tag public">
+                    <ul>
+                      <!-- <span><strong>태그 </strong></span> -->
+                    {{#each tagList}}
+                      <li><a href="javascript:void(0)">#{{this}}</a></li>
+                    {{/each}}
+                    </ul>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        {{/if}}
+        <!-- Single button -->
+        <div class="row detail-article detail-body {{#if hpStatusTypeCheck 'PR' status}}nobd{{/if}}">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <!-- 공개컨텐츠일경우 사용자 정보를 표시 하지 않는다. -->
+              {{#unless hpStatusTypeCheck 'PB' status}}
+                <div class="row">
+                  <div class="col-xs-2">생성자</div>
+                  <div class="col-xs-10">{{this.nickName}}</div>
+                </div>
+                {{#if g_isEqual authorType 'private'}}
+                <!-- 개인인 경우 -->
+                  {{#if hpIsExistGroupMemger groupMember nonUserGroupMember }}
+                  <!-- 수신자가 있는경우 -->
+                  <div class="row tag">
+                    <div class="col-xs-2">수신자</div>
+                    <div class="col-xs-10 tag inline-b timecapTagStyle">
+                      <ul>
+                        {{#each groupMember}}
+                            <!-- 작성자는 수신자에 표시하지 않는다. -->
+                            {{#unless hpisAuther this.userId}}
+                              <li>
+                                <a class="defaultmouse" href="javascript:void(0)">{{this.nickName}}</a>
+                                <!-- 작성자일 경우만 X표시 -->
+                                {{#if g_userAuth ../userId}}
+                                <!-- 작성중(PR) 컨텐츠만 x사용 -->
+                                  {{#if  g_isEqual ../status 'PR'}}
+                                  <a class="btn-tagDelete" name='delGroupListTag'></a>
+                                  {{/if}}
+                                {{/if}}
+                                {{#if g_isGreaterThan (g_sumation ../groupMember.length ../nonUserGroupMember.length) 2}}
+                                  {{#unless g_isEqual @index (g_subtraction ../groupMember.length 1)}},{{else}} {{#if g_isGreaterThan ../nonUserGroupMember.length 0}},{{/if}}{{/unless}}
+                                {{/if}}
+                              </li>
+                            {{/unless}}
+                        {{/each}}
+                        {{#each nonUserGroupMember}}
+                          <li>
+                            <a class="{{#if  g_isEqual ../status 'PR'}} nonUsersClass {{else}} defaultmouse {{/if}}" href="javascript:void(0)">{{this.nonUserName}}</a>
+                            {{#if g_userAuth ../userId}}
+                            <!-- 작성중(PR) 컨텐츠만 x사용 -->
+                              {{#if  g_isEqual ../status 'PR'}}
+                                <a class="btn-tagDelete" name="delNonListTag"></a>
+                              {{/if}}
+                            {{/if}}
+                            {{#unless g_isEqual @index (g_subtraction ../nonUserGroupMember.length 1)}},{{/unless}}
+                          </li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                  {{/if}}
+                {{else}}
+                <!-- 그룹인 경우 -->
+                  <div class="row">
+                    <div class="col-xs-2">그룹원</div>
+                    <div class="col-xs-10">
+                      <div class="tag inline-b">
+                        <ul>
+                          <li>
+                            <i class="imsr-icon icon-bu0013" style="margin-left:-2px;"></i>{{#if groupName}}({{groupName}}){{/if}}
+                          </li>
+                          {{#each groupMember}}
+                          <!-- 작성자는 그룹원에 표시하지 않는다. -->
+                            <!-- {{#unless hpisAuther this.userId}} -->
+                              <li>
+                                <a class="defaultmouse" href="javascript:void(0)">{{this.nickName}}</a>
+                                <!-- 작성자일 경우만 X표시 -->
+                                  {{#if g_userAuth ../userId}}
+                                  <!-- 작성중(PR) 컨텐츠만 x사용 -->
+                                      {{#if  g_isEqual ../status 'PR'}}
+                                      {{#unless hpisAuther this.userId}}
+                                        <a class="btn-tagDelete" name='delGroupListTag'></a>
+                                      {{/unless}}
+                                      {{/if}}
+                                  {{/if}}
+                                  {{#if g_isGreaterThan ../groupMember.length 2}}
+                                    {{#unless g_isEqual @index (g_subtraction ../groupMember.length 1)}},{{/unless}}
+                                  {{/if}}
+                              </li>
+                            <!-- {{/unless}} -->
+                          {{/each}}
+                          {{#each nonUserGroupMember}}
+                            <li>
+                              <a class="defaultmouse" href="javascript:void(0)">{{this.nonUserName}}</a>
+                              {{#if g_userAuth ../userId}}
+                              <!-- 작성중(PR) 컨텐츠만 x사용 -->
+                                {{#if  g_isEqual ../status 'PR'}}
+                                  <a class="btn-tagDelete" name="delNonListTag"></a>
+                                {{/if}}
+                              {{/if}}
+                              {{#unless g_isEqual @index (g_subtraction ../nonUserGroupMember.length 1)}},{{/unless}}
+                            </li>
+                          {{/each}}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+              {{/unless}}
+              <!-- row -->
+
+              <!-- //row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">개봉일</div>
+                <div class="col-xs-10">{{g_dateFormChange unsealDate 'defaultYMD'}}</div>
+              </div>
+              <!-- //row -->
+              <!-- row -->
+              <div class="row map-info">
+                <div class="col-xs-2">매립위치</div>
+                <div class="col-xs-8">{{buryLocationName}}</div>
+                <div class="col-xs-2">
+                  <div class="btn-set">
+                    {{#if hpisNullCheck buryLat}}
+                      <a href="javascript:void(0)" class="" id="abucketMap"><i class="ion-location" aria-hidden="true"></i></a>
+                    {{/if}}
+                    {{#if hpisNullCheck image}}
+                    <a href="javascript:void(0)" class="" id="abucketImage"><i class="ion-image" aria-hidden="true"></i></a>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+              <!-- //row -->
+              <!-- content-map -->
+              <div class="content-map">
+                <img class="content-map" src="{{image.path}}" alt="" id="capsuleImageViewer" hidden>
+                <!-- <div class="map-container content-map" id="map-canvas"></div> -->
+                {{#if hpFirstHidden}}
+                  {{> googleMapTemplate hpLocationInfo}}
+                {{/if}}
+              </div>
+              <!-- //content-map -->
+
+              {{#if g_isEqual authorType 'group'}}
+              <!-- writer-container -->
+              <div class="writer-container">
+                <!-- row -->
+                <div class="writer-title">
+                  <i class="imsr-icon icon-in0016"></i>메세지 작성자 <span>({{hpMessageUsers.length}})</span>
+                </div>
+                <!-- //row -->
+                <!-- writer-item -->
+                <div class="writer-item">
+                  <!-- row -->
+                  <div class="writer-body">
+                      {{#if hpMessageUsers}}
+                        <ul>
+                        {{#each hpMessageUsers}}
+                          <li>
+                            <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                              <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                              <p class="subject-name" value="{{this}}">{{this.nickName}}</p>
+                            </a>
+                            {{#if hpIsChanged hpMessageUsers}}
+                              {{> dropdownMenuUserCard targetUserId=this.userId}}
+                            {{else}}
+                              {{> dropdownMenuUserCard targetUserId=this.userId}}
+                            {{/if}}
+                          </li>
+                        {{/each}}
+                        </ul>
+                      {{else}}
+                        <p>등록된 메세지가 없습니다.</p>
+                      {{/if}}
+                  </div>
+                  <!-- //row -->
+                </div>
+                <!-- //writer-item -->
+              </div>
+              <!-- //writer-container -->
+              {{/if}}
+
+              {{#with hpMessageCollection}}
+                <!-- message-container -->
+              <div class="message-container">
+                <!-- row -->
+                <div class="message-title">
+                  <span class="message-count"><i class="imsr-icon icon-tc0011"></i>메세지 <span>({{this.count}})</span></span>
+                  {{#if hpStatusTypeCheck 'PR' ../status}}
+                  <a href="javascript:void(0)" class="message-add" id="addMessage" data-modal-template="timeCapsuleMessagePopup"><span>메세지추가</span><i class="imsr-icon icon-tc0002"></i></a>
+                  {{/if}}
+                </div>
+                <!-- //row -->
+
+                <!-- 작성중일때는 내 메시지만 보여야 한다. -->
+                <!-- 개봉일때는 모든 메시지가 보여진다.-->
+                <!-- 매립시에는 메시지를 출력하지 않는다.-->
+                {{#each this.data}}
+                <!-- message-item -->
+                <div id="msg{{this._id}}" name="messageDataList" class="message-item {{#if hpStatusTypeCheck 'US' ../../status}}{{#if g_isEqual index 1}} active {{/if}}{{/if}}">
+                <!-- <div id="msg{{this._id}}" class="message-item active"> -->
+                  <!-- row -->
+                  <div class="message-body">
+                    <div class="thumbnail-bg" style="background-image:url('{{this.backgroundImage}}')"></div>
+                    <div class="message-subject">
+                      <div class="col-xs-8 msgTitle"><span class="subject"><i class="imsr-icon {{#if hpCheckOpenMsgUsers openUsers}} icon-tc0012 {{else}} icon-tc0013{{/if}}"></i> {{this.nickName}}님의  {{index}}번째  메세지입니다.</span></div>
+                      <div class="col-xs-4 date-col"><span class="date">{{g_dateFormChange this.regDate 'defaultYMD'}} 작성됨</span></div>
+                    </div>
+                    <div class="message-content">
+                      {{{content}}}
+                    <!-- 개봉, 공개에서는 메시지 수정, 삭제 불가 -->
+                    {{#unless hpStatusTypeCheck 'PB' ../../status}}
+                    {{#unless hpStatusTypeCheck 'US' ../../status}}
+                      <div class="message-footer">
+                        <a href="javascript:void(0)" id="aMessageEdit" data-modal-template="timeCapsuleMessagePopup">수정<i class="ion-edit"></i></a>
+                        <a href="javascript:void(0)" id="aMessageDelete">삭제<i class="ion-trash-b"></i></a>
+                      </div>
+                    {{/unless}}
+                    {{/unless}}
+                    {{#if hpStatusTypeCheck 'PB' ../../status}}
+                    {{#if g_userAuth ../../userId}}
+                      <div class="message-footer">
+                        <a href="javascript:void(0)" id="aMessageEdit" data-modal-template="timeCapsuleMessagePopup">수정<i class="ion-edit"></i></a>
+                        <a href="javascript:void(0)" id="aMessageDelete">삭제<i class="ion-trash-b"></i></a>
+                      </div>
+                    {{/if}}
+                    {{/if}}
+                    </div>
+                  </div>
+                  <!-- //row -->
+                </div>
+                <!-- //message-item -->
+                {{/each}}
+                {{> page _id=../_id limit=3 findName="timecapsuleMessage" status=../status}}
+              </div>
+              <!-- //message-container -->
+              {{/with}}
+            </div>
+          </div>
+        </div>
+        {{/if}}
+
+        <!-- 작성중일경우 댓글을 작성할 수 없다 -->
+        {{#unless hpStatusTypeCheck 'PR' status}}
+          <!-- //row -->
+          {{> endingNoteComment postData=this}}
+          <!-- row -->
+          <div class="row detail-article detail-foot">
+            <a hreg="#" id='btnOpenComment' class="btn btn-primary btn-lg btn-block btn-comment-on" role="button"><span class="glyphicon glyphicon-chevron-top"></span>댓글접기</a>
+          </div>
+        {{/unless}}
+      </div>
+
+      <!-- 공개일 경우 히스토리 항목 필요없음 -->
+      {{#unless hpStatusTypeCheck 'PB' status}}
+      <!-- container -->
+      <div class="container-fluid detail-container">
+        <ul class="nav nav-pills nav-detail">
+          <li class="active col-xs-3"><a data-toggle="pill" href="#historyTab">History</a></li>
+          <li class="col-xs-9"></li>
+        </ul>
+        <!-- tab-content -->
+        <div class="tab-content">
+          <!-- //tab-pane -->
+          <div id="historyTab" class="tab-pane fade in active">
+            <!-- row -->
+            <div class="row tab-pane-head">
+              <div class="col-xs-12 text-left">
+                <i class="imsr-icon icon-bu0007"></i>
+                이 타임캡슐의 전체관리기록입니다.
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- list-group -->
+            <ul class="list-group historyTab-list">
+              {{#each hpTimeCapsuleLog}}
+              <li class="list-group-item">
+                <span class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</span>
+                <span class="subject">{{g_logConcat contextUserId type logType title '' '' (g_isEqual ../authorType 'group')}}</span>
+              </li>
+              {{/each}}
+            </ul>
+            <!-- //list-group -->
+          </div>
+          <!-- //tab-pane -->
+        </div>
+        <!-- //tab-content -->
+      </div>
+      <!-- //container -->
+      {{/unless}}
+    {{/with}}
+    </div>
+  </div>
+
+
+
+  <!-- //content -->
+  <!-- fix-btnset -->
+  {{#if hpisFromPopup}}
+  <div class="fix-btnset type-timecapsul">
+    <a hreg="#" id='btnToList' class="btn btn-primary btn-lg btn-block btn-list" role="button"><span class="imsr-icon icon-me0046"></span>목록</a>
+  </div>
+  {{/if}}
+  <!-- //fix-btnset -->
+</template>

@@ -1,0 +1,366 @@
+<!-- 나는 > 발자취 -->
+<template name="imLifeTrace">
+  <!-- content -->
+  <div class="content h-scroll hr-scroll">
+    <!-- row -->
+    <div class="row content-head">
+      <h4 class="text-right"><i class="title-icon imsr-icon icon-me0012"></i>에 등록된 정보는 다른 회원들에게 <span class="title-color">공개되지 않습니다.</span><i class="icon lock gry" style="margin-top:-3px;"></i></h4>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row">
+      <div class="span12 trace-map">
+      <!-- {{> imLifeTraceViewer collection=mapData}} -->
+      {{#if hpReset}}
+        {{> imLifeTraceViewer screenId='smallScreen' rangeId='smallScreenRange'}}
+      {{/if}}
+      <!-- <iframe width="100%" height="257" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&q=15+Springfield+Way,+Hythe,+CT21+5SH&aq=t&sll=52.8382,-2.327815&sspn=8.047465,13.666992&ie=UTF8&hq=&hnear=15+Springfield+Way,+Hythe+CT21+5SH,+United+Kingdom&t=m&z=14&ll=51.077429,1.121722&output=embed"></iframe> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 text-center trace-btn ">
+        <a href="javascript:void(0)" id="fullScreenView" class="btn btn-default btn-sm icon-type" data-modal-template="imLifeTraceViewerPopup" ><i class="imsr-icon icon-me0048"></i>크게보기</a>
+      </div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row trace-head home">
+        <div class="trace-title col-xs-6 nopm">
+            <h5><span class="title-cicle"><i class="imsr-icon icon-me0015"></i></span>나의 <strong>보금자리</strong></h5>
+        </div>
+        <div class="text-right col-xs-6 nopm trace-info"><a href="javascript:void(0)">관련공개글수</a>/<a href="javascript:void(0)" class="my-trace">내글수</a></div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+
+    <div class="row">
+      <!-- panel -->
+      <div class="panel panel-default widget input-panel">
+        {{#each hptraceCollection}}
+        {{#if hpCheckTypeHome type}}
+        <!-- panel-body -->
+        <div class="panel-body custom-input">
+          <!-- form-input-box -->
+            <div class="form-input-box">
+              <div class="row" id="{{@index}}">
+                <div hidden>
+                  <input type="text" id="_id" name="_id" value="{{_id}}" />
+                  <input type="text" name="lat" id="lat" value="{{lat}}">
+                  <input type="text" name="lng" id="lng" value="{{lng}}">
+                </div>
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:98%">
+                      <input type="text" class="pd0" id="title" placeholder="보금자리명" value="{{title}}" name="{{@index}}"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:85px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceFromDate_' @index) class="fromDate" value=fromDate name=@index notUseIcon=true setDefaultDate=false}}
+                    </div>
+                    <span>~</span>
+                    <div class="input-article" style="width:88px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceToDate_' @index) class="toDate" value=toDate name=@index notUseIcon=true setDefaultDate=false setDeleteDateBtn=true}}
+                    </div>
+                  </div>
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <div class="input-total text-right" >
+                      <a href="javascript:void(0)">{{sameAnswerUserCount}}</a>/<a id="lnkMemListCnt" href="javascript:void(0)">{{memoryListCount}}</a>
+                  </div>
+                </div>
+                <!-- //col -->
+              </div>
+              <!-- row -->
+              <div class="row">
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <!-- col-xs-3 -->
+                  <div class="col-xs-12 nopm">
+                    <div class="input-article icon-style" style="width:100%;">
+                      <input type="text" id="address" placeholder="위치" value="{{address}}" name="{{@index}}" readonly data-modal-template="googleMapSearch"/>
+                      <a href="javascript:void(0)" class="btn mapImg" data-modal-template="googleMapSearch" id="{{@index}}">
+                        <i class="imsr-icon icon-me0032" data-modal-template="googleMapSearch" id="{{@index}}"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- //col-xs-3 -->
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <a class= "{{#if hpVisibleSave visibleOp}}hidden {{else}} {{/if}}" href="javascript:void(0)" id ="saveBt" data-name="{{@index}}" ><i class="imsr-icon icon-me0047"></i></a>
+                  <a href="javascript:void(0)" id="delRowBt" data-name="{{@index}}"><i class="imsr-icon icon-bu0011"></i></a>
+                </div>
+              </div>
+              <!-- //row -->
+
+              <!-- 입력란 부분 -->
+              <!-- <div class="text-center">
+                <a href="javascript:void(0)" id="addBtHome"><i class="imsr-icon icon-plus-circled"></i></a>
+              </div> -->
+              <!-- //row -->
+              <!-- input_article -->
+              <div class="input_article">
+              </div>
+              <!-- input_article -->
+            </div>
+            <!-- //form-input-box -->
+        </div>
+        <!-- //panel-body -->
+        {{/if}}
+        {{/each}}
+      </div>
+      <!-- //panel -->
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row trace-head school">
+        <div class="trace-title col-xs-6 nopm">
+            <h5><span class="title-cicle"><i class="imsr-icon icon-me0016"></i></span>나의 <strong>학교</strong></h5>
+        </div>
+        <div class="text-right col-xs-6 nopm trace-info"><a href="javascript:void(0)">관련공개글수</a>/<a href="javascript:void(0)" class="my-trace">내글수</a></div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row">
+      <!-- panel -->
+      <div class="panel panel-default widget input-panel">
+        {{#each hptraceCollection}}
+        {{#if hpCheckTypeSchool type}}
+        <!-- panel-body -->
+        <div class="panel-body custom-input">
+          <!-- form-input-box -->
+            <div class="form-input-box">
+              <div class="row" id="{{@index}}">
+                <div hidden>
+                  <input type="text" id="_id" name="_id" value="{{_id}}" />
+                  <input type="text" name="lat" id="lat" value="{{lat}}">
+                  <input type="text" name="lng" id="lng" value="{{lng}}">
+                </div>
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:98%">
+                      <input type="text" class="pd0" id="title" placeholder="학교명" value="{{title}}" name="{{@index}}"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:85px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceFromDate_' @index) class="fromDate" value=fromDate name=@index notUseIcon=true setDefaultDate=false}}
+                    </div>
+                    <span>~</span>
+                    <div class="input-article" style="width:88px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceToDate_' @index) class="toDate" value=toDate name=@index notUseIcon=true setDefaultDate=false setDeleteDateBtn=true}}
+                    </div>
+                  </div>
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <div class="input-total text-right" >
+                      <a href="javascript:void(0)">{{sameAnswerUserCount}}</a>/<a id="lnkMemListCnt" href="javascript:void(0)">{{memoryListCount}}</a>
+                  </div>
+                </div>
+                <!-- //col -->
+              </div>
+              <!-- row -->
+              <div class="row">
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <!-- col-xs-3 -->
+                  <div class="col-xs-12 nopm">
+                    <div class="input-article icon-style" style="width:100%;">
+                      <input type="text" id="address" placeholder="위치" value="{{address}}" name="{{@index}}" readonly/>
+                      <a href="javascript:void(0)" class="btn mapImg" data-modal-template="googleMapSearch" id="{{@index}}">
+                        <i class="imsr-icon icon-me0032" data-modal-template="googleMapSearch" id="{{@index}}"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- //col-xs-3 -->
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <a class= "{{#if hpVisibleSave visibleOp}}hidden {{else}} {{/if}}" href="javascript:void(0)" id ="saveBt" data-name="{{@index}}" ><i class="imsr-icon icon-me0047"></i></a>
+                  <a href="javascript:void(0)" id="delRowBt" data-name="{{@index}}"><i class="imsr-icon icon-bu0011"></i></a>
+                </div>
+              </div>
+              <!-- //row -->
+              <!-- 입력란 부분 -->
+              <!-- <div class="text-center">
+                <a href="javascript:void(0)" id="addBtHome"><i class="imsr-icon icon-plus-circled"></i></a>
+              </div> -->
+              <!-- //row -->
+              <!-- input_article -->
+              <div class="input_article">
+              </div>
+              <!-- input_article -->
+            </div>
+            <!-- //form-input-box -->
+        </div>
+        <!-- //panel-body -->
+        {{/if}}
+        {{/each}}
+      </div>
+      <!-- //panel -->
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row trace-head company">
+        <div class="trace-title col-xs-6 nopm">
+            <h5><span class="title-cicle"><i class="imsr-icon icon-me0017"></i></span>나의 <strong>회사</strong></h5>
+        </div>
+        <div class="text-right col-xs-6 nopm trace-info"><a href="javascript:void(0)">관련공개글수</a>/<a href="javascript:void(0)" class="my-trace">내글수</a></div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row">
+      <!-- panel -->
+      <div class="panel panel-default widget input-panel">
+        {{#each hptraceCollection}}
+        {{#if hpCheckTypeSocial type}}
+        <!-- panel-body -->
+        <div class="panel-body custom-input">
+          <!-- form-input-box -->
+            <div class="form-input-box">
+              <div class="row" id="{{@index}}">
+                <div hidden>
+                  <input type="text" id="_id" name="_id" value="{{_id}}" />
+                  <input type="text" name="lat" id="lat" value="{{lat}}">
+                  <input type="text" name="lng" id="lng" value="{{lng}}">
+                </div>
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:98%">
+                      <input type="text" class="pd0" id="title" placeholder="회사/사회활동 명" value="{{title}}" name="{{@index}}"/>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 nopm">
+                    <div class="input-article" style="width:85px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceFromDate_' @index) class="fromDate" value=fromDate name=@index notUseIcon=true setDefaultDate=false}}
+                    </div>
+                    <span>~</span>
+                    <div class="input-article" style="width:88px;">
+                      {{> singleCalendar id=(g_concat 'lifeTraceToDate_' @index) class="toDate" value=toDate name=@index notUseIcon=true setDefaultDate=false setDeleteDateBtn=true}}
+                    </div>
+                  </div>
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <div class="input-total text-right" >
+                      <a href="javascript:void(0)">{{sameAnswerUserCount}}</a>/<a id="lnkMemListCnt" href="javascript:void(0)">{{memoryListCount}}</a>
+                  </div>
+                </div>
+                <!-- //col -->
+              </div>
+              <!-- row -->
+              <div class="row">
+                <!-- col -->
+                <div class="col-xs-11 nopm">
+                  <!-- col-xs-3 -->
+                  <div class="col-xs-12 nopm">
+                    <div class="input-article icon-style" style="width:100%;">
+                      <input type="text" id="address" placeholder="위치" value="{{address}}" name="{{@index}}" readonly/>
+                      <a href="javascript:void(0)" class="btn mapImg" data-modal-template="googleMapSearch" id="{{@index}}">
+                        <i class="imsr-icon icon-me0032" data-modal-template="googleMapSearch" id="{{@index}}"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- //col-xs-3 -->
+                </div>
+                <!-- //col -->
+                <div class="col-xs-1 nopm line-default text-right">
+                  <a class= "{{#if hpVisibleSave visibleOp}}hidden {{else}} {{/if}}" href="javascript:void(0)" id ="saveBt" data-name="{{@index}}" ><i class="imsr-icon icon-me0047"></i></a>
+                  <a href="javascript:void(0)" id="delRowBt" data-name="{{@index}}"><i class="imsr-icon icon-bu0011"></i></a>
+                </div>
+              </div>
+              <!-- //row -->
+              <!-- 입력란 부분 -->
+              <!-- <div class="text-center">
+                <a href="javascript:void(0)" id="addBtHome"><i class="imsr-icon icon-plus-circled"></i></a>
+              </div> -->
+              <!-- //row -->
+              <!-- input_article -->
+              <div class="input_article">
+              </div>
+              <!-- input_article -->
+            </div>
+            <!-- //form-input-box -->
+        </div>
+        <!-- //panel-body -->
+        {{/if}}
+        {{/each}}
+      </div>
+      <!-- //panel -->
+    </div>
+    <!-- //row -->
+
+    <!-- row
+    <div class="row trace-head company">
+        <div class="trace-title col-xs-6 nopm">
+            <h5><span class="title-cicle"><i class="imsr-icon icon-me0017"></i></span>나의 <strong>회사</strong></h5>
+        </div>
+        <div class="text-right col-xs-6 nopm trace-info"><a href="javascript:void(0)">관련공개글수</a>/<a href="javascript:void(0)" class="my-trace">내글수</a></div>
+    </div>
+    <div class="row">
+      <div class="panel panel-default widget input-panel">
+        <div class="panel-body custom-input">
+            <div class="form-input-box">
+              {{#each hptraceCollection}}
+              {{#if hpCheckTypeSocial type}}
+              <div class="row" id="{{@index}}">
+                <div hidden>
+                  <input type="text" id="_id" name="_id" value="{{_id}}" />
+                  <input type="text" name="lat" id="lat" value="{{lat}}">
+                  <input type="text" name="lng" id="lng" value="{{lng}}">
+                </div>
+                <div class="col-xs-10 nopm">
+                  <div class="input-group input-container">
+                    <div class="col-xs-3 nopm">
+                      <div class="input-article">
+                        <input type="text" class="pd0" id="title" placeholder="회사/사회활동 명" value="{{title}}" name="{{@index}}"/>
+                      </div>
+                    </div>
+                    <div class="col-xs-3 nopm">
+                      <div class="input-article icon-style">
+                        <input type="text" id="address" placeholder="위치" value="{{address}}" name="{{@index}}" readonly="true"/>
+                        <a href="javascript:void(0)" class="btn mapImg" data-modal-template="googleMapSearch" id="{{@index}}">
+                          <i class="glyphicon glyphicon-map-marker" data-modal-template="googleMapSearch" id="{{@index}}"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-xs-3 nopm">
+                      <div class="input-article">
+                        {{> singleCalendar id=(g_concat 'lifeTraceFromDate_' @index) class="fromDate" value=fromDate name=@index notUseIcon=true setDefaultDate=false}}
+                      </div>
+                    </div>
+                    <div class="col-xs-3 nopm calendar-to">
+                      <div class="input-article">
+                        {{> singleCalendar id=(g_concat 'lifeTraceToDate_' @index) class="toDate" value=toDate name=@index notUseIcon=true setDefaultDate=false setDeleteDateBtn=true}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-1 nopm line-default">
+                  <a class= "{{#if hpVisibleSave visibleOp}}hidden {{else}} {{/if}}" href="javascript:void(0)" id ="saveBt" data-name="{{@index}}" ><button>저장</button></a>
+                  <a href="javascript:void(0)" id="delRowBt" data-name="{{@index}}"><button>삭제</button></a>
+                </div>
+                <div class="col-xs-1 nopm line-default">
+                  <div class="input-total text-right" >
+                      <a href="javascript:void(0)">{{sameAnswerUserCount}}</a>/<a id="lnkMemListCnt" href="javascript:void(0)">{{memoryListCount}}</a>
+                  </div>
+                </div>
+              </div>
+              {{/if}}
+              {{/each}}
+              <div class="input_article">
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+  <!-- //content -->
+</template>

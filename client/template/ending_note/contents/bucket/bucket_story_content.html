@@ -1,0 +1,130 @@
+<!-- 나는 > 리스트컨텐츠 -->
+<template name="bucketStoryContent">
+  <!-- content -->
+  <div id="contentList" >
+    <div class="content me-list">
+      <!-- row -->
+      <div class="row">
+        <!-- list-group -->
+        <div class="list-group">
+          <!-- list-group-item -->
+          {{#unless g_isExist hpListData}}
+          <div class="list-group-item subject-list">
+            등록된 버키스토리가 없습니다, 여러분의 버키스토리를 들려주세요...
+          </div>
+          {{/unless}}
+          {{#each hpListData}}
+          <div href="javascript:void(0)" class="list-group-item subject-list">
+            <div class="row">
+              <!-- col -->
+              <div class="body-group">
+                <h4 class="media-heading subject-title"><a href="javascript:void(0)" id="title" value="{{_id}}">{{{title}}}</a><small class="text-right">{{hpMemoryDate startDate}}</small></h4>
+                <div class="group-box" role="group" aria-label="...">
+                  <span class="group-xs"><i class="imsr-icon {{#if isLike like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart " aria-hidden="true"></i>{{like.length}}</span>
+                  <span class="group-xs"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{commentList.length}}</span>
+                  <span class="group-xs"><i class="imsr-icon icon-me0024  "  aria-hidden="true"></i>{{open}}</span>
+                </div>
+                <a href="javascript:void(0)" class="btn-lock">
+                  {{#if lock}}
+                    <span class="icon gray lock" aria-hidden="true"></span>
+                  {{/if}}
+                </a>
+
+                <!-- media-list -->
+                <div class="list-body img-list">
+                  <div class="img-content">
+                  {{#each image}}
+                    {{#if g_isExist ../content}}
+                      {{#if g_isLessThan @index 1}}
+                        <div class="media-left media-top">
+                          {{#if g_isGreaterThan ../image.length 1}}
+                            <a href="javascript:void(0)" class="item {{#if g_isEqual @index 0}}overImage{{/if}}" id="title" value="{{../_id}}">
+                              {{#if g_isEqual @index 0}}
+                                <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 1}}</span></div>
+                              {{/if}}
+                              <div class="img-frame">
+                                <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="..." id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'bstoryContent' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'contentsList59' (g_concatThree ../_id 'bstoryContent' @index)}}"/>
+                              </div>
+                            </a>
+                          {{else}}
+                            <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                              <div class="img-frame">
+                                <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="..." id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'bstoryContent' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'contentsList59' (g_concatThree ../_id 'bstoryContent' @index)}}"/>
+                              </div>
+                            </a>
+                          {{/if}}
+                        </div>
+                      {{/if}}
+                    {{else}}
+                      {{#if g_isLessThan @index 4}}
+                        {{#if g_isGreaterThan ../image.length 4}}
+                          <a href="javascript:void(0)" class="item {{#if g_isEqual @index 3}}overImage{{/if}}" id="title" value="{{../_id}}">
+                            {{#if g_isEqual @index 3}}
+                              <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 4}}</span></div>
+                            {{/if}}
+                            <div class="img-frame">
+                              <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'bstoryContent' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'contentsList59' (g_concatThree ../_id 'bstoryContent' @index)}}"/>
+                            </div>
+                          </a>
+                        {{else}}
+                          <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                            <div class="img-frame">
+                              <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'bstoryContent' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'contentsList59' (g_concatThree ../_id 'bstoryContent' @index)}}"/>
+                            </div>
+                          </a>
+                        {{/if}}
+                      {{/if}}
+                    {{/if}}
+                  {{/each}}
+                    <div class="media-body">
+                      <a href="javascript:void(0)" id="title" value="{{_id}}">{{{content}}}</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- //media-list -->
+                {{#if tags}}
+                <div class="tag ellipsis-tag-list">
+                  <ul>
+                  {{#each tags}}
+                  <li><a >#{{{this}}}</a></li>
+                  {{/each}}
+                  </ul>
+                </div>
+                {{/if}}
+                <!-- reply -->
+                <!-- {{#if commentTop}}
+                <ul class="media-list comment-list">
+                  <li class="media">
+                    <div class="row">
+                      <div class="col-xs-1 text-center dropdown nopm">
+                        <span class="name_badge clip-24">{{commentTop.userId}}</span>
+                      </div>
+                      <div class="col-xs-11 comment-body nopm">
+                        <p>{{{commentTop.content}}}</p>
+                        <small>({{commentTop.updateDate}})</small>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                {{/if}} -->
+                <!-- //reply -->
+              </div>
+              <!-- //col -->
+            </div>
+            <!-- //row -->
+          </div>
+          {{/each}}
+
+          <!-- //list-group-item -->
+        </div>
+        <!-- list-group -->
+        {{#if hpMoreResults}}
+            <div id="showMoreResults" style="margin-left: 25px;">
+                <span class="loading"></span>
+            </div>
+        {{/if}}
+      </div>
+      <!--//row-->
+    </div>
+  </div>
+</template>

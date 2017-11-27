@@ -1,0 +1,50 @@
+<!-- 상속 화면 좌측 메뉴 -->
+<template name="inheritanceMenu">
+  <!-- // instance.inheritorsCount.set(result.inheritorsCount); //나의 상속인 수
+  // instance.inheritanceCount.set(result,inheritanceCount); //상속받은 내역
+  // instance.imGuardianCount.set(result.imGuardianCount); //내가 가디언 수
+  // instance.myGuardiansCount.set(result.myGuardiansCount); //나의 가디언 수
+  // instance.funeralInvitationCount.set(result.funeralInvitationCount); //장례식 초대 리스트 인원수 -->
+  {{#with hpInheritanceCount}}
+  <h1>상속</h1>
+  <!-- section-gnbHead -->
+  <section class="section-gnbHead">
+    <ul class="inh-gnb-menu">
+      <li class="{{hpActive 'aMyInheritor'}}" id="aMyInheritor"><a href="javascript:void(0)"><span>나의 상속인</span><span class="badge">{{inheritorsCount}}</span></a></li>
+      <li class="{{hpActive 'aInheritanceList'}}" id="aInheritanceList"><a href="javascript:void(0)"><span>상속받은 내역</span><span class="badge">{{inheritanceCount}}</span></a></li>
+    </ul>
+  </section>
+  <!-- //section-gnbHead -->
+  <!-- section-guardian -->
+  <section class="inh-guardian">
+    <div class="guardian-container">
+      <div class="guardian-head">
+        <img src="/images/icon/icon_howtoguardian.png"/>
+        <p>내가 세상과 이별했음을It’s my Story에 공식적으로 통보해주는 사람을 의미합니다.</p>
+      </div>
+      <ul>
+        <li class="{{hpActive 'aMyGuardians'}}" id="aMyGuardians"><a href="javascript:void(0)">나의 <strong>가디언</strong> <span class="badge">{{myGuardiansCount}}</span></a></li>
+        <li class="{{hpActive 'aImGuardian'}}" id="aImGuardian"><a href="javascript:void(0)">내가 <strong>가디언</strong> <span class="badge">{{imGuardianCount}}</span></a></li>
+      </ul>
+    </div>
+  </section>
+  <!-- //section-guardian -->
+  <!-- section-guardian -->
+  <section class="inh-quick">
+    <ul>
+      <li class="{{hpActive 'aInviteFuneral'}}" id="aInviteFuneral"><a href="javascript:void(0)"><span class="iconBox"><i class="imsr-icon  icon-in0005"></i></span>장례식 초대<span class="badge">{{funeralInvitationCount}}</span></a></li>
+      <li class="{{hpActive 'aAdvanceDirectives'}}" id="aAdvanceDirectives" data-modal-template="inheritanceAdvanceDirectivesForm"><a href="javascript:void(0)"><span class="iconBox"><i class="imsr-icon  icon-in0006"></i></span>사전의료 의향서</a></li>
+      <li class="{{hpActive 'aAdvanceFuneral'}}" id="aAdvanceFuneral" data-modal-template="inheritanceAdvanceFuneralForm"><a href="javascript:void(0)"><span class="iconBox"><i class="imsr-icon  icon-in0006"></i></span>사전장례 의향서</a></li>
+      <li class="{{hpActive 'aPreviewWill'}}" id="aPreviewWill" data-modal-template="inheritancePreviewWill"><a href="javascript:void(0)"><span class="iconBox"><i class="ion-android-search" style="margin-left:-1px;"></i></span>유언장 양식</a></li>
+    </ul>
+  </section>
+  <div class="slide-container-footer corp-info">
+    <p><strong>유한회사 더푸르츠</strong></p>
+    <p><strong>사업자번호</strong> : 780-81-00202 </p>
+    <p><strong>이메일</strong> : supporter@itsmystory.com</p>
+    <p><strong>전화번호</strong> : 02-2282-7377</p>
+    <p class="privacy-policy" ><strong data-modal-template='imPrivacyPolicyPopup'>개인정보 취급방침</strong></p>
+  </div>
+  <!-- //section-guardian -->
+  {{/with}}
+</template>

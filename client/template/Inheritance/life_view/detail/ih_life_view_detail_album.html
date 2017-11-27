@@ -1,0 +1,48 @@
+<!-- 라이프뷰 우측 버킷, 추억, 타임캡슐 이미지엘범 리스트 -->
+<template name="ihLifeViewDetailAlbum">
+    <div class="content detail-album h-scroll hl-scroll">
+      <div class="row">
+        <div class="row search-container">
+          <div class="container-fluid">
+            <div class="navbar-left search-box">
+              <select class="selectpicker imgAlbum" data-width="50px" name="options" id="keywordCondition">
+                <option value="all">전체</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+                <option value="tag">태그</option>
+              </select>
+              <form id="custom-search-form" class="form-search form-horizontal pull-right">
+                <div class="input-append span12">
+                  <input type="text" class="search-query" placeholder="Search" id="keywordText">
+                  <button class="btn" id="searchAlbum"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+              </form>
+
+            </div>
+            <span class="search-total">총 <strong>{{hpImages.imagesCount}}</strong>건</span>
+          </div>
+        </div>
+
+        {{#if hpImages}}
+          {{#if hpIsChangedSort}}
+            {{> ihImageAlbumForMap imageData=hpImages.images}}
+          {{else}}
+            {{> ihImageAlbumForMap imageData=hpImages.images}}
+          {{/if}}
+        {{else}}
+          등록된 이미지가 없습니다.
+        {{/if}}
+      </div>
+    </div>
+</template>
+
+<template name="ihImageAlbumForMap">
+  <div class="gallery">
+    {{#each imageData}}
+      <!-- <a herf="" class="my-item dropdown-toggle" data-toggle="popover" name="{{#if g_isEqual type 'BS'}}{{parentPostId}}{{else}}{{postId}}{{/if}}" typeData="{{type}}" postId="{{postId}}" path="{{path}}"> -->
+      <div herf="" class="my-item dropdown-toggle" name="lifeViewImg" data-toggle="popover" typeData="{{type}}" postId="{{postId}}" path="{{path}}">
+        <img class="gallery-img" height="182px" src="{{path}}" order="{{order}}">
+      </div>
+    {{/each}}
+  </div>
+</template>

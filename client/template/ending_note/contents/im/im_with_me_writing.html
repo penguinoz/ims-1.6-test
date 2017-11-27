@@ -1,0 +1,59 @@
+<!-- 나는 > 글쓰기(추억작성) -->
+<template name="imWithMeWriting">
+  <!-- content -->
+  <div class="content h-scroll hr-scroll">
+    <!-- container -->
+    <div class="container-fluid detail-container">
+      <!-- row -->
+        <div class="row detail-article nobd">
+          <!-- list-group-item -->
+          <div class="detail-group">
+            <div class="media-body detail-subject">
+              <!-- <h4 class="media-heading"><small>등록일 : </small><small>{{hpEditCollection.regDate}}</small></h4> -->
+              <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false">
+                <div class="form-comment-box ">
+                  <input type="text" class="" id="meTitle" value="{{hpCollection.title}}" disabled />
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- //list-group-item -->
+          <!-- panel -->
+          <div class="panel panel-default im-write">
+            <!-- panel-body -->
+            <div class="panel-body">
+              <div class="editor-content">
+                {{> froalaReactive hpGetContext}}
+              </div>
+              <div class="tag">
+                <ul id="tagUlList">
+                  {{#each hpCollection.tagList}}
+                  <li><a >{{this}}</a><a href="javascript:void(0)" class="btn-tagDelete"></a></li>
+                  {{/each}}
+                  <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+                </ul>
+              </div>
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- panel -->
+        </div>
+      <!-- //row -->
+    </div>
+    <!-- //container -->
+  </div>
+  <!-- //content -->
+
+  <!-- btn-group -->
+  <div class="fix-btnset">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+      <div class="btn-group" role="group">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+      </div>
+      <div class="btn-group" role="group">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+      </div>
+    </div>
+  </div>
+  <!-- //btn-group -->
+</template>

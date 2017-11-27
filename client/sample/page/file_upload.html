@@ -1,0 +1,17 @@
+<template name="file_upload">
+  {{> header}}
+  <div class="modal-body">
+    <div class="fileSet" id="fileSet" name="fileSet">
+      <input type="text" class="fileSetText" id="inputText" name="inputText" readonly/>
+      <input type="file" id="inputFile" name="inputFile" style="display: none;"/>
+      <!-- <input type="file" id="myPageuserImageFile" class="txtImageFile" style="display: none;" /> -->
+      <a href="javascript:document.getElementById('inputFile').click();" class="mypage-btn inner">파일찾기</a>
+      <div class="fileSetInfo">
+        파일당 최대 10M까지 등록할 수 있습니다.
+      </div>
+    </div>
+    <a href="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="save" role="button"><i class="imsr-icon icon-me0038"></i>확인</a>
+    <a href="https://s3-ap-northeast-2.amazonaws.com/iml-images/customer_desk/a2f5206b-cc94-4be5-8db8-921b292ff237custImg-Path그림2.png" download="aaa.png" id="file">test1.png</a>
+    <a href="https://s3-ap-northeast-2.amazonaws.com/iml-images/profile_images/03fdb8b4-e4d1-401c-9ce1-dbe913019a51_thumb.jpeg" download="aaa22222.png" id="file">test2.png</a>
+  </div>
+</template>

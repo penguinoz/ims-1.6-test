@@ -1,0 +1,32 @@
+<!-- 마이페이지 메뉴(왼쪽) -->
+<template name="customerMenu">
+  <h1>고객센터</h1>
+  <!-- section-gnbHead -->
+  <section class="section-gnbHead">
+    <div class="mypage-properties">
+      <div class="customer-content">
+        <img src="/images/common/customer_title.gif" alt=""/>
+      </div>
+    </div>
+    <ul class="mypage-gnb-menu">
+      <li class="{{hpActive 'notice'}}" ><a href="javascript:void(0)" name="notice"><span>공지사항</span></a></li>
+      <li class="{{hpActive 'faq'}}" ><a href="javascript:void(0)" name="faq"><span>FAQ</span></a></li>
+      <li class="{{hpActive 'qna'}}" ><a href="javascript:void(0)" name="qna"><span>1:1문의</span></a></li>
+      <!-- <li class="{{hpActive 'qnaWrite'}}" ><a href="javascript:void(0)" name="qnaWrite"><span>등록하기</span></a></li> -->
+      <li class="line"></li>
+      {{#if g_supportAuth}}
+        <li  ><a href="javascript:void(0)" name="writeNotice"><span>임시 공지사항작성</span></a></li>
+        <li  ><a href="javascript:void(0)" name="writeFaq"><span>임시 FAQ작성</span></a></li>
+        <li  ><a href="javascript:void(0)" name="passAway"><span>사망자 설정</span></a></li>
+      {{/if}}
+    </ul>
+  </section>
+  <!-- //section-gnbHead -->
+  <div class="slide-container-footer corp-info">
+    <p><strong>유한회사 더푸르츠</strong></p>
+    <p><strong>사업자번호</strong> : 780-81-00202 </p>
+    <p><strong>이메일</strong> : supporter@itsmystory.com</p>
+    <p><strong>전화번호</strong> : 02-2282-7377</p>
+    <p class="privacy-policy" ><strong data-modal-template='imPrivacyPolicyPopup'>개인정보 취급방침</strong></p>
+  </div>
+</template>

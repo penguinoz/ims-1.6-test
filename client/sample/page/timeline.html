@@ -1,0 +1,86 @@
+<template name="timeline">
+  {{> header}}
+  <div class="row">
+    <div class="left-container">
+      <div id="contentTimeLine" class="content left h-scroll hl-scroll">
+
+        <div class="endingNote-timeLine-list">
+          <div class="row">
+            <div class="timeline-centered timeline-padding">
+
+              <article class="timeline-entry timeline-filter">
+                <div class="timeline-entry-inner">
+                  <div class="text-center filter">
+                    <a href="javascript:void(0)" id="fAll" class="all timelineFilter"></a>
+                    <a href="javascript:void(0)" id="fIm" class="im timelineFilter"></a>
+                    <a href="javascript:void(0)" id="fBucket" class="bucket timelineFilter"></a>
+                    <a href="javascript:void(0)" id="fTime" class="time timelineFilter"></a>
+                    <!-- <a href="javascript:void(0)" class="calendar"><i class="glyphicon glyphicon-time"><input id="timelineCalendar" /></i></a> -->
+                    <!-- {{> singleCalendar value=this.timelineDate notUseText=true customIcon=false id='timelineDate'}} -->
+                    {{> singleCalendar value=this.timelineDate notUseText=true customIcon=false id='timelineDate' drop='down' inlineStyle=true}}
+                  </div>
+                  <!-- <a href="javascript:void(0)" id=fSpaceship class="spaceship {{hIsFutureListActive}}"></a> -->
+                </div>
+              </article>
+
+              {{#if hpUpButton}}
+              <article class="timeline-entry timeline-list">
+                <a href="javascript:void(0)" id="up_data">위 더보기</a>
+              </article>
+              {{/if}}
+
+              {{#each hpTimeline}}
+                <!-- 타임라인 날짜표시 -->
+                <!-- {{#with hpMainDate this.timelineDate}} -->
+                {{#if this.timelineDate}}
+                  <article class="timeline-entry timeline-date">
+                    <div class="timeline-entry-inner">
+                      <div class="text-center date {{this.timelineDate}}">
+                        <span>{{this.timelineDate}}</span>
+                      </div>
+                    </div>
+                  </article>
+                {{/if}}
+                <!-- {{/with}} -->
+
+                <article class="timeline-entry timeline-list">
+                  <div class="timeline-entry-inner timeline-write">
+                    <!-- 타임라인 왼쪽Body -->
+                    <!-- {{> Template.dynamic template=(hpTimelineLeftType this.type this.contentType) data=this}} -->
+                    <div class="timeline-question">
+                      <!-- {{> Template.dynamic template=(hpTimelineLeftType this) data=this}} -->
+                    </div>
+
+                    <div class="timeline-icon bg-success {{g_timelineConterIcon this}}">
+                      <!-- <i class="glyphicon {{g_timelineConterIcon this}}"></i> -->
+                    </div>
+
+                    <!-- 타임라인 오른쪽Body -->
+                    <div class="timeline-answer">
+                      {{this.postId}} // {{this.userId}}  // {{this.contentType}}
+                      <!-- {{> Template.dynamic template=(hpTimelineRightType this) data=this}} -->
+                    </div>
+
+                  </div>
+                </article>
+              {{/each}}
+
+              {{#if hpDownButton}}
+              <article class="timeline-entry timeline-list">
+                <a href="javascript:void(0)" id="down_data">아래 더보기</a>
+              </article>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="right-container">상세화면</div>
+  </div>
+
+  <div class="timeline-todaybtn">
+    <a href="javascript:void(0)" name="today"><span>오늘</span></a>
+  </div>
+</template>

@@ -1,0 +1,319 @@
+<!-- 타임캡슐 작성/수정 -->
+<template name="timeCapsuleWriting">
+  <!-- content -->
+  <div class="content h-scroll type-timecapsul hr-scroll">
+    <!-- container -->
+    <div class="container-fluid detail-container">
+      <!-- row -->
+      <div class="row detail-article">
+        <div class="article-head">
+          <strong>타임캡슐 생성</strong>
+          <div class="step active">
+            <div class="circle"><span>1</span></div>
+            <span class="txt"><i class="imsr-icon icon-tc0016"></i></span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step">
+            <div class="circle"><span>2</span></div>
+            <span class="txt"><i class="imsr-icon icon-tc0016"></i></span>
+          </div>
+        </div>
+      </div>
+      <!-- //row -->
+      <!-- row -->
+      <div class="row detail-article nobd input-container">
+        <!-- detail-group -->
+        <div class="detail-group ">
+          <!-- row -->
+          <div class="row nopm custom-input">
+            <div class="col-xs-2">
+              <span class="w2label">타임캡슐명</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="input-article" style="width:100%;">
+                <input type="text" placeholder="타임캡슐명" style="width:100%" id="timeCapTitle"/>
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm" style="margin-top:10px !important">
+            <div class="col-xs-2">
+              <span class="w2label">작성자</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="radio-group">
+                <label><input type="radio" name='capsuleGroupRadio' value="private" checked/><span class="w2label">개인</span></label>
+                <label><input type="radio" name='capsuleGroupRadio' value="group" /><span class="w2label">그룹</span></label>
+                <!-- <input type="text" placeholder="그룹명을 입력하세요" style="width:50%;" id="groupName"/> -->
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm custom-input" id="soloRespon">
+            <div class="col-xs-2">
+              <span class="w2label">수신자</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="checkbox" id="delCheckBt">
+                <input type="checkbox" id="forMe" style="margin-right:7px;">
+                <label for="forMe" style="margin-right:7px;">나에게</label>
+              </div>
+              <div class="tag inline-b" id="forMeFriendList">
+                <ul class="friends" id="tagFrForMeUlList" data-empty-message="수신자를 선택하세요"></ul>
+                <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                  <i class="ion-android-person-add" data-modal-template="timeCapsuleAddFriendsPopup"></i>
+                </a>
+              </div>
+              <!-- <div class="input-article icon-style" style="width:81%;" id="forMeFriendList">
+                <input type="text" placeholder="친구를 선택해 주세요" id="friendList" disabled/>
+                <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                  <i class="ion-android-person-add" data-modal-template="timeCapsuleAddFriendsPopup"></i>
+                </a>
+              </div> -->
+              <p class="info-txt">* 수신자는 여러명 지정할 수있고, 개봉 시 모두에게 메시지가 공개됩니다.</p>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm custom-input" id="groupRespon" hidden>
+            <div class="col-xs-2">
+              <span class="w2label">참여자</span>
+            </div>
+            <div class="col-xs-10" >
+              <div class="tag inline-b">
+                <ul class="friends" id="tagFrUlList" data-empty-message="함께 작성할 친구를 선택해 주세요"></ul>
+                <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                  <i class="ion-android-person-add" data-modal-template="timeCapsuleAddFriendsPopup"></i>
+                </a>
+              </div>
+              <!-- <div class="input-article icon-style" style="width:100%;">
+                <input type="text" placeholder="함께 작성할 친구를 선택해 주세요" id="groupFriendList"/>
+                <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                  <i class="ion-android-person-add" data-modal-template="timeCapsuleAddFriendsPopup"></i>
+                </a>
+              </div> -->
+
+              <p class="info-txt">* 그룹으로 작성 시 참여자 모두 메시지를 쓸 수 있고, 개봉시 모두에게 메시지가 공개 됩니다.</p>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm custom-input">
+            <div class="col-xs-2">
+              <span class="w2label">개봉일</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="input-article icon-style calendar-box" style="width:112px;">
+                <!-- <input type="text" placeholder=""/>
+                <a href="javascript:void(0)" class="btn mapImg">
+                <i class="ion-calendar"></i> -->
+                {{> singleCalendar id="openDate" customIcon=false}}
+                <!-- </a> -->
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm">
+            <div class="col-xs-2">
+              <span class="w2label">매립위치</span>
+            </div>
+            <div class="col-xs-10">
+              <input type="text" placeholder="예) 초등학교 운동장 소나무 밑" style="width:100%" id="buryPlace"/>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-10">
+              <div class="tab-box">
+                <ul  class="nav nav-pills write-type">
+            			<li class="active">
+                    <a  href="#1a" data-toggle="tab">지도첨부</a>
+            			</li>
+            			<li>
+                    <a href="#2a" data-toggle="tab">사진첨부</a>
+            			</li>
+            		</ul>
+          			<div class="tab-content clearfix">
+          			  <div class="tab-pane active" id="1a">
+                    <!-- row -->
+                    <div class="row nopm">
+                      <div class="col-xs-2">
+                        <span class="w2label">지도</span>
+                      </div>
+                      <div class="col-xs-10">
+
+                        <div class="input-article icon-style" >
+                          <input type="text" placeholder="" id="landPlace" data-modal-template="googleMapSearch" style="width:220px;" readonly/>
+                          <a href="javascript:void(0)" class="btn mapImg" id="mapSearch" data-modal-template="googleMapSearch">
+                            <i class="ion-location"></i>
+                          </a>
+                        </div>
+                        <div>
+                          <input type="hidden" name="lat" id="lat" value="{{lat}}">
+                          <input type="hidden" name="lng" id="lng" value="{{lng}}">
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- //row -->
+                    <!-- timecapsul-map-->
+                    <div class="timecapsul-map">
+                      <div class="timecapsul-map" id="mapViewDiv" >
+                        <div class="map-container" id="map-canvas" style="height:212px"></div>
+                      </div>
+                    </div>
+
+                    <!-- timecapsul-map-->
+          				</div>
+          				<div class="tab-pane" id="2a">
+                    <!-- row -->
+                    <div class="row nopm">
+                      <div class="col-xs-2">
+                        <span class="w2label">사진</span>
+                      </div>
+                      <div class="col-xs-10">
+
+                        <div class="input-article icon-style">
+                          <input type="file" id="capsuleImage" value="" style="display: none;">
+                          <input type="text" name="fileName" placeholder="" disabled style="width:220px;"/>
+                          <a href="javascript:document.getElementById('capsuleImage').click();" class="btn mapImg"><i class="ion-images"></i></a>
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- //row -->
+                    <!-- timecapsul-map-->
+                    <div class="timecapsul-map">
+                      <img class="timecapsul-map" src="" alt="" id="capsuleImageViewer">
+                    </div>
+                    <!-- timecapsul-map-->
+          				</div>
+          			</div>
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+        </div>
+        <!-- detail-group -->
+      </div>
+      <!-- //row -->
+
+    <!-- row -->
+    <div class="row detail-article detail-foot hidden" id="pageOnOff">
+      <a hreg="#" id='btnOpenContainer' class="btn btn-primary btn-lg btn-block btn-container-on" role="button"><span class="glyphicon glyphicon-chevron-top"></span>접기</a>
+    </div>
+    <!-- //row -->
+  </div>
+  <!-- //container -->
+
+  <!-- container -->
+  <div class="container-fluid detail-container hidden" id="writeMessageArea">
+    <!-- row -->
+    <div class="row detail-article">
+      <div class="article-head">
+        <strong>메시지작성</strong>
+        <div class="step ">
+          <div class="circle"><span>1</span></div>
+          <span class="txt"><i class="imsr-icon icon-tc0016"></i></span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step active">
+          <div class="circle"><span>2</span></div>
+          <span class="txt"><i class="imsr-icon icon-tc0016"></i></span>
+        </div>
+        <div class="text-right detail-btn nopm">
+          <!-- btn-group -->
+          <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="addRow">추가</a>
+          <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="delChecked">선택삭제</a>
+          <!-- //btn-group -->
+        </div>
+      </div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    <div class="row detail-article nobd">
+      <!-- detail-group -->
+      <div class="detail-group ">
+        <!-- panel-body -->
+        {{#each hpMessageList}}
+          {{> capsuleMessageTemp index=@index messageData=this}}
+        {{/each}}
+        <!-- //panel-body -->
+      </div>
+      <!-- detail-group -->
+    </div>
+    <!-- //row -->
+  </div>
+  <!-- //container -->
+</div>
+<!-- //content -->
+<!-- btn-group -->
+<div class="fix-btnset type-timecapsul">
+  <div class="btn-group btn-group-justified" role="group" aria-label="..." id="stepOne">
+    <div class="btn-group" role="group">
+      <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancel' role="button">취소</a>
+    </div>
+    <div class="btn-group" role="group">
+      <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="next" role="button"><span class="imsr-icon icon-me0038"></span>다음</a>
+    </div>
+  </div>
+  <div class="btn-group btn-group-justified hidden" role="group" aria-label="..." id="stepTwo">
+    <div class="btn-group" role="group">
+      <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancel' role="button">취소</a>
+    </div>
+    <div class="btn-group" role="group">
+      <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="save" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+    </div>
+  </div>
+</div>
+<!-- //btn-group -->
+</template>
+
+<template name="capsuleMessageTemp">
+  <div class="timecapsul-panel" id="messageList{{index}}">
+    <div class="actionplan-container" id="tempIndex{{index}}">
+      <div class="list-head">
+        <div class="checkbox" id="checkbox{{index}}">
+          <input type="checkbox" id="delCheck{{index}}">
+          <label for="delCheck{{index}}"></label>
+        </div>
+      </div>
+      <div class="list-body">
+        <div class="col-xs-12 nopm">
+          <div class="imgSlider">
+            <div class="image">
+              <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum01.jpg" value="/images/bg/time_capsule_message/letter_01.jpg"/></a>
+            </div>
+            <div class="image">
+              <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum02.jpg" value="/images/bg/time_capsule_message/letter_02.jpg"/></a>
+            </div>
+            <div class="image">
+              <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum03.jpg" value="/images/bg/time_capsule_message/letter_03.jpg"/></a>
+            </div>
+            <div class="image">
+              <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum04.jpg" value="/images/bg/time_capsule_message/letter_04.jpg"/></a>
+            </div>
+            <div class="image">
+              <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum05.jpg" value="/images/bg/time_capsule_message/letter_05.jpg"/></a>
+            </div>
+          </div>
+          <!-- <input type="file" id="txtImageFile" value="">
+          <img id="thumbnail" src="" width="47" alt="썸네일영역 (클릭하면 다운로드 가능)"> -->
+          <div class="filebox">
+            <label for="txtImageFile{{index}}"><img class='filebox-addbtn' src="/images/bg/time_capsule_message/letter_addbtn.jpg" alt=""></label>
+            <input type="file" id="txtImageFile{{index}}" class="txtImageFile">
+          </div>
+          <div class="message-content-box">
+            <div class="thumbnail-bg" id="messageContentBg{{index}}" style="background-image:{{hpBackgroundPath messageData.backgroundImage}}" value="{{messageData.backgroundImagePath}}" name="{{messageData._id}}"></div>
+            <textarea id="messgeContent{{index}}" placeholder="내용" rows="" cols="" >{{hpSetContent messageData.content}}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

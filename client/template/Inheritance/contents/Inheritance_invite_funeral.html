@@ -1,0 +1,103 @@
+<!-- 장례식 초대 -->
+<template name="inheritanceInviteFuneral">
+<div class="h-scroll hi-scroll">
+  <!-- inh-title -->
+  <!-- {{#with hpInvitedOnes}} -->
+
+    <div class="inh-title">
+      <h2>장례식 초대</h2>
+      <p class="title-sm">내 장례식에 초대할 사람들과 그분들께 전할 인사글을 적어보세요.</p>
+    </div>
+    <!-- //inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <a href="javascript:void(0)" name="inviteFuneralSlideToggle">초대글 <i class="ion-chevron-down slide-toggle"></i></a>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <div class="inh-inviteFuneral-input">
+        <textarea rows="" cols="" name='invitation'>{{hpInvitedOnes.invitation}}</textarea>
+      </div>
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <div class="row">
+          <div class="col-xs-6">
+            <a href="javascript:void(0)">초대할 분들({{hpGetMemberLength hpInvitedOnes.member}})</a>
+          </div>
+          <div class="col-xs-6 text-right">
+            <div class="ihn-content-btnSet btn-sm2">
+              <a href="javascript:void(0)" class="ihn-default" name="addUser">초대자 추가</a>
+              <a href="javascript:void(0)" class="ihn-default" name="upload"><i class="ion-document-text"></i>업로드</a>
+              <a href="javascript:void(0)" class="ihn-default" name="download"><i class="ion-document-text"></i>다운로드</a>
+              <a href="javascript:void(0)" class="ihn-default" name="print">프린트</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <!-- inh-assets-table -->
+      <div class="inh-assets-table inh-invite-table">
+          <!-- panel-table -->
+          <div class="panel panel-default panel-table row-sm type-link">
+            <!-- panel-head -->
+            <div class="panel-heading">
+              <div class="tr">
+                  <div class="th">분류</div>
+                  <div class="th">이름</div>
+                  <div class="th">연락처</div>
+                  <div class="th">이메일</div>
+                  <div class="th">주소</div>
+                  <div class="th">삭제</div>
+              </div>
+            </div>
+            <!-- //panel-head -->
+            <!-- panel-body -->
+            <div class="panel-body">
+              <!-- tr -->
+              {{#each hpInvitedOnes.member}}
+              <div class="tr">
+                  <div class="td left">
+                    <!-- <select class="selectpicker" data-width="65px" name="relationKind" >
+                      {{#each hpGetCodeList }}
+                      <option {{g_selected code ../relationKind}}  value="{{code}}">{{value}}</option>
+                      {{/each}}
+                    </select> -->
+                    {{> inheritanceInviteFuneralselector}}
+                  </div>
+                  <!-- <div class="td"><input type="text" placeholder="입력" style="width:50px;" name='relationKind' value="{{relationKind}}"/></div> -->
+                  <div class="td"><input type="text" placeholder="입력" style="width:50px;" name='name' value="{{name}}"/></div>
+                  <div class="td"><input type="text" placeholder="입력" style="width:95px;" name='phone' value="{{phone}}"/></div>
+                  <div class="td"><input type="text" placeholder="입력" style="width:135px;" name='email' value="{{email}}"/></div>
+                  <div class="td"><input type="text" placeholder="입력" style="width:200px;" name='address' value="{{address}}"/></div>
+                  <div class="td btns"><a href="javascript:void(0)" ><i class="ion-trash-a" name="delRefuesData"></i></a></div>
+                  <div class=""><input type="text" placeholder="입력" style="width:200px;" name='userId' value="{{userId}}" hidden/></div>
+              </div>
+              {{/each}}
+              <!-- //tr -->
+              <!-- tr -->
+            <!-- //panel-body -->
+          </div>
+          <!-- //panel-table -->
+        </div>
+        <!-- //inh-assets-table -->
+
+        <div class="ihn-content-btnSet text-center mt30">
+          <a href="javascript:void(0)" class="ihn-cancle" name="cancel">취소</a>
+          <a href="javascript:void(0)" class="ihn-add" name="save">저장</a>
+        </div>
+      </div>
+    </div>
+    <!-- //content -->
+
+  <!-- {{/with}} -->
+    </div>
+</template>
+
+<template name="inheritanceInviteFuneralselector">
+  <select class="selectpicker" data-width="65px" name="relationKind" >
+    {{#each hpGetCodeList }}
+    <option {{g_selected code ../relationKind}}  value="{{code}}">{{value}}</option>
+    {{/each}}
+  </select>
+</template>

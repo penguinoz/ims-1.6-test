@@ -1,0 +1,255 @@
+<!-- 가디언(내가/나의) -->
+<template name="inheritanceGuardians">
+  {{#if hpPageCheck pageType}}
+    {{> myGuardians guardiansInfo=hpGetguardians}}
+  {{else}}
+    {{> imGuardians guardiansInfo=hpGetguardians}}
+  {{/if}}
+</template>
+
+<template name="myGuardians">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2>나의 가디언({{hpGetLength guardiansInfo.accept 'MG'}})</h2>
+      <p class="title-sm">내가부고 시 나의 컨텐츠에 대하여 관리할 수 있도록 가족이나 지인 중에서 적절한 분을 가디언으로 선정하세요.</p>
+    </div>
+    <!-- inh-title -->
+      <!-- content -->
+      <div class="content">
+        <!-- inh-inheritorList -->
+        <div class="inh-inheritorList guardians">
+          <!-- add thumbnail -->
+          <div class="thumbnail" name="addGuadianThum" >
+            <div class="pic"><img src="/images/bg/bg_addimg.png" alt="..." class="img-circle addInheritor"/></div>
+            <div class="infoSet">
+              <p class="name">가디언 추가</p>
+            </div>
+          </div>
+          <!-- //add thumbnail -->
+          <!-- thumbnail -->
+          {{#each hpGetGuardianList guardiansInfo.accept 'MG' }}
+          <div class="thumbnail" name="thembMain">
+            <div class="pic"><img src="{{g_getProfileImg userId 'thumb'}}" alt="..." class="img-circle inheritorImg"/></div>
+            <span class="black_rebon {{g_isUseBlackRebon userId}}"></span>
+            <div class="infoSet">
+              <p class="name">{{name}}<span>가디언</span></p>
+              <p class="nick-name">{{nickName}}</p>
+              <p class="date"> {{g_dateFormChange regDate 'defaultYMD'}} </p>
+              {{#if dieDate}}
+                <p class="date"> {{g_dateFormChange dieDate 'defaultYMD'}} </p>
+              {{/if}}
+            </div>
+            <div class="thumb-over">
+              <div class="thumb-over-bg"></div>
+              <div class="thumb-over-btnSet">
+                <a href="javascript:void(0)" class="close-btn"><i class="ion-close" name='removeMyGuardian'></i></a>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+          <!-- //thumbnail -->
+          <!-- //thumbnail -->
+      </div>
+      <!-- //inh-inheritorList -->
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <a href="javascript:void(0)" name="requesReadytSlideToggle">확인 대기중인 목록(<span class="str">{{guardiansInfo.request.length}}건</span>)<i class="ion-chevron-down"></i></a>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <!-- inh-assets-table -->
+      <div class="inh-assets-table requestReady">
+          <!-- panel-table -->
+          <div class="panel panel-default panel-table row-sm no-link type-link">
+            <!-- panel-head -->
+            {{#if hpLeangthZero guardiansInfo.request.length}}
+            <div class="panel-heading">
+              <div class="tr">
+                  <div class="th">닉네임</div>
+                  <div class="th">이름</div>
+                  <div class="th">연락처</div>
+                  <div class="th">이메일</div>
+                  <div class="th">요청일</div>
+                  <div class="th">삭제</div>
+              </div>
+            </div>
+            {{/if}}
+            <!-- //panel-head -->
+            <!-- panel-body -->
+            <div class="panel-body">
+              <!-- tr -->
+              {{#each hpGetRequestList guardiansInfo.request}}
+              <div class="tr">
+                <div class="td left">{{nickName}}</div>
+                <div class="td">{{name}}</div>
+                <div class="td">{{mobile}}</div>
+                <div class="td">{{email}}</div>
+                <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                <div class="td btns"><a href="javascript:void(0)"><i class="ion-trash-a" name="delRequestList"></i></a></div>
+              </div>
+              {{/each}}
+              {{#each guardiansInfo.request}}
+              {{#if g_isExist nonUserName}}
+              <div class="tr">
+                <div class="td left">{{nonUserName}}</div>
+                <div class="td">{{nonUserName}}</div>
+                <div class="td"></div>
+                <div class="td">{{userId}}</div>
+                <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                <div class="td btns"><a href="javascript:void(0)"><i class="ion-trash-a" name="delRequestList"></i></a></div>
+              </div>
+              {{/if}}
+              {{/each}}
+
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- //panel-table -->
+        </div>
+        <!-- //inh-assets-table -->
+        <!-- //ihn-inheritanced-title -->
+      </div>
+      </div>
+</template>
+
+<template name="imGuardians">
+  <div class="h-scroll hi-scroll">
+      <div class="inh-title">
+        <h2>내가 가디언({{hpGetLength guardiansInfo.accept 'IG'}})</h2>
+        <p class="title-sm">본인이 가디언인 경우, 해당 분의 유고시, It's my Story내 작성한 컨텐츠에 대하여 관리 할 수 있도록 조치를 성실히 하는 역할입니다.</p>
+      </div>
+      <!-- content -->
+      <div class="content">
+        <!-- inh-inheritorList -->
+        <div class="inh-inheritorList guardians">
+          <!-- thumbnail -->
+          {{#each hpGetGuardianList guardiansInfo.accept 'IG' }}
+          <div class="thumbnail" name="thembMain">
+            <div class="pic"><img src="{{g_getProfileImg userId 'thumb'}}" alt="..." class="img-circle inheritorImg"/></div>
+            <span class="black_rebon {{g_isUseBlackRebon userId}}"></span>
+            <div class="infoSet">
+              <p class="name">{{name}}<span>가디언</span></p>
+              <p class="nick-name">{{nickName}}</p>
+              <p class="date"> {{g_dateFormChange regDate 'defaultYMD'}} </p>
+              {{#if dieDate}}
+                <p class="date"> {{g_dateFormChange dieDate 'defaultYMD'}} </p>
+              {{/if}}
+            </div>
+            <div class="thumb-over">
+              <div class="thumb-over-bg"></div>
+              <div class="thumb-over-btnSet">
+                <a href="javascript:void(0)" class="close-btn"><i class="ion-close" name='removeIGuardian'></i></a>
+                <a href="javascript:void(0)" class="thumb-over-btn" name="noticObituary">부고알림</a>
+                {{#if dieDate}}
+                <a href="javascript:void(0)" class="thumb-over-btn" name="cancelObituary">부고알림취소</a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+          <!-- //thumbnail -->
+          <!-- //thumbnail -->
+      </div>
+      <!-- //inh-inheritorList -->
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <a href="javascript:void(0)" name="requesReadytSlideToggle">확인 대기중인 목록(<span class="str">{{guardiansInfo.receive.length}}건</span>)<i class="ion-chevron-down"></i></a>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <!-- inh-assets-table -->
+      <div class="inh-assets-table requestReady">
+          <!-- panel-table -->
+          <div class="panel panel-default panel-table row-sm no-link type-link">
+            <!-- panel-head -->
+            {{#if hpLeangthZero guardiansInfo.receive.length}}
+            <div class="panel-heading">
+              <div class="tr">
+                  <div class="th">닉네임</div>
+                  <div class="th">이름</div>
+                  <div class="th">연락처</div>
+                  <div class="th">이메일</div>
+                  <div class="th">요청일</div>
+                  <div class="th">거절</div>
+              </div>
+            </div>
+            {{/if }}
+            <!-- //panel-head -->
+            <!-- panel-body -->
+            <div class="panel-body">
+              <!-- tr -->
+              {{#each hpGetRequestList guardiansInfo.receive}}
+              <div class="tr">
+                  <div class="td left">{{nickName}}</div>
+                  <div class="td">{{name}}</div>
+                  <div class="td">{{mobile}}</div>
+                  <div class="td">{{email}}</div>
+                  <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  <div class="td btns"><a href="javascript:void(0)" class="table-btn" name="checkRecive">확인</a></div>
+              </div>
+              {{/each}}
+
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- //panel-table -->
+        </div>
+        <!-- //inh-assets-table -->
+        <!-- ihn-inheritanced-title -->
+        <div class="ihn-inheritanced-title">
+          <a href="javascript:void(0)" name="refuseRequestSlideToggle">요청 거절 목록(<span class="str">{{guardiansInfo.refuse.length}}건</span>)<i class="ion-chevron-down"></i></a>
+        </div>
+        <!-- //ihn-inheritanced-title -->
+        <div class="inh-assets-table refuseRequest">
+            <!-- panel-table -->
+            <div class="panel panel-default panel-table row-sm no-link type-link">
+              <!-- panel-head -->
+              {{#if hpLeangthZero guardiansInfo.refuse.length}}
+              <div class="panel-heading">
+                <div class="tr">
+                    <div class="th">닉네임</div>
+                    <div class="th">이름</div>
+                    <div class="th">연락처</div>
+                    <div class="th">이메일</div>
+                    <div class="th">요청일</div>
+                    <div class="th">취소</div>
+                    <div class="th">삭제</div>
+                </div>
+              </div>
+              {{/if}}
+              <!-- //panel-head -->
+              <!-- panel-body -->
+              <div class="panel-body">
+                <!-- tr -->
+                {{#each hpGetRequestList guardiansInfo.refuse}}
+                <div class="tr">
+                    <div class="td left">{{nickName}}</div>
+                    <div class="td">{{name}}</div>
+                    <div class="td">{{mobile}}</div>
+                    <div class="td">{{email}}</div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                    <div class="td btns"><a href="javascript:void(0)" class="table-btn" name="cancelRefuse">거절취소</a></div>
+                    <div class="td btns"><a href="javascript:void(0)"><i class="ion-trash-a" name="delRefuesData"></i></a></div>
+                </div>
+                {{/each}}
+
+              </div>
+              <!-- //panel-body -->
+            </div>
+            <!-- //panel-table -->
+          </div>
+      </div>
+      <!-- content -->
+    </div>
+</template>
+
+<template name='sendObituaryPopup'>
+  <div>
+    가디언은 부고소식을 알리으로써 ......
+    먼저 소중한 이와 이별하신 슬픔에 깊은 위로를 전하며....
+  </div>
+  <div>
+    {{name}}님은 언제 영면에 드셨나요? <br/>
+    영면일 : {{> singleCalendar id="obituaryDate" setDefaultDate=false}}
+  </div>
+  <button name='cancleObituary'>취소</button><button name='sendObituary'>부고알림</button>
+</template>

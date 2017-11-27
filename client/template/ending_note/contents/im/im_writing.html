@@ -1,0 +1,112 @@
+<!-- 나는 > 글쓰기(추억작성) -->
+<template name="imWriting">
+    <!-- content -->
+      <div class="content h-scroll hr-scroll">
+        <!-- container -->
+        <div class="container-fluid detail-container">
+          <!-- row -->
+          <div class="row detail-article nobd">
+            <!-- list-group-item -->
+            <div class="detail-group">
+                <div class="media-body detail-subject">
+                  <div class="row nopm">
+                    <select class="selectpicker" data-width="80px" name="options" id="lockOp" title="공개구분을 선택해주세요." required>
+                      <!-- <option value="" disabled selected>공개구분</option> -->
+                      <option value="false">공개</option>
+                      <option value="true">비공개</option>
+                    </select>
+                  </div>
+                  <!-- <h4 class="media-heading"><a href="javascript:void(0)" class="name">팅커벨</a><small>2016 년 1월 29일</small></h4> -->
+                  <!-- <h4 class="media-heading"><small>등록일 : </small><small>{{hpDefaultData.regDate}}</small></h4> -->
+                  <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false">
+                    <div class="form-comment-box ">
+                      <input type="text" class="" id="meTitle" placeholder="제목을 입력하세요." value="{{hpDefaultData.title}}"
+                      title="제목을 입력하세요." required="true" />
+                    </div>
+                  </form>
+                </div>
+            </div>
+            <!-- //list-group-item -->
+            <!-- panel -->
+            <div class="panel panel-default im-write">
+              <!-- panel-body -->
+              <div class="panel-body">
+                <!-- row -->
+                <div class="row text-right calendar-box calendar-left">
+                  <span>추억일</span>
+                  {{> singleCalendar id="my-datepicker1" required=true customIcon=false}}
+                </div>
+                <!-- //row -->
+                <div class="editor-content">
+                    {{> froalaReactive hpGetContext }}
+                </div>
+                <div class="tag">
+                  <ul id="tagUlList">
+                    <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+                  </ul>
+                </div>
+              </div>
+              <!-- //panel-body -->
+            </div>
+            <!-- panel -->
+          </div>
+          <!-- //row -->
+        </div>
+        <!-- //container -->
+        <!-- row -->
+        <div class="row">
+          <!-- input-group -->
+          {{#if hpIsCalled}}
+            {{> selectTemplateWirte}}
+          {{/if}}
+          <!-- <div class="input-group">
+              <div class="checkbox">
+                <input type="checkbox" id="check1">
+                <label for="check1"></label>
+              </div>
+              <span>작성한 글을</span>
+              <select class="selectpicker" data-width="80px" name="options">
+                <option value="001">버킷리스트</option>
+                <option value="002">메뉴</option>
+              </select>
+              <span>으로 이동합니다.</span>
+          </div> -->
+          <!-- //input-group -->
+        </div>
+        <!-- //row -->
+      </div>
+      <!-- //content -->
+
+      <!-- btn-group -->
+      <div class="fix-btnset">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+          </div>
+          <div class="btn-group" role="group">
+            <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+          </div>
+        </div>
+      </div>
+      <!-- //btn-group -->
+
+</template>
+
+<template name="selectTemplateWirte">
+ <div class="type-im">
+  <div class="input-group">
+    <div class="checkbox">
+      <input type="checkbox" id="chkselMoveToBucket">
+      <label for="chkselMoveToBucket"></label>
+    </div>
+    <span>이 추억을 </span>
+    <select class="selectpicker" data-width="80px" name="options" id="selMoveToBucket" title="버킷리스트를 선택해주세요.">
+      <option value="">버킷리스트선택</option>
+      {{#each hpBucketlist}}
+      <option value="{{this._id}}">{{this.title}}</option>
+      {{/each}}
+    </select>
+    <span>에 연결합니다.</span>
+  </div>
+</div>
+</template>

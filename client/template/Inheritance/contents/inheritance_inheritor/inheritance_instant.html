@@ -1,0 +1,272 @@
+<!-- 지금상속 화면 -->
+<template name="inheritanceInstant">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2 class="depth">나의 상속인<span>컨텐츠 지금상속</span></h2>
+    </div>
+    <!-- inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- addInheritor-copyContainer -->
+      <div class="addInheritor-copyContainer">
+        <!-- row -->
+        <div class="row">
+          <!-- col -->
+          <div class="col-xs-8">
+            <!-- addInheritor-memList -->
+            <div class="addInheritor-memList">
+              <strong class="memList-toTxt">To.</strong>
+              <span class="memList-name">{{#with hpToInheritorId}} {{g_getNickName this}} {{/with}}</span>
+            </div>
+            <!-- //addInheritor-memList -->
+          </div>
+          <!-- //col -->
+          <!-- col -->
+          <div class="col-xs-4 text-right">
+            <!-- addInheritor-btn -->
+            <a href="javascript:void(0)" class="addInheritor-contchangeBtn" name="contchangeBtn"><i class="ion-folder"></i>컨텐츠 상속 변경</a>
+            <!-- //addInheritor-memList -->
+          </div>
+          <!-- //col -->
+        </div>
+        <!-- //row -->
+      </div>
+      <!-- //addInheritor-copyContainer -->
+      <!-- addInheritor-treeContainer -->
+      <div class="addInheritor-treeContainer">
+        <!-- treeContainer -->
+        <div class="treeContainer now-type">
+          <!-- treeContainer -->
+          <ul id="menu-group-1" class="tree menu">
+            <!-- parent -->
+            <li class="item-me deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">나는({{hpImList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-1" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-1">
+                  <!-- current -->
+                  {{#each hpImList}}
+                    <li class="item-2 current {{#if hpImplus @index}}dis-n{{/if}}">
+                        <a class="" href="javascript:void(0)">
+                          <div class="checkbox text-left">
+                            <span class="check-str">{{hpInstant this.isInstant}}</span>
+                            <span class="ellipsis" name="contentsDetail" value="{{this.contentId}}" type="{{this.type}}">
+                              {{#with hpIsLock this.lock}}
+                                <span class="icon gray lock"></span>
+                              {{/with}}
+                              {{this.title}}
+                            </span>
+                          </div>
+                          <span class="date">{{this.regDate}}</span>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                  {{#if instnace_icon_plus hpImList.length}}
+                    <li class="more">
+                      <a href="javascript:void(0)" class="more-btn" name="plus" type="IM"><i class="ion-plus" type="IM"></i>더보기</a>
+                    </li>
+                  {{/if}}
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+            <!-- parent -->
+            <li class="item-me deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">Me({{hpMeList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-6" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-6">
+                  <!-- current -->
+                  {{#each hpMeList}}
+                    <li class="item-2 current">
+                        <a class="" >
+                            <div class="checkbox text-left">
+                              <span class="check-str">{{hpInstant this.isInstant}}</span>
+                              <span class="ellipsis" name="contentsDetail">
+                                Me
+                              </span>
+                            </div>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+            <!-- parent -->
+            <li class="item-me deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">발자취({{hpImLifeList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-7" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-7">
+                  <!-- current -->
+                  {{#each hpImLifeList}}
+                    <li class="item-2 current">
+                        <a class="" >
+                            <div class="checkbox text-left">
+                              <span class="check-str">{{hpInstant this.isInstant}}</span>
+                              <span class="ellipsis" name="contentsDetail">
+                                발자취
+                              </span>
+                            </div>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+            <!-- parent -->
+            <li class="item-buket deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">버킷리스트({{hpBkList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-2" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-2">
+                  <!-- current -->
+                  {{#each hpBkList}}
+                    <li class="item-2 current {{#if hpBkplus @index}}dis-n{{/if}}">
+                        <a class="" href="javascript:void(0)">
+                          <div class="checkbox text-left">
+                            <span class="check-str">{{hpInstant this.isInstant}}</span>
+                            <span class="ellipsis" name="contentsDetail" value="{{this.contentId}}" type="{{this.type}}">
+                              {{#with hpIsLock this.lock}}
+                                <span class="icon gray lock"></span>
+                              {{/with}}
+                              {{this.title}}
+                            </span>
+                          </div>
+                          <span class="date">{{this.regDate}}</span>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                  {{#if instnace_icon_plus hpBkList.length}}
+                    <li class="more">
+                      <a href="javascript:void(0)" class="more-btn" name="plus" type="BL"><i class="ion-plus" type="BL"></i>더보기</a>
+                    </li>
+                  {{/if}}
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+            <!-- parent -->
+            <li class="item-timecapsule deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">타임캡슐({{hpTcList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-3" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-3">
+                  <!-- current -->
+                  {{#each hpTcList}}
+                    <li class="item-2 current {{#if hpTcplus @index}}dis-n{{/if}}">
+                        <a class="" href="javascript:void(0)">
+                          <div class="checkbox text-left">
+                            <span class="check-str">{{hpInstant this.isInstant}}</span>
+                            <span class="ellipsis" name="contentsDetail" value="{{this.contentId}}" type="TC">
+                              {{#with hpIsLock this.lock}}
+                                <span class="icon gray lock"></span>
+                              {{/with}}
+                              {{this.title}}
+                            </span>
+                          </div>
+                          <span class="date">{{this.regDate}}</span>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                  {{#if instnace_icon_plus hpTcList.length}}
+                    <li class="more">
+                      <a href="javascript:void(0)" class="more-btn" name="plus" type="TC"><i class="ion-plus" type="TC"></i>더보기</a>
+                    </li>
+                  {{/if}}
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+            <!-- parent -->
+            <!-- <li class="item-lifemap deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">라이프맵(0)</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-4" class="sign"><i class="ion-chevron-down"></i></span>
+                </a> -->
+                <!-- children -->
+                <!-- <ul class="children nav-child unstyled small collapse" id="sub-item-4"> -->
+                  <!-- current -->
+                  <!-- //current -->
+                  <!-- <li class="more">
+                    <a href="javascript:void(0)" class="more-btn"><i class="ion-plus"></i>더보기</a>
+                  </li>
+                </ul> -->
+                <!-- children -->
+            <!-- </li> -->
+            <!-- //parent -->
+            <!-- parent -->
+            <li class="item-inheritance deeper parent">
+                <a class="title-label">
+                    <div class="lbl">
+                      <div class="checkbox text-left">상속받은 내역({{hpItList.length}})</div>
+                    </div>
+                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-5" class="sign"><i class="ion-chevron-down"></i></span>
+                </a>
+                <!-- children -->
+                <ul class="children nav-child unstyled small collapse" id="sub-item-5">
+                  <!-- current -->
+                  {{#each hpItList}}
+                    <li class="item-2 current {{#if hpTcplus @index}}dis-n{{/if}}">
+                        <a class="" href="javascript:void(0)">
+                          <div class="checkbox text-left">
+                            <span class="check-str">{{hpInstant this.instDate}}</span>
+                            <span class="ellipsis" name="contentsDetail">{{this.userId}}</span>
+                          </div>
+                          <span class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</span>
+                        </a>
+                    </li>
+                  {{/each}}
+                  <!-- //current -->
+                  {{#if instnace_icon_plus hpItList.length}}
+                    <li class="more">
+                      <a href="javascript:void(0)" class="more-btn" name="plus" type="IT"><i class="ion-plus" type="IT"></i>더보기</a>
+                    </li>
+                  {{/if}}
+                </ul>
+                <!-- children -->
+            </li>
+            <!-- //parent -->
+          </ul>
+        </div>
+        <!-- //treeContainer -->
+      </div>
+      <!-- //addInheritor-treeContainer -->
+      <!-- //inh-lastletter-input -->
+      <div class="ihn-content-btnSet text-center mt30">
+        <a href="javascript:void(0)" class="ihn-cancle" name="cancel">취소</a>
+        <a href="javascript:void(0)" class="ihn-add" name="save">지금상속</a>
+      </div>
+    </div>
+  </div>
+</template>

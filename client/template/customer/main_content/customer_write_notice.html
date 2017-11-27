@@ -1,0 +1,56 @@
+<template name="customerWriteNotice">
+  <div class="h-scroll hi-scroll">
+    <!-- mypage-title -->
+    <div class="mypage-title">
+      <h2>공지사학 작성(임시화면)</h2>
+    </div>
+    <!-- mypage-title -->
+    <!-- content -->
+    <div class="content">
+      <div class="tab-content inner line">
+        <!-- tab-pane -->
+        <div id="profile" class="tab-pane fade in active">
+          <div class="mypage-form" style="width:100%;">
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">제목</div>
+              <div class="col-xs-10">
+                <input type="text" placeholder="" id="noticeTitle" style="width:100%;"/>
+              </div>
+            </div>
+            <!-- row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">내용</div>
+              <div class="col-xs-10">
+                <div class="editor-content">
+                {{> froalaReactive hpGetContext }}
+                </div>
+              </div>
+            </div>
+            <!-- row -->
+            <!-- row -->
+            <!-- <div class="row">
+              <div class="col-xs-2">파일첨부</div>
+              <div class="col-xs-10" id="fileList">
+                <div id="fileSet" name="fileSet">
+                <input type="file" placeholder="" id="inputFile1" name="inputFile1" style="width:210px;"/><a class="btn-tagDelete" id='frListTag'></a>
+                </div>
+              </div>
+              <a href="javascript:void(0)" class="mypage-btn inner" id="addAtachFile">파일추가</a>
+            </div> -->
+            <!-- row -->
+          </div>
+          <!-- mypage-content-btnSet -->
+          <div class="mypage-content-btnSet text-center mt30">
+            <a href="javascript:void(0)" class="mypage-cancle" id="cancel">취소</a>
+            <a href="javascript:void(0)" class="mypage-add" id="save">저장</a>
+          </div>
+          <!-- //mypage-content-btnSet -->
+        </div>
+        <!-- //tab-pane -->
+      </div>
+    </div>
+  </div>
+
+</template>

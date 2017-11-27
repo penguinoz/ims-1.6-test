@@ -1,0 +1,417 @@
+<!-- 마이페이지 > 쪽지함 -->
+<template name="myPageMessage">
+  <div class="h-scroll hi-scroll">
+    <!-- mypage-title -->
+    <div class="mypage-title">
+      <h2>쪽지함</h2>
+    </div>
+    <!-- mypage-title -->
+    <!-- content -->
+    <div class="content">
+      <div class="ui-tabs">
+
+        <ul class="nav nav-pills nav-detail" id="msgTapBt">
+          <li class="active" id="receiveTap"><a data-toggle="pill" href="#to">받은 쪽지함</a></li>
+          <li class="" id="sendTap"><a data-toggle="pill" href="#from">보낸 쪽지함</a></li>
+          <li class="" id="denilTap"><a data-toggle="pill" href="#block">차단자 관리</a></li>
+        </ul>
+      </div>
+      <div class="tab-content">
+        <div id="to" class="tab-pane fade in active">
+          <!-- addInheritor-searchContainer -->
+          <div class="mypage-searchContainer">
+            <!-- row -->
+            <div class="row">
+              <!-- search-box -->
+              <div class="col-xs-6 search-box">
+                <select class="selectpicker" data-width="65px" name="keywordTypeReceive" id="keywordTypeReceive">
+                  <option value="all">전체</option>
+                  <option value="name">닉네임</option>
+                  <option value="content">내용</option>
+                </select>
+                <form id="custom-search-form" class="form-search form-horizontal" onsubmit="return false">
+                  <div class="input-append span12">
+                    <input type="text" class="search-query" placeholder="" id="keywordTextReceive">
+                    <button class="btn" name="searchBtReceive"><i class="imsr-icon icon-in0007"></i></button>
+                  </div>
+                </form>
+                <span>총 <strong>{{getMessageData.receiveMsg.length}}</strong>건</span>
+              </div>
+              <!-- //search-box -->
+              <!-- sort-box -->
+              <div class="col-xs-6 text-right">
+                <div class="mypage-content-btnSet btn-sm2">
+                  <a href="javascript:void(0)" class="mypage-default" name="deleteReceiveMsg">삭제</a>
+                </div>
+              </div>
+              <!-- //sort-box -->
+            </div>
+            <!-- //row -->
+          </div>
+          <!-- //addInheritor-searchContainer -->
+          <!-- mypage-assets-table -->
+          <div class="mypage-assets-table requestReady">
+              <!-- panel-table -->
+              <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+                <!-- panel-head -->
+                <div class="panel-heading">
+                  <div class="tr">
+                      <div class="th" style="width:5%;">No.</div>
+                      <div class="th" style="width:5%;">
+                        <!-- input-group -->
+                        <div class="input-group">
+                          <div class="checkbox"><input type="checkbox" id="allRecevie"><label for="allRecevie"></label></div>
+                        </div>
+                        <!-- input-group -->
+                      </div>
+                      <div class="th" style="width:15%;">보낸사람</div>
+                      <div class="th" style="width:60%;">내용</div>
+                      <div class="th" style="width:15%;">작성일</div>
+                  </div>
+                </div>
+                <!-- //panel-head -->
+                <!-- panel-body -->
+                <div class="panel-body">
+                <!-- {{#each hpLikeData.to}} -->
+                  <!-- tr -->
+                  {{#each getMessageData.receiveMsg}}
+                  {{#unless this.refuse}}
+                    <div class="tr">
+                      <div class="td">{{hpGetIndex @index}}</div>
+                      <div class="td">
+                        <!-- input-group -->
+                        <div class="input-group">
+                          <div class="checkbox"><input type="checkbox" name="checkListReceive" id="listreceive{{hpGetIndex @index}}" value={{this._id}}><label for="listreceive{{hpGetIndex @index}}"></label></div>
+                        </div>
+                        <!-- input-group -->
+                      </div>
+                      <div class="td left">
+                        <div class="content">
+                          <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                            <span class="td-icon">
+                              <i class="imsr-icon {{#if check}}icon-my0002{{else}}icon-tc0014 {{/if}}"></i>
+                            </span>{{userNick}}
+                          </a>
+                          {{> dropdownMenuUserCard targetUserId=this.sender}}
+                        </div>
+                      </div>
+                      <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" target="_blank" data-modal-template="myPageMessagePopup">{{content}}</a></div>
+                      <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                    </div>
+                  {{/unless}}
+                  {{/each}}
+
+                  <!-- <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-tc0014"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" data-modal-template="myPageMessagePopup">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-my0002"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" data-modal-template="myPageMessagePopup">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-my0002"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" data-modal-template="myPageMessageWritePopup">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-my0002"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" data-modal-template="myPageMessageWritePopup">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-my0002"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="javascript:void(0)" class="modal-link" id="{{_id}}" name="title" data-modal-template="myPageMessageWritePopup">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div> -->
+                  <!-- {{/each}} -->
+                </div>
+                <!-- //panel-body -->
+              </div>
+              <!-- //panel-table -->
+              <!-- pagination -->
+              <!-- <div class="row text-center">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination pagination-sm mypage">
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li class="active"><a href="javascript:void(0)">1</a></li> -->
+                    <!-- {{#each getPageCounter}}
+                    <li class="{{#if g_isEqual this 1}}active{{/if}}"><a href="javascript:void(0)">{{this}}</a></li>
+                    {{/each}} -->
+                    <!-- <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                  </ul> -->
+                  <!-- </nav>
+              </div> -->
+              <!-- pagination -->
+            </div>
+            <!-- //mypage-assets-table -->
+        </div>
+        <!-- tab-pane -->
+        <div id="from" class="tab-pane fade">
+          <!-- addInheritor-searchContainer -->
+          <div class="mypage-searchContainer">
+            <!-- row -->
+            <div class="row">
+              <!-- search-box -->
+              <div class="col-xs-6 search-box">
+                <select class="selectpicker" data-width="65px" name="keywordTypeSend" id="keywordTypeSend">
+                  <option value="all">전체</option>
+                  <option value="name">닉네임</option>
+                  <option value="content">내용</option>
+                </select>
+                <form id="custom-search-form" class="form-search form-horizontal" onsubmit="return false">
+                  <div class="input-append span12">
+                    <input type="text" class="search-query" placeholder="" id="keywordTextSend">
+                    <button class="btn" name="searchBtsend"><i class="imsr-icon icon-in0007"></i></button>
+                  </div>
+                </form>
+                <span>총 <strong>{{getMessageData.sendMsg.length}}</strong>건</span>
+              </div>
+              <!-- //search-box -->
+              <!-- sort-box -->
+              <div class="col-xs-6 sort-box">
+
+              </div>
+              <!-- //sort-box -->
+            </div>
+            <!-- //row -->
+          </div>
+          <!-- //addInheritor-searchContainer -->
+          <!-- mypage-assets-table -->
+          <div class="mypage-assets-table requestReady">
+              <!-- panel-table -->
+              <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+                <!-- panel-head -->
+                <div class="panel-heading">
+                  <div class="tr">
+                      <div class="th" style="width:5%;">No.</div>
+                      <div class="th" style="width:15%;">받는사람</div>
+                      <div class="th" style="width:65%;">내용</div>
+                      <div class="th" style="width:15%;">작성일</div>
+                  </div>
+                </div>
+                <!-- //panel-head -->
+                <!-- panel-body -->
+                <div class="panel-body">
+                  {{#each getMessageData.sendMsg}}
+
+                    <div class="tr">
+                      <div class="td">{{hpGetIndex @index}}</div>
+                      <div class="td left">
+                        <div class="content">
+                          <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                            <span class="td-icon">
+                              <i class="imsr-icon {{#if check}}icon-my0002{{else}}icon-tc0014 {{/if}}"></i>
+                            </span>{{userNick}}
+                          </a>
+                          {{> dropdownMenuUserCard targetUserId=this.receiver}}
+                        </div>
+                      </div>
+                      <div class="td left"><a class="modal-link" href="javascript:void(0)" id="{{_id}}" name="title" target="_blank" data-modal-template="myPageMessagePopup">{{content}}</a></div>
+                      <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                    </div>
+                  {{/each}}
+                <!-- {{#each hpLikeData.to}} -->
+                  <!-- tr -->
+                  <!-- <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-tc0014"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="/endingNote/{{_id}}/{{hpPageOwnerId}}" class="modal-link" id="{{_id}}" name="title" target="_blank">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">1</div>
+                    <div class="td left"><span class="td-icon"><i class="imsr-icon icon-my0002"></i></span>뚱땡이는 귀여워</div>
+                    <div class="td left"><a href="/endingNote/{{_id}}/{{hpPageOwnerId}}" class="modal-link" id="{{_id}}" name="title" target="_blank">안녕하세요. 저는 정지2라고 합니다. 그동안 그동안 등록하신 버킷리스트랑 나는에 올린 추억 등등 게시물 잘 보</a></div>
+                    <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                  </div> -->
+                  <!-- {{/each}} -->
+                </div>
+                <!-- //panel-body -->
+              </div>
+              <!-- //panel-table -->
+              <!-- pagination -->
+              <!-- <div class="row text-center">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination pagination-sm mypage">
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li class="active"><a href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="javascript:void(0)">3</a></li>
+                    <li><a href="javascript:void(0)">4</a></li>
+                    <li><a href="javascript:void(0)">5</a></li>
+                    <li><a href="javascript:void(0)">6</a></li>
+                    <li><a href="javascript:void(0)">7</a></li>
+                    <li><a href="javascript:void(0)">8</a></li>
+                    <li><a href="javascript:void(0)">9</a></li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                  </ul>
+                  </nav>
+              </div> -->
+              <!-- pagination -->
+            </div>
+            <!-- //mypage-assets-table -->
+        </div>
+        <!-- //tab-pane -->
+        <!-- tab-pane -->
+        <div id="block" class="tab-pane fade">
+          <!-- addInheritor-searchContainer -->
+          <div class="mypage-searchContainer">
+            <!-- row -->
+            <div class="row">
+              <!-- search-box -->
+              <div class="col-xs-6">
+                <span>총 <strong>{{hpDenialData.length}}</strong>건</span>
+              </div>
+              <!-- //search-box -->
+              <!-- sort-box -->
+              <div class="col-xs-6 text-right">
+                <div class="mypage-content-btnSet btn-sm2">
+                  <a href="javascript:void(0)" class="mypage-default modal-link" name="delete" id="denialCancel" data-modal-template="myPageMessageUnblockPopup">차단해제</a>
+                </div>
+              </div>
+              <!-- //sort-box -->
+            </div>
+            <!-- //row -->
+          </div>
+          <!-- //addInheritor-searchContainer -->
+          <!-- mypage-assets-table -->
+          <div class="mypage-assets-table requestReady">
+              <!-- panel-table -->
+              <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+                <!-- panel-head -->
+                <div class="panel-heading">
+                  <div class="tr">
+                      <div class="th" style="width:5%;">
+                        <!-- input-group -->
+                        <div class="input-group">
+                          <div class="checkbox"><input type="checkbox" id="all"><label for="all"></label></div>
+                        </div>
+                        <!-- input-group -->
+                      </div>
+                      <div class="th" style="width:15%;">별명</div>
+                      <div class="th" style="width:65%;">차단일</div>
+                      <div class="th" style="width:15%;">쪽지</div>
+                  </div>
+                </div>
+                <!-- //panel-head -->
+                <!-- panel-body -->
+                <div class="panel-body">
+                <!-- {{#each hpLikeData.to}} -->
+                  <!-- tr -->
+                  {{#each hpDenialData}}
+                    <div class="tr">
+                      <div class="td">
+                        <!-- input-group -->
+                        <div class="input-group">
+                          <div class="checkbox"><input type="checkbox" name="checkList" id="list{{hpGetIndex @index}}" value={{this.userId}}><label for="list{{hpGetIndex @index}}"></label></div>
+                        </div>
+                        <!-- input-group -->
+                      </div>
+                      <div class="td left">
+                        <div class="content">
+                          <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                            <span class="td-icon">
+                              <i class="imsr-icon {{#if check}}icon-my0002{{else}}icon-tc0014 {{/if}}"></i>
+                            </span>{{g_getNickName userId}}
+                          </a>
+                          {{> dropdownMenuUserCard targetUserId=this.userId}}
+                        </div>
+                      </div>
+                      <div class="td left"><a href="javascript:void(0)" id="{{_id}}" name="title" >{{g_dateFormChange denialDate 'defaultYMD'}}</a></div>
+                      <div class="td">{{refMsgLength}}</div>
+                    </div>
+                  {{/each}}
+                  <!-- {{/each}} -->
+                </div>
+                <!-- //panel-body -->
+              </div>
+              <!-- //panel-table -->
+              <!-- pagination -->
+              <div class="row text-center">
+                <!-- <nav aria-label="Page navigation">
+                  <ul class="pagination pagination-sm mypage">
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                      </a>
+                    </li>
+                    <li class="active"><a href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="javascript:void(0)">3</a></li>
+                    <li><a href="javascript:void(0)">4</a></li>
+                    <li><a href="javascript:void(0)">5</a></li>
+                    <li><a href="javascript:void(0)">6</a></li>
+                    <li><a href="javascript:void(0)">7</a></li>
+                    <li><a href="javascript:void(0)">8</a></li>
+                    <li><a href="javascript:void(0)">9</a></li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0)" aria-label="Next">
+                        <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                      </a>
+                    </li>
+                  </ul>
+                  </nav> -->
+              </div>
+              <!-- pagination -->
+            </div>
+            <!-- //mypage-assets-table -->
+        </div>
+        <!-- //tab-pane -->
+      </div>
+    </div>
+  </div>
+</template>

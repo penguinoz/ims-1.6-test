@@ -1,0 +1,228 @@
+<!-- 상속받은 내역 main -->
+<template name="inheritanceList">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2>상속받은 내역</h2>
+      <p class="title-sm">{{hpInhertanceAllCount}}명의 피상속인으로부터 받은 내역입니다.</p>
+
+      <!-- <button id="addInherit">[임시]상속받은내용추가(상속용:리본표시O)</button> -->
+      <!-- 사용자ID : <input type="text" name="userId" value="">
+      <button id="passAway">[임시]PassAway(사용자ID입력필요)</button>
+      <button id="revival">[임시]revival(사용자ID입력필요)</button> -->
+
+      <!-- <button id="delInherit">[임시]상속받은데이터 모삭제대기등록</button> -->
+      <!-- <button id="delStatus">[임시]삭제대기 > 삭제 변경</button>
+      <button id="delReadyStatus">[임시]삭제 > 삭제대기 변경</button> -->
+    </div>
+    <!-- //inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- ihn-inheritanced-list -->
+      <div class="ihn-inheritanced-list">
+        {{#each hpInheritanceList}}
+          <!-- item -->
+          <div class="item {{hpSelectedList}}">
+            <!-- img-section -->
+            <div class="img-section">
+              <img class="img-circle" src="{{g_getProfileImg this.userId 'thumb'}}">
+            </div>
+            <!-- img-section -->
+            <!-- <span class="black_rebon {{#if hpIsDeadMan isDeadMan}}on{{/if}}"></span> -->
+            <!-- {{#if g_isExist msgId}}
+                <span class="black_rebon {{g_isUseBlackRebon msgId}}"></span>
+            {{else}} -->
+                <span class="black_rebon {{g_isUseBlackRebon userId}}"></span>
+            <!-- {{/if}} -->
+            <!-- subject-section -->
+            <div class="subject-section">
+              {{#if g_isExist msgId}}
+              <p class="subject"><span class="str">{{g_getNickName msgId}}</span>님 컨텐츠를 <span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+              {{else}}
+              <p class="subject"><span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+              {{/if}}
+              <p class="date">상속일  {{g_dateFormChange inheritanceDate 'defaultYMD'}}</p>
+            </div>
+
+            <!-- //subject-section -->
+            <!-- btn-section -->
+            {{> inheritanceListButtons typeName='inh' data=this}}
+
+            <!-- //subject-section -->
+          </div>
+
+          <!-- //item -->
+          {{#if hpSelectedTemplate 'lastLetter'}}
+            {{> inheritanceListLastLetter this}}
+          {{/if}}
+
+          {{#if hpSelectedTemplate 'asset'}}
+            {{> inheritanceListAsset this}}
+          {{/if}}
+
+          {{#if hpSelectedTemplate 'contents'}}
+            {{> inheritanceListContents this}}
+          {{/if}}
+
+          <!-- {{#with hpMenuSelected}}
+            {{> Template.dynamic template=inheritanceListTmp.template data=inheritanceListTmp.data}}
+          {{/with}} -->
+        {{/each}}
+      </div>
+      <!-- //ihn-inheritanced-list -->
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <a href="javascript:void(0)" name="deleteSlideToggle">삭제 대기 목록(<span class="str">{{hpInheritanceDeleteList.length}}건</span>)<i class="ion-chevron-down"></i></a>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <!-- ihn-inheritanced-list -->
+      <div class="ihn-inheritanced-list deleteList">
+
+        {{#each hpInheritanceDeleteList}}
+        <!-- item -->
+          <div class="item">
+          <!-- img-section -->
+          <div class="img-section">
+            <img class="img-circle" src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+          </div>
+          <!-- img-section -->
+          {{#if g_isExist msgId}}
+              <span class="black_rebon {{g_isUseBlackRebon msgId}}"></span>
+          {{else}}
+              <span class="black_rebon {{g_isUseBlackRebon userId}}"></span>
+          {{/if}}
+          <!-- subject-section -->
+          <div class="subject-section">
+            {{#if g_isExist msgId}}
+            <p class="subject"><span class="str">{{g_getNickName msgId}}</span>님 컨텐츠를 <span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+            {{else}}
+            <p class="subject"><span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+            {{/if}}
+            <p class="date">상속일  {{g_dateFormChange inheritanceDate 'defaultYMD'}}</p>
+          </div>
+          <!-- //subject-section -->
+          <!-- btn-section -->
+          {{> inheritanceListButtons typeName='inhDel' data=this}}
+
+          <!-- //subject-section -->
+        </div>
+        <!-- //item -->
+        {{/each}}
+
+
+      </div>
+      <!-- //ihn-inheritanced-list -->
+      <!-- ihn-inheritanced-title -->
+      <div class="ihn-inheritanced-title">
+        <a href="javascript:void(0)" name="refuseSlideToggle">상속 거부 목록(<span class="str">{{hpInheritanceRefuseList.length}}건</span>)<i class="ion-chevron-down"></i></a>
+      </div>
+      <!-- //ihn-inheritanced-title -->
+      <!-- ihn-inheritanced-list -->
+      <div class="ihn-inheritanced-list refuseList">
+        {{#each hpInheritanceRefuseList}}
+        <!-- item -->
+          <div class="item">
+          <!-- img-section -->
+          <div class="img-section">
+            <img class="img-circle" src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+          </div>
+          <!-- img-section -->
+          {{#if g_isExist msgId}}
+              <span class="black_rebon {{g_isUseBlackRebon msgId}}"></span>
+          {{else}}
+              <span class="black_rebon {{g_isUseBlackRebon userId}}"></span>
+          {{/if}}
+          <!-- subject-section -->
+          <div class="subject-section">
+            {{#if g_isExist msgId}}
+            <p class="subject"><span class="str">{{g_getNickName msgId}}</span>님 컨텐츠를 <span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+            {{else}}
+            <p class="subject"><span class="str">{{g_getNickName userId}}</span>님으로 부터 상속받은 내역 <span class="str">{{inhContentsCount}}</span>건입니다.</p>
+            {{/if}}
+            <p class="date">상속일  {{g_dateFormChange inheritanceDate 'defaultYMD'}}</p>
+          </div>
+          <!-- //subject-section -->
+          <!-- btn-section -->
+          {{> inheritanceListButtons typeName='inhRef' data=this}}
+
+          <!-- //subject-section -->
+        </div>
+        <!-- //item -->
+        {{/each}}
+      </div>
+      <!-- //ihn-inheritanced-list -->
+    </div>
+    <!-- //content -->
+  </div>
+</template>
+
+<template name="inheritanceListButtons">
+  {{#if g_isEqual typeName 'inh'}}
+    <!-- 상속리스트 -->
+    <div class="btn-section">
+      <div class="setting-group">
+        <a href="javascript:void(0)" class="imsr-tooltip bottom btn-reject" id="refuseInh" data-toggle="tooltip" title="상속거부"><i class="glyphicon glyphicon-ban-circle"></i></a>
+        <a href="javascript:void(0)" class="imsr-tooltip bottom btn-delete" id="deleteInh" data-toggle="tooltip" title="삭제"><i class="glyphicon glyphicon-trash"></i></a>
+      </div>
+      <div class="active-group">
+        <!-- <a href="{{pathFor 'inheritanceTimelineBody' _id=this._id isNote='list'}}" class="btn-endingnote" target="_blank">엔딩노트</a> -->
+        <a href="{{pathFor 'inheritanceTimelineBody' _id=data._id isNote='list' ownerId=data.inheritorId}}" class="btn-endingnote" target="_blank">엔딩노트</a>
+        {{#if g_isExist data.msgId}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="상속해준사람"><i class="glyphicon glyphicon-user"></i></a>
+        {{else}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-lastletter {{hpIsDataExist data.isExistlastLetter}} {{hpSelectedButton 'lastLetter'}} lastletter" id="lastLetter{{data._id}}" name="{{data.isExistlastLetter}}" data-toggle="tooltip" title="마지막편지"><i class="imsr-icon ihn-list icon-in0001"></i></a>
+        <!-- <a href="javascript:void(0)" class="imsr-tooltip top btn-asstes {{hpIsDataExist data.isExistAsset}} {{hpSelectedButton 'asset'}} asset" id="asset{{data._id}}" name="{{data.isExistAsset}}" data-toggle="tooltip" title="자산"><i class="ion-cash"></i></a> -->
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        {{/if}}
+
+      </div>
+    </div>
+
+  {{else}}{{#if g_isEqual typeName 'inhDel'}}
+    <!-- 삭제리스트 -->
+    <div class="btn-section">
+      <div class="setting-group">
+        <span>D{{g_diffDate data.deletedDate}}</span>
+        {{#if hpCheckDday data.deletedDate}}
+          <a href="javascript:void(0)" class="imsr-tooltip bottom btn-delete cancle" id="delDeleteInh" data-toggle="tooltip" title="완전삭제"><i class="glyphicon glyphicon-trash"></i></a>
+        {{else}}
+          <a href="javascript:void(0)" class="imsr-tooltip bottom btn-delete cancle" id="delRestoreInh" data-toggle="tooltip" title="복원"><i class="glyphicon glyphicon-repeat"></i></a>
+        {{/if}}
+      </div>
+      <div class="active-group">
+        <!-- <a href="javascript:void(0)" class="btn-endingnote">엔딩노트</a> -->
+        <a href="{{pathFor 'inheritanceTimelineBody' _id=data._id isNote='list' ownerId=data.inheritorId}}" class="btn-endingnote" target="_blank">엔딩노트</a>
+        {{#if g_isExist data.msgId}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="상속해준사람"><i class="glyphicon glyphicon-user"></i></a>
+        {{else}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-lastletter {{hpIsDataExist data.isExistlastLetter}} {{hpSelectedButton 'lastLetter'}} lastletter" id="lastLetter{{data._id}}" name="{{data.isExistlastLetter}}" data-toggle="tooltip" title="마지막편지"><i class="imsr-icon ihn-list icon-in0001"></i></a>
+        <!-- <a href="javascript:void(0)" class="imsr-tooltip top btn-asstes {{hpIsDataExist data.isExistAsset}} {{hpSelectedButton 'asset'}} asset" id="asset{{data._id}}" name="{{data.isExistAsset}}"><i class="ion-cash" data-toggle="tooltip" title="자산"></i></a> -->
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        {{/if}}
+      </div>
+    </div>
+
+  {{else}}
+    <!-- 거부리스트 -->
+    <div class="btn-section">
+      <div class="setting-group">
+        <!-- <a href="javascript:void(0)" class="btn-reject"><i class="glyphicon glyphicon-ban-circle"></i></a> -->
+        <a href="javascript:void(0)" class="btn-delete cancleTxt" id="refRestoreInh">상속거부취소</a>
+      </div>
+      <div class="active-group">
+        <!-- <a href="javascript:void(0)" class="btn-endingnote">엔딩노트</a> -->
+        <a href="{{pathFor 'inheritanceTimelineBody' _id=data._id isNote='list' ownerId=data.inheritorId}}" class="btn-endingnote" target="_blank">엔딩노트</a>
+        {{#if g_isExist data.msgId}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{_id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{_id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="상속해준사람"><i class="glyphicon glyphicon-user"></i></a>
+        {{else}}
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-lastletter {{hpIsDataExist data.isExistlastLetter}} {{hpSelectedButton 'lastLetter'}} lastletter" id="lastLetter{{data._id}}" name="{{data.isExistlastLetter}}" data-toggle="tooltip" title="마지막편지"><i class="imsr-icon ihn-list icon-in0001"></i></a>
+        <!-- <a href="javascript:void(0)" class="imsr-tooltip top btn-asstes {{hpIsDataExist data.isExistAsset}} {{hpSelectedButton 'asset'}} asset" id="asset{{data._id}}" name="{{data.isExistAsset}}" data-toggle="tooltip" title="자산"><i class="ion-cash"></i></a> -->
+        <a href="javascript:void(0)" class="imsr-tooltip top btn-content {{hpIsDataExist data.isExistContents}} {{hpSelectedButton 'contents'}} contents" id="contents{{data._id}}" name="{{data.isExistContents}}" data-toggle="tooltip" title="컨텐츠"><i class="imsr-icon ihn-list icon-in0003"></i></a>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}{{/if}}
+</template>

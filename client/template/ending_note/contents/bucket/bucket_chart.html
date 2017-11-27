@@ -1,0 +1,19 @@
+<template name='bucketChart'>
+  <div class="type-buket bucket-chart">
+    <!-- ui-tabs -->
+    <div class="row">
+      <!-- ui-tabs -->
+      <div class="ui-tabs tab-meList">
+        <!-- //ui-tabs -->
+
+        <ul class="nav nav-pills nav-justified ">
+          <li role="presentation" class="active" id="liTabMe" ><a href="#tabs-1" id="tabMe" value="my"><strong>나의</strong> 현황</a></li>
+          <li role="presentation" id="liTabAll" ><a href="#tabs-2" id="tabAll" value="all"><strong>전체</strong> 현황</a></li>
+        </ul>
+      </div>
+      <!-- <div class="content right h-scroll hr-scroll"> -->
+        {{>Template.dynamic template=hpMeOrAllTab}}
+      <!-- </div> -->
+    </div>
+  </div>
+</template>

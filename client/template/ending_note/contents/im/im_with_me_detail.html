@@ -1,0 +1,54 @@
+<!-- 나는 > 오눌기분어때 -->
+<template name="imWithMeDetail">
+<!-- content -->
+<div class="content h-scroll hr-scroll ">
+  <!-- row -->
+  <div class="row content-head">
+    <h4 class="text-right"><i class="title-icon imsr-icon icon-me0014"></i>에 등록된 정보는 다른 회원들에게 <span class="title-color">공개되지 않습니다.</span><i class="title-lock glyphicon glyphicon-lock"></i></h4>
+  </div>
+  <!-- //row -->
+  <div class="row">
+    <div class="imwithme-detail">
+      {{#with hpCollection}}
+        <div class="detail-header">
+          <div class="row">
+            <div class="col-xs-6 text-left nopm">
+              <div class="subject">{{this.title}}</div>
+            </div>
+            <!-- col -->
+            <div class="col-xs-6 text-right detail-btn nopm">
+                <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="imwithmeDetailEdit">수정</a>
+                <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="imwithmeDetailDelete">삭제</a>
+            </div>
+            <!-- //col -->
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="date">{{g_dateFormChange this.regDate 'defaultHMS'}}</div>
+          <div class="detail-content" name="froalaEditor" contenteditable="false">
+            {{#if hpGetContext}}
+              {{> froalaReactive hpGetContext}}
+            {{/if}}
+          </div>
+          {{#if g_isExist this.tagList}}
+          <div class="tag">
+            <ul>
+            {{#each this.tagList}}
+            <li><a name='tagButton'>#{{this}}</a></li>
+            {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+        </div>
+      {{/with}}
+    </div>
+  </div>
+  <!-- //row -->
+</div>
+<!-- //content -->
+<!-- fix-btnset -->
+<div class="fix-btnset">
+  <a hreg="#" id='btnToList' class="btn btn-primary btn-lg btn-block btn-list" role="button"><span class="imsr-icon icon-me0046"></span>목록</a>
+</div>
+<!-- //fix-btnset -->
+</template>

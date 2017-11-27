@@ -1,0 +1,112 @@
+<template name="timeCapsuleContentPublic">
+  <div class="content h-scroll hr-scroll timecapsul-list">
+    <!-- row -->
+    <div class="row">
+      <!-- list-group -->
+      <div class="timecapsul-main">
+        <!-- main-list -->
+        <div class="main-article type02">
+          <div class="article-head nobr">
+            <div class="title">공개</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+            <div class="row">
+              {{#unless g_isExist hpTimeCapsuleCollectionPbTop.public}}
+              공개된 타임캡슐이 없습니다.
+              {{/unless}}
+              {{#each hpTimeCapsuleCollectionPbTop.public}}
+                <div class="col-xs-4 text-center">
+                  <!-- egg -->
+                  <a href="javascript:void(0)" id=title>
+                  <div class="egg">
+                    <div class="egg-inner">
+                      <span class="egg-contry ellipsis-90">{{buryLocationName}}</span>
+                      <span class="egg-date">{{g_dateFormChange unsealDate 'defaultYMD'}}</span>
+                      <!-- <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember}}</span> -->
+                    </div>
+                    <span class="egg-outer ellipsis-90">{{title}}</span>
+                  </div>
+                  </a>
+                  <!-- egg -->
+                </div>
+              {{/each}}
+            </div>
+            <!-- //row -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+      </div>
+      <!-- list-group -->
+    </div>
+    <!--//row-->
+
+    <!--row-->
+    <div class="row search-container">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="groupMember">작성자</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="navbar-right">
+        <span class="search-total">총 <strong>{{hpTimeCapsulePublicCount}}</strong>건</span>
+      </div>
+    </div>
+    <!--//row-->
+
+    <!--row-->
+    <div class="row">
+      <!-- list-group -->
+      <div class="list-capsule type-public">
+        {{#unless g_isExist hpTimeCapsuleCollectionPbList.contents}}
+        공개된 타임캡슐이 없습니다.
+        {{/unless}}
+        {{#each hpTimeCapsuleCollectionPbList.contents}}
+        <!-- list-group-item -->
+        <div class="list-capsule-item">
+          <a href="javascript:void(0)" id=title>
+            <div class="list-header ellipsis-416">{{{title}}}</div>
+            <div class="list-body">
+              <div class="row">
+                {{#with this.image}}
+                <div class="col-xs-3">
+                  <div class="pic"><img src="{{g_makeImageString this.path 'originRe'}}" alt=""/></div>
+                </div>
+                <div class="col-xs-9 info-list">
+                  <span class="title"><i class="imsr-icon icon-tc0003" aria-hidden="true"></i>{{../buryLocationName}}</span>
+                  <span><i class="imsr-icon icon-tc0004" aria-hidden="true"></i>{{g_dateFormChange ../unsealDate 'defaultYMD'}}</span>
+                  <span><i class="imsr-icon icon-me0023" aria-hidden="true"></i>{{{../commentCount}}}</span>
+                  <p class="info-content">{{{../publicContent}}}</p>
+                </div>
+                {{else}}
+                <div class="col-xs-2">
+                  <div class="egg"></div>
+                </div>
+                <div class="col-xs-10 info-list">
+                  <span class="title"><i class="imsr-icon icon-tc0003" aria-hidden="true"></i>{{buryLocationName}}</span>
+                  <span><i class="imsr-icon icon-tc0004" aria-hidden="true"></i>{{g_dateFormChange unsealDate 'defaultYMD'}}</span>
+                  <span><i class="imsr-icon icon-me0023" aria-hidden="true"></i>{{{commentCount}}}</span>
+                  <p class="info-content">{{{publicContent}}}</p>
+                </div>
+                {{/with}}
+              </div>
+            </div>
+          </a>
+        </div>
+        {{/each}}
+        <!-- //list-group-item -->
+      </div>
+      <!-- //list-group -->
+    </div>
+    <!--//row-->
+  </div>
+</template>

@@ -1,0 +1,92 @@
+<template name="imLoginbak">
+  <!-- content -->
+<div class="login-content h-scroll">
+  <div class="login-container">
+    <div class="login-head">
+      <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    </div>
+    <div class="login-title" style="margin-top:45px;">
+      <div class="title-box">
+        <span class="title">LOGIN</span>
+        <span><img src="/images/common/login_title.gif" alt=""/></span>
+      </div>
+    </div>
+    <!-- login-body -->
+    <div class="login-body">
+      <!-- login-box -->
+      <div class="login-box" >
+        <!-- box-body -->
+        <div class="box-body">
+          <!-- row -->
+          <div class="row">
+            <div class="col-xs-2">아이디</div>
+            <div class="col-xs-10">
+              <input type="text" id="userId" style="width:100%;"/>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row">
+            <div class="col-xs-2">비밀번호</div>
+            <div class="col-xs-10">
+              <input type="password" id="password" style="width:100%;"/>
+            </div>
+          </div>
+          <!-- //row -->
+
+          <!-- 임시 -->
+          <!-- <div class="row">
+            <div class="col-xs-2">회원코드</div>
+            <div class="col-xs-10">
+              <input type="text" id="accessCode" style="width:100%;"/>
+            </div>
+          </div> -->
+
+          <!-- row -->
+          <div class="row find" style="margin-top:15px;">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-10">
+              <span>아이디 또는 비밀번호를 잊으셨나요?</span>
+              <a href="javascript:void(0)" name="findId">아이디 찾기</a>/
+              <a href="javascript:void(0)" name="findPw">비밀번호 찾기</a>
+            </div>
+          </div>
+          <!-- //row -->
+
+
+        </div>
+      </div>
+      <!-- //login-box -->
+    </div>
+    <!-- //login-body -->
+
+    <!-- login-btn-group -->
+    <div class="login-btn-group" >
+      <!-- <a href="javascript:void(0)" class="login-btn" id="btnJoin">회원가입(임시)</a> -->
+      <a href="javascript:void(0)" class="login-btn" id="btnLogin">로그인</a>
+    </div>
+
+    <!-- //login-btn-group -->
+    <div class="login-info">
+      <span>회원이 아니신가요?</span>
+      <!-- <a href="/register">지금 가입하세요.</a> -->
+      <a href="javascript:void(0)" class="login-btn" id="btnJoin">회원가입</a>
+      <div class="">
+        <span>가입코드</span>
+        <input type="password" id="joininpass" style="width:100px;"/>
+      </div>
+    </div>
+    <!-- 임시 화면입니다 삭제 예정 입니다. -->
+    <!-- <div class="box-body">
+      <div class="row">
+        <div class="col-xs-2">가입비번</div>
+        <div class="col-xs-5">
+          <input type="text" id="joininpass" style="width:100%;"/>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+</div>
+  <!-- //content -->
+</template>

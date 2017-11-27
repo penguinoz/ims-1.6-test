@@ -1,0 +1,105 @@
+<!-- 나는 > 글쓰기(추억작성) -->
+<template name="bucketStoryWriting">
+  <div class="modal-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">버키스토리 등록</h4>
+  </div>
+  <div class="modal-body search_add_wrap">
+  <!-- content -->
+    <div class="content h-scroll hr-scroll">
+      <!-- container -->
+      <div class="container-fluid detail-container nobd">
+        <!-- row -->
+        <div class="row detail-article nobd">
+          <!-- list-group-item -->
+          <div class="detail-group">
+              <div class="media-body detail-subject">
+                <div class="row nopm">
+                </div>
+                <form id="custom-comment-form" class="form-comment form-horizontal ">
+                  <div class="form-comment-box ">
+                    <input type="text" class="" id="meTitle" placeholder="제목을 입력하세요." value=""
+                    title="제목을 입력하세요." required="true" />
+                  </div>
+                </form>
+              </div>
+          </div>
+          <!-- //list-group-item -->
+          <!-- panel -->
+          <div class="panel panel-default im-write">
+            <!-- panel-body -->
+            <div class="panel-body">
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-2 text-right">
+                  <span class="calendar-label">추억일</span>
+                </div>
+                <div class="col-xs-4">
+                  <div class="text-right calendar-box">
+                {{> singleCalendar id="my-datepicker1" required=true drop='down'}}
+                  </div>
+                </div>
+              </div>
+              <!-- //row -->
+              <div class="editor-content">
+                  {{> froalaReactive hpGetContext}}
+              </div>
+              <div class="tag">
+                <ul id="tagUlList">
+                  <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+                </ul>
+              </div>
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- panel -->
+        </div>
+        <!-- //row -->
+      </div>
+      <!-- //container -->
+      <!-- row -->
+      <!-- <div class="row">
+        <div class="input-group">
+            <div class="checkbox">
+              <input type="checkbox" id="chkMoveToIm">
+              <label for="chkMoveToIm"></label>
+            </div>
+            <span>작성한 글을 '나는'으로 이동합니다.</span>
+        </div>
+      </div> -->
+      <!-- //row -->
+    </div>
+    <!-- //content -->
+
+    <!-- btn-group -->
+    <!-- <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+        </div>
+      </div>
+    </div> -->
+    <!-- //btn-group -->
+  </div>
+  <div class="modal-footer">
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+        </div>
+      </div>
+    </div>
+      <!-- <div class="pull-left">
+      </div>
+      <div class="pull-right">
+      </div> -->
+    </div>
+</template>

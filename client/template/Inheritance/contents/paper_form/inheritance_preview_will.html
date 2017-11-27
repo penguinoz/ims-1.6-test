@@ -1,0 +1,212 @@
+<!-- 유언장 미리보기 -->
+<template name="inheritancePreviewWill">
+  {{#with hpGetMyInfo}}
+  <!-- modal-header -->
+  <div class="modal-header pop-header funeral">
+    <h1 class="modal-title"><span>{{../title}}</span></h1>
+    <a class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round"></i></a>
+    <div class="btn-set">
+      <a href="{{g_bucketPath}}ims_common/%EC%9C%A0%EC%96%B8%EC%9E%A5%EC%96%91%EC%8B%9D.pdf" download><i class="ion-archive"></i></a>
+      <!-- <a href="javascript:void(0)"><i class="ion-printer"></i></a> -->
+    </div>
+  </div>
+  <!-- //modal-header -->
+  <!-- modal-body -->
+  <div class="modal-body funeral">
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table type-cols">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="10%"/>
+          <col width="40%"/>
+          <col width="10%"/>
+          <col width="*"/>
+        </colgroup>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <th>유언자</th>
+            <td><span class="big"></span></td>
+            <th>생년월일</th>
+            <td></td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th>주소</th>
+            <td colspan="3">{{hpGetMyInfo.profile.address}}</td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+    <p>유언자 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  은 본 유언장에 따라 다음과 같이 유언 한다.</p>
+
+    <h2>I. 유언자 <span class="strong-underline"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>과 상속인들과의 관계는 아래와 같다.</h2>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table type-center">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="10%"/>
+          <col width="10%"/>
+          <col width="17%"/>
+          <col width="20%"/>
+          <col width="*"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>관계</th>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>주민번호</th>
+            <th>주소</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- tr -->
+          {{#each hpGetInheritanceUsers}}
+          <tr>
+            <td>&nbsp;</td>
+            <td>{{profile.name}}</td>
+            <td>{{profile.mobile}}</td>
+            <td>&nbsp;</td>
+            <td>{{profile.address}}</td>
+          </tr>
+          {{/each}}
+          <!-- //tr -->
+          <!-- tr -->
+
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>II. 유언자 <span class="strong-underline"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>은 아래와 같이 상속한다</h2>
+    <div class="line-box">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+                                              <!-- {{#each hpGetInheritanceUsers}}
+                                              <p>({{ hpIncrementedIndex @index}}) 본인의&nbsp; ______ &nbsp;<span class="strong-underline">{{this.profile.name}}</span>에게 아래의 재산을 상속한다.</p> -->
+                                              <!-- inh-modal-table -->
+                                              <!-- <div class="inh-modal-table type-center mt10"> -->
+                                                <!-- table -->
+                                                <!-- {{#each asset}}
+                                                <table summary="">
+                                                  <colgroup>
+                                                    <col width="20%"/>
+                                                    <col width="*"/>
+                                                    <col width="20%"/>
+                                                  </colgroup>
+                                                  <thead>
+                                                    <tr>
+                                                      <th>자산명</th>
+                                                      <th>자산내용</th>
+                                                      <th>지분율</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody> -->
+                                                    <!-- tr -->
+                                                    <!-- <tr>
+                                                      <td>{{this.title}}</td>
+                                                      <td class="asset-data">
+                                                        {{this.content}}
+                                                      </td>
+                                                      <td>{{this.share}}%</td>
+                                                    </tr> -->
+                                                    <!-- //tr -->
+                                                  <!-- </tbody>
+                                                </table> -->
+                                                <!-- {{/each}} -->
+                                                <!-- //table -->
+                                              <!-- </div>
+                                              {{/each}} -->
+    <!-- //inh-modal-table -->
+
+    <h2>III. 유언자 <span class="strong-underline"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>은 아래와 같이 기부한다.</h2>
+    <div class="line-box">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+
+    <h2>IV. 본 유언의 집행자로 아래 분을 유언집행인으로 선임한다</h2>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table type-trans">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="20%"/>
+          <col width="*"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>주민번호</th>
+            <th>주소</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+          </tr>
+          <tr>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>V. 그 외 남기고 싶은 말</h2>
+    <div class="line-box">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+    <p class="mt20">본 유언은 <span class="strong-underline"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span> 본인이 작성한 것을 명확히 하기 위해 직접 자필로 작성하고 서명날인한다.</p>
+  </div>
+  <!-- modal-footer -->
+  <div class="modal-footer">
+    <div class="sign-box">
+      <p><span class="label">작성일자</span>:<strong>{{hpGetTodate}} </strong></p>
+      <p><span class="label">주민번호</span>:<strong></strong></p>
+      <p><span class="label">주소</span>:<strong>{{profile.address}} </strong></p>
+      <p><span class="label">유언자</span>:<strong class="big"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </strong><span class="sign">(인)</span></p>
+    </div>
+  </div>
+  {{> modalHandler}}
+  <!-- //modal-footer -->
+  {{/with}}
+</template>
+
+<template name="modalHandler">
+  <!-- 모달창 backdrop의 height를 업데이트 하기위해 생성한 탬플릿 -->
+</template>

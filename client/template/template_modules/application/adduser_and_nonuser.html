@@ -1,0 +1,121 @@
+<template name="adduserAndNonuser">
+
+  <div class="container-fluid detail-container">
+    <ul class="nav nav-pills nav-detail">
+      <li class="active col-xs-3"><a data-toggle="pill" href="#choseFromList">목록에서 선택</a></li>
+      <li class="col-xs-3"><a data-toggle="pill" href="#selfInsert">직접 입력</a></li>
+    </ul>
+    <!-- tab-content -->
+    <div class="tab-content">
+      <!-- tab-pane -->
+      <div id="choseFromList" class="tab-pane fade in active">
+        그룹<select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option >전체</option>
+          {{#each hpGroupList}}
+          <option >{{this}}</option>
+          {{/each}}
+        </select>
+        <input type="text" id="searchKeyword">
+        <button id="searchBt">검색</button>
+        <div id="friendList">
+          <table id="grid" class="table table-striped table-hover" data-toolbar="#toolbargrid" data-pagination="true" data-search="true">
+            <colgroup>
+              <col width="2%"/>
+              <col width="10%"/>
+              <col width="*"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-left" >
+                  <div class="th-inner sortable">
+                    <div class="checkbox" id="tableCheckBt0">
+                      <input type="checkbox" id="tableCheck0">
+                      <label for="tableCheck0"></label>
+                    </div>
+                  </div>
+                  <div class="fht-cell"></div>
+                </th>
+                <th class="text-left" >
+                  <div class="th-inner sortable">그룹</div>
+                  <div class="fht-cell"></div>
+                </th>
+                <th class="text-left" >
+                  <div class="th-inner sortable">별명</div>
+                  <div class="fht-cell"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each hpFriendList }}
+              <tr data-index="{{@index}}">
+                <td class="text-left" id="checkboxDiv">
+                  <div class="checkbox" >
+                    {{#if isGroupMem this.groupMember }}
+                      {{#if hpHaveMsgUser this.groupMember}}
+                        <input type="checkbox" id="groupCheck_{{@index}}" name="inputCheck" disabled checked >
+                      {{else}}
+                        <input type="checkbox" id="groupCheck_{{@index}}" name="inputCheck" checked>
+                      {{/if}}
+                    {{else}}
+                    <input type="checkbox" id="groupCheck_{{@index}}" name="inputCheck" >
+                    {{/if}}
+
+                    <label for="groupCheck_{{@index}}"></label>
+                  </div>
+                </td>
+                <td class="text-left" >{{this.groupName}}</td>
+                <td class="text-left" >{{g_getNickName this.groupMember}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- tab-pane -->
+      <!-- //tab-pane -->
+      <div id="selfInsert" class="tab-pane fade">
+        *타임캡슐의 수신인 정보를 입력해주세요.<br>
+        이름 <input type="text" id="nonUserName" /><br>
+        이메일 <input type="text" id="nonUserEmail" /> <button id="saveFriendBt">추가</button>
+        <div>
+          <table id="grid" class="table table-striped table-hover" data-toolbar="#toolbargrid" data-pagination="true" data-search="true">
+            <colgroup>
+              <col width="2%"/>
+              <col width="10%"/>
+              <col width="*"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-left" >
+                  <div class="th-inner sortable">이름</div>
+                  <div class="fht-cell"></div>
+                </th>
+                <th class="text-left" >
+                  <div class="th-inner sortable">이메일</div>
+                  <div class="fht-cell"></div>
+                </th>
+                <th class="text-left" >
+                  <div class="th-inner sortable"></div>
+                  <div class="fht-cell"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each hpNonGroupFriendList}}
+              <tr data-index="{{@index}}">
+                <td class="text-left" >{{nonUserName}}</td>
+                <td class="text-left" >{{nonUserEmail}}</td>
+                <td class="text-left" ><button id="delFriendBt">삭제</button></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- tab-pane -->
+    </div>
+    <!-- //tab-content -->
+    <button id="saveClose">저장</button>
+    <button id="cancelClose">취소</button>
+  </div>
+</template>

@@ -1,0 +1,27 @@
+<template name="addFilePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">파일첨부</h4>
+  </div>
+  <div class="modal-body">
+    <div class="fileSet" id="fileSet" name="fileSet">
+      <input type="text" class="fileSetText" id="inputText" name="inputText" readonly/>
+      <input type="file" id="inputFile" name="inputFile" style="display: none;" accept="image/*"/>
+      <!-- <input type="file" id="myPageuserImageFile" class="txtImageFile" style="display: none;" /> -->
+      <a href="javascript:document.getElementById('inputFile').click();" class="mypage-btn inner" >파일찾기</a>
+      <div class="fileSetInfo">
+        파일당 최대 10M까지 등록할 수 있습니다.
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="confirm" role="button"><i class="imsr-icon icon-me0038"></i>확인</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

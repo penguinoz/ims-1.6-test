@@ -1,0 +1,23 @@
+<template name="ihLifeViewMap">
+  <div class='wrapper'>
+    <div class="content map h-scroll hl-scroll ">
+      <div class="lifeview-maincontent">
+        <span class="search-total">총 <strong>{{hpImages.imagesData.imageCount}}</strong>건</span>
+        <div class="checkbox">
+          <input type="checkbox" id="showPrivateData" checked>
+          <label for="showPrivateData"></label>
+        </div>
+        <span>비공개글 포함</span>
+        <div>
+        {{#if hpImages}}
+          {{> ihImageMap datas=hpImages}}
+        {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="ihImageMap">
+  <div class="map-container" id="ihLifeTraceMapPop"></div>
+</template>

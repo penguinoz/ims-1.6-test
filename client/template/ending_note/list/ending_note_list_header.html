@@ -1,0 +1,82 @@
+<template name="endingNoteListHeaderIm">
+<div class="ending_note_header">
+  <div class="row nopm">
+    <a href="javascript:void(0)" id="meMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-ti0001"></i></span>나는</h3></a>
+    <div class="ending_note_btn btn-group">
+      {{#if g_userAuth g_getPageOwnerId}}
+        {{#if hpWriteButton}}
+        <a class="imsr-tooltip2 btn-write {{#if selectedMenu 'writeEnding'}} active {{/if}}" href="javascript:void(0)" role="button" id="writeEnding" data-toggle="tooltip" title="글쓰기"><i class="imsr-icon icon-me0011"></i></a>
+        {{/if}}
+        <!-- <a class="imsr-tooltip2 btn-foot {{#if selectedMenu 'traceEnding'}} active {{/if}}" href="javascript:void(0)" role="button" id="traceEnding" data-toggle="tooltip" title="발자취"><i class="imsr-icon icon-me0012"></i></a> -->
+        <a class="imsr-tooltip2 btn-talktome {{#if selectedMenu 'talkToMeEnding'}} active {{/if}}" href="javascript:void(0)" role="button" id="talkToMeEnding" data-toggle="tooltip" title="톡투미"><i class="imsr-icon icon-me0013"></i></a>
+        <!-- <a class="imsr-tooltip2 btn-feel {{#if selectedMenu 'feelEnding'}} active {{/if}}" href="javascript:void(0)" role="button" id="feelEnding" data-toggle="tooltip" title="나랑"><i class="imsr-icon icon-me0014"></i></a> -->
+      {{/if}}
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="endingNoteListHeaderBucketList">
+<div class="ending_note_header type-buket">
+  <div class="row nopm">
+    <a href="javascript:void(0)" id="bucketMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-ti0002"></i></span>버킷리스트</h3></a>
+    <div class="ending_note_btn btn-group">
+      {{#if g_userAuth g_getPageOwnerId}}
+        {{#if hpWriteButton}}
+        <a class="imsr-tooltip2 btn-write {{#if selectedMenu 'writeEnding'}} active {{/if}}" href="javascript:void(0)" role="button" id="writeEnding" data-toggle="tooltip" title="글쓰기"><i class="imsr-icon icon-me0011"></i></a>
+        {{/if}}
+        <a class="imsr-tooltip2 btn-talktome {{#if selectedMenu 'bucketChart'}} active {{/if}}" href="javascript:void(0)" role="button" id="bucketChart" data-toggle="tooltip" title="통계"><i class="imsr-icon icon-bu0002"></i></a>
+      {{/if}}
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="endingNoteListHeaderTimeCapsule">
+<div class="ending_note_header type-timecapsul">
+  <div class="row nopm">
+    <a href="javascript:void(0)" id="timeMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-ti0003"></i></span>타임캡슐</h3></a>
+    <div class="ending_note_btn btn-group">
+      {{#if g_userAuth g_getPageOwnerId}}
+        {{#if hpWriteButton}}
+        <a class="imsr-tooltip2 btn-write {{#if selectedMenu 'capsuleWrite'}} active {{/if}}" href="javascript:void(0)" role="button" id="capsuleWrite" data-toggle="tooltip" title="글쓰기"><i class="imsr-icon icon-me0011"></i></a>
+        {{/if}}
+        <a class="imsr-tooltip2 btn-foot" href="javascript:void(0)" role="button" id="capsuleMap" data-toggle="tooltip" title="타임캡슐맵"><i class="imsr-icon icon-tc0001"></i></a>
+      {{/if}}
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="endingNoteListHeaderFuture">
+<div class="ending_note_header type-future">
+  <div class="row nopm">
+    <a href="javascript:void(0)" id="futureMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-ti0004"></i></span>미래는...</h3></a>
+  </div>
+</div>
+</template>
+
+<template name="endingNoteListHeadernotification">
+<div class="ending_note_header">
+  <div class="row nopm">
+    <a href="javascript:void(0)" id="futureMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-me0019"></i></span>알림</h3></a>
+  </div>
+</div>
+</template>
+
+<template name="endingNoteListHeaderSearch">
+<div class="ending_note_header type-search">
+  <div class="row nopm">
+
+    <a href="javascript:void(0)">
+      <h3 class="ending_note_titel">
+        {{#if g_isExist hpSearchText}}
+          '<span>{{hpSearchText}}</span>' 검색결과
+        {{else}}
+          '<span>전체 검색 결과</span>'
+        {{/if}}
+      </h3>
+    </a>
+  </div>
+</div>
+</template>

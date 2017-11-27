@@ -1,0 +1,46 @@
+<!-- 마이페이지 메뉴(왼쪽) -->
+<template name="myPageMenu">
+  <h1>마이페이지</h1>
+  <!-- section-gnbHead -->
+  <section class="section-gnbHead">
+    <div class="mypage-properties">
+      <div class="customer-content">
+        <div class="customer-imgblur"></div>
+        <div class="customer-imgdim"></div>
+        <div class="customer-img">
+          <div class="img-circle">
+            {{#if g_refreash}}
+              <img src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}"/>
+            {{else}}
+              <img src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}"/>
+            {{/if}}
+          </div>
+          <p class="user-name"><strong>{{g_getNickName g_getPageOwnerId}}</strong>님</p>
+        </div>
+        <!-- <a href="javascript:void(0)" class="mypage-setting"><i class="imsr-icon icon-my0001"></i></a> -->
+      </div>
+    </div>
+    <ul class="mypage-gnb-menu">
+      <li class="{{hpActive 'like'}}"><a href="javascript:void(0)" name="like"><span>좋아요</span></a></li>
+      <li class="{{hpActive 'comment'}}"><a href="javascript:void(0)" name="comment"><span>댓글</span></a></li>
+      <li class="{{hpActive 'favorite'}}"><a href="javascript:void(0)" name="favorite"><span>즐겨찾기</span></a></li>
+      <li class="{{hpActive 'follow'}}"><a href="javascript:void(0)" name="follow"><span>따라하기</span></a></li>
+      <li class="{{hpActive 'message'}}"><a href="javascript:void(0)" name="message"><span>쪽지함</span></a></li>
+    <li class="line"></li>
+      <!-- <li class="{{hpActive 'profileVerify'}}"><a href="javascript:void(0)" name="profileVerify"><span>회원정보 관리(로그인)</span></a></li> -->
+      <li class="{{hpActive 'profile'}}"><a href="javascript:void(0)" name="profileVerify"><span>회원정보 관리</span></a></li>
+      <li class="{{hpActive 'friend'}}"><a href="javascript:void(0)" name="friend"><span>친구관리</span></a></li>
+      <li class="{{hpActive 'invite'}}"><a href="javascript:void(0)" name="invite"><span>초대하기</span></a></li>
+    <li class="line"></li>
+      <li class="{{hpActive 'insertCode'}}"><a href="javascript:void(0)" name="insertCode"><span>수신정보 확인</span></a></li>
+    </ul>
+  </section>
+  <div class="slide-container-footer corp-info">
+    <p><strong>유한회사 더푸르츠</strong></p>
+    <p><strong>사업자번호</strong> : 780-81-00202 </p>
+    <p><strong>이메일</strong> : supporter@itsmystory.com</p>
+    <p><strong>전화번호</strong> : 02-2282-7377</p>
+    <p class="privacy-policy" ><strong data-modal-template='imPrivacyPolicyPopup'>개인정보 취급방침</strong></p>
+  </div>
+  <!-- //section-gnbHead -->
+</template>

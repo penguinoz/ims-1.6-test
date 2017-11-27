@@ -1,0 +1,105 @@
+<!-- 나는 > im -->
+<template name="imMe">
+<div class="content h-scroll hr-scroll">
+  {{#unless hpIsInherit}}
+  <!-- row -->
+  <div class="row content-head">
+    <h4 class="text-right"><i class="title-icon imsr-icon icon-me0013"></i>에 등록된 정보는 다른 회원들에게 <span class="title-color">공개되지 않습니다.</span><i class="icon lock gry" style="margin-top:-3px;"></i></h4>
+  </div>
+  {{/unless}}
+  <!-- //row -->
+  <!-- row -->
+  <div class="row">
+    <ul id="ulTalkToMe" class="list-group im-qna">
+      {{#each hpTalkToMeList}}
+        {{> talkToMeList data=this isInherit=hpIsInherit}}
+      {{/each}}
+    </ul>
+  </div>
+  <!-- //row -->
+</div>
+<!-- //content -->
+</template>
+<!-- 삭제 가능 영역 테스트용 end -->
+
+<!-- 질문/답변 개별 영역 -->
+<template name="talkToMeList">
+  <li class="list-group-item {{#if hpSelected data._id}} active {{/if}}">
+
+  <!-- 질문영역 START -->
+      <div id="{{data._id}}" name="questionHeader" class="row toggle im-question">
+          <div class="col-xs-6 nopm">
+              {{hpQuestionTitle data}}
+          </div>
+          <div class="col-xs-6 nopm text-right">
+            <span class="answer_txt">
+              {{hpAnswerArray data}}
+            </span>
+          </div>
+      </div>
+  <!-- 질문영역 END -->
+
+  <!-- 답변영역 START -->
+      <div class="im-answer">
+          <!-- row -->
+          <div class="row">
+            <div class="timeline-centered">
+              <article class="timeline-entry">
+                <!-- timeline-entry-answer -->
+                <div class="timeline-entry-answer">
+                  <div class="timeline-icon {{#if isInherit}}inherit{{/if}}" >
+                    <i class="icon-meanswer"></i>
+                  </div>
+                  <form id="timeline-answer-form" class="form-timeline" onsubmit="return false">
+                    {{#unless isInherit}}
+                    <div class="form-comment-box">
+                      <input type="text" class="timeline-query" placeholder="답변을 입력하세요" id="keywordText" autocomplete="off" title="글을 입력하세요.">
+                      <a href="javascript:void()" class="btn-search" id="keywordClick"><i class="glyphicon glyphicon-pencil"></i></a>
+                    </div>
+                    {{/unless}}
+                  </form>
+                </div>
+                {{#unless isInherit}}
+                <div class="text-right nopm timeline-entryinfo"><a href="javascript:void(0)">같은 답 회원수</a>/<a href="javascript:void(0)" class="my-word">내글수</a></div>
+                {{/unless}}
+                <!-- timeline-entry-answer -->
+                <!-- timeline-entry-inner -->
+                {{#each data.answer}}
+                  {{> answerEntry data=this isInherit=../isInherit}}
+                {{/each}}
+                <!-- //timeline-entry-inner -->
+              </article>
+            </div>
+          </div>
+          <!-- //row -->
+      </div>
+  </li>
+
+</template>
+
+<!-- 각 답변 항목 템플릿 -->
+<template name="answerEntry">
+  <!-- <div class="timeline-entry-inner "> -->
+  <div class="timeline-entry-inner {{#if hpSelectUpdate data.uid}} timeline-write {{/if}}">
+    <time class="timeline-time text-left" datetime={{data.updateDate}}><span>{{hpRegDate}}</span></time>
+    <div class="timeline-icon bg-success">
+      <i class="entypo-feather"></i>
+    </div>
+    <div class="timeline-label">
+      {{#if hpSelectUpdate data.uid}}
+        <p><textarea type="text" class="" placeholder="" style="width:30px" value={{data.value}} id="txtValue"></textarea></p>
+      {{else}}
+        <p>{{data.value}}</p>
+      {{/if}}
+    </div>
+    {{#unless isInherit}}
+    <div class="timeline-btn">
+      <a href="javascript:void(0)" id="btnUpdate" class="btn-timeLine btn-add"></a>
+      <a href="javascript:void(0)" id="btnDelete" class="btn-timeLine btn-delete"></a>
+    </div>
+    <div class="timeline-total text-right">
+        <span>{{data.sameAnswerUserCount}}/</span><a href="javascript:void(0)" id="lnkMemListCnt">{{data.memoryListCount}}</a>
+    </div>
+    {{/unless}}
+  </div>
+</template>

@@ -1,0 +1,23 @@
+<template name="timelineQnaList">
+  {{#if hpCollection}}
+    <article class="timeline-entry">
+      <!-- timeline-entry-inner -->
+      <div class="timeline-entry-inner timeline-write">
+        <div class="timeline-question">
+          <div class="timeline-label">
+              <h4>질문에대한 연관자들 리스트</h4>
+          </div>
+        </div>
+        <div class="timeline-icon bg-success">
+          <i class="glyphicon glyphicon-bell"></i>
+        </div>
+        <div class="timeline-answer">
+          <div class="timeline-label">
+
+          </div>
+        </div>
+      </div>
+      <!-- //timeline-entry-inner -->
+    </article>
+  {{/if}}
+</template>

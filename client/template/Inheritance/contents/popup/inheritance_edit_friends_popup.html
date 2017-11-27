@@ -1,0 +1,62 @@
+<!-- 친구 정보 수정 (비회원 정보수정)-->
+<template name="inheritanceEditFriendsPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body">
+    <!-- tab-pane -->
+    <div id="selfInsert" >
+      <div>*상속인 정보를 수정해주세요.</div>
+      <!-- row -->
+      <div class="user-form-container">
+        <!-- col -->
+        {{#with hpNoneUserInfo}}
+        <div class="user-info">
+          <div class="user-pic"><img id="profileImg" src="{{g_getProfileImgByPath image 'thumb'}}" art=""/></div>
+          <input type="file" id="userImageFile" class="txtImageFile" style="display: none;" />
+          <a href="javascript:document.getElementById('userImageFile').click();">업로드</a>
+        </div>
+        <!-- //col -->
+        <!-- col -->
+        <div class="user-form">
+          <!-- form-group -->
+          <div class="form-group">
+            <label class="control-label" for="nonUserName">이름</label>
+            <div class="form-input" style="width:110px;"><input id="nonUserName" name="nonUserName" type="text" placeholder="" value="{{name}}"/></div>
+          </div>
+          <!-- //form-group -->
+          <!-- form-group -->
+          <div class="form-group">
+            <label class="control-label" for="nonUserEmail">이메일</label>
+            <div class="form-input" style="width:200px;"><input id="nonUserEmail" name="nonUserEmail" type="text" placeholder="" value="{{eMail}}"/></div>
+          </div>
+          <!-- //form-group -->
+          <!-- form-group -->
+          <!-- <div class="form-group">
+            <label class="control-label" for="nonUserTel">전화번호</label>
+            <div class="form-input" style="width:110px;"><input id="nonUserTel" name="nonUserTel" type="text" placeholder="" /></div>
+          </div> -->
+          <!-- //form-group -->
+        </div>
+        {{/with}}
+        <!-- //col -->
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //tab-pane -->
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id="cancel" role="button">취소</a>
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="save" role="button"><i class="imsr-icon icon-me0038"></i>확인</a>
+
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

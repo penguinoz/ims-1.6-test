@@ -1,0 +1,23 @@
+<!-- 상속받은 내역 상세보기 -->
+<template name="inheritanceListLastLetter">
+{{#with hpLastLetter}}
+  <div class="item-content lastletter">
+    <div class="letter-head"><span class="italic bold">To.</span>
+      <span class="name-to">
+        {{#if hpIsImsUser name}}
+          {{name}}
+        {{else}}
+          {{g_getNickName inheritorId}}
+        {{/if}}
+      </span></div>
+    <div class="letter-main" name="froalaEditor" contenteditable="false">
+      {{> froalaReactive hpGetContext}} <br/>
+      <br/>
+    </div>
+    <div class="letter-foot text-right">
+      <p class="date">2017년 10월 01일</p>
+      <p class="from-name"><span class="italic bold">From.</span> {{g_getNickName userId}}</p>
+    </div>
+  </div>
+  {{/with}}
+</template>

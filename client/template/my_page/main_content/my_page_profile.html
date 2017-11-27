@@ -1,0 +1,335 @@
+<!-- 마이페이지 > 회원정보관리 -->
+<template name="myPageProfile">
+    <div class="h-scroll hi-scroll">
+      <!-- mypage-title -->
+      <div class="mypage-title">
+        <h2>회원정보 관리</h2>
+      </div>
+      <!-- mypage-title -->
+      <!-- content -->
+      <div class="content">
+        <div class="ui-tabs">
+          <ul class="nav nav-pills nav-detail">
+            <li class="active"><a data-toggle="pill" href="#profile">프로필관리</a></li>
+            <li class=""><a data-toggle="pill" href="#changePass">비밀번호 변경</a></li>
+            <!-- <li class=""><a data-toggle="pill" href="#changeMem">맴버십변경</a></li> -->
+            <!-- <li class=""><a data-toggle="pill" href="#dropOut">탈퇴</a></li> -->
+          </ul>
+        </div>
+        <div class="tab-content inner">
+          <!-- tab-pane -->
+          <div id="profile" class="tab-pane fade in active">
+            <div class="mypage-form">
+              {{#with hpCollection}}
+                <div class="row text-right">
+                    <span class="mandatory">*</span>는 필수 사항입니다.
+                </div>
+                <!-- row -->
+                <div class="row {{#with hpNickCheck}} {{this}} {{/with}}">
+                  <div class="col-xs-2"><span class="mandatory">*</span>별명</div>
+                  <div class="col-xs-10 error-check">
+                    <div class="input-article icon-style" >
+                      <input type="text" placeholder="서비스에서 사용 할 별명을 입력하세요" name="nickName" value="{{this.profile.nickName}}" style="width:410px;"/>
+                      <a href="javascript:void(0)" class="mypage-btn inner" name="nickNameCheck">
+                        중복확인
+                      </a>
+                    </div>
+                    <p class="{{#with hpNickCheck}} {{this}} {{/with}}">{{hpNickNameCheck}}</p>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2"><span class="mandatory">*</span>이름</div>
+                  <div class="col-xs-10">
+                    <div class="input-article" >
+                      <input type="text" placeholder="" name="name" value="{{this.profile.name}}" style="width:410px;" disabled/>
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2"><span class="mandatory">*</span>성별</div>
+                  <div class="col-xs-10">
+                    <div class="radio-group">
+                      <label><input type="radio" name='sex' value="M" /><span class="w2label">남자</span></label>
+                      <label><input type="radio" name='sex' value="F" /><span class="w2label">여자</span></label>
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2"><span class="mandatory">*</span>생일</div>
+                  <div class="col-xs-3">
+                    <div class="radio-group">
+                      <label><input type="radio" name='month' value="solar" /><span class="w2label">양력</span></label>
+                      <label><input type="radio" name='month' value="lunar" /><span class="w2label">음력</span></label>
+                    </div>
+                  </div>
+                  <div class="col-xs-7">
+                    <div class="text-left calendar-box">
+                      {{> singleCalendar id="birthday" name="birthday" value=this.profile.birthday.date required=true drop='down' maxDate='true'}}
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2"><span class="mandatory">*</span>이메일</div>
+                  <div class="col-xs-10">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <input type="text" placeholder="" name="email-first" value="{{g_emailCut hpEmailChange 'first'}}" style="width:100%;"/>
+                      </div>
+                      <span class="fl">@</span>
+                      <div class="col-xs-4">
+                        <input type="text" placeholder="" name="email-last" value="{{g_emailCut hpEmailChange 'last'}}" style="width:100%;"/>
+                      </div>
+                      <div class="col-xs-2">
+                        <div class="select-group fl" style="width:150px;">
+                          <select class="selectpicker" data-width="100%" name="emailSelect">
+                            <option value="">직접입력</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="gmail.net">gmail.net</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2">휴대폰 번호</div>
+                  <div class="col-xs-10">
+                    <div class="input-article icon-style" >
+                      <input type="text" placeholder="'-'없이 정확하게 입력해주세요." name="mobile" value="{{this.profile.mobile}}" style="width:410px;"/>
+                      <!-- <a href="javascript:void(0)" class="mypage-btn inner">본인인증</a> -->
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2">가입경로</div>
+                  <div class="col-xs-10">
+                    <div class="select-group" style="width:410px;">
+                      <select class="selectpicker" data-width="100%" name="joinRoute" value="{{this.profile.joinRoute}}">
+                        <option value="">선택하세요.</option>
+                        <option {{g_selected this.profile.joinRoute 'friend'}} value="friend">친구추천</option>
+                        <option {{g_selected this.profile.joinRoute 'internet'}} value="internet">인터넷광고</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2">프로필 사진</div>
+                  <div class="col-xs-10">
+                    <div class="profile-group">
+                      <img id="profileImg" src="{{g_getProfileImgByPath this.profile.profileImg 'thumb'}}" alt=""/>
+                      <input type="file" id="myPageuserImageFile" class="txtImageFile" style="display: none;" />
+                      <a href="javascript:document.getElementById('myPageuserImageFile').click();" class="mypage-btn inner">찾아보기</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- row -->
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2">자기소개</div>
+                  <div class="col-xs-10">
+                    <input type="text" placeholder="" name="introduction" value="{{this.profile.introduction}}" style="width:410px;"/>
+                  </div>
+                </div>
+                <!-- row -->
+              {{/with}}
+            </div>
+            <!-- mypage-content-btnSet -->
+            <div class="mypage-content-btnSet text-center mt30">
+              <!-- <a href="javascript:void(0)" class="mypage-cancle" name="cancel">취소</a> -->
+              <a href="javascript:void(0)" class="mypage-add" name="profileSave">저장</a>
+            </div>
+            <!-- //mypage-content-btnSet -->
+          </div>
+          <!-- //tab-pane -->
+          <!-- tab-pane -->
+          <div id="changePass" class="tab-pane fade in">
+            <!-- mypage-form -->
+            <div class="mypage-form">
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">현재 비밀번호</div>
+                <div class="col-xs-10">
+                    <input class="password" type="password" placeholder="현재 비밀번호" name="oldPassword" style="width:410px;"/>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">신규 비밀번호</div>
+                <div class="col-xs-10">
+                    <input class="password" type="password" placeholder="영문, 숫자 8자 이상입력" name="newPassword1" style="width:410px;"/>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">비밀번호 확인</div>
+                <div class="col-xs-10">
+                    <input class="password" type="password" placeholder="비밀번호 재확인" name="newPassword2" style="width:410px;"/>
+                </div>
+              </div>
+              <!-- row -->
+            </div>
+            <!-- //mypage-form -->
+            <!-- mypage-content-btnSet -->
+            <div class="mypage-content-btnSet text-center mt30">
+              <!-- <a href="javascript:void(0)" class="mypage-cancle" name="cancel">취소</a> -->
+              <a href="javascript:void(0)" class="mypage-add" name="passwordChangeSave">저장</a>
+            </div>
+            <!-- //mypage-content-btnSet -->
+          </div>
+          <!-- //tab-pane -->
+          <!-- tab-pane -->
+          <div id="changeMem" class="tab-pane fade in">
+            <!-- mypage-form -->
+            <div class="mypage-form full">
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-12">현재 멤버십</div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <!-- now-membership -->
+                  <div class="row now membership nopm">
+                    <div class="col-xs-3 title">
+                      <div class="title-txt">그린</div>
+                    </div>
+                    <div class="col-xs-9">
+                      <div class="membership-content">
+                        <div class="row">
+                          <label class="col-xs-3">멤버십 가입일</label>
+                          <div class="col-xs-9">2017.06.20</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-3">결재일</label>
+                          <div class="col-xs-9">매월 1일</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-3">결재정보</label>
+                          <div class="col-xs-9">
+                            <span>신한카드 1234-****-****-***3</span>
+                            <a href="javascript:void(0)" class="mypage-btn inner" >결재정보 변경</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- //now-membership -->
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-12">변경 할 멤버십을 선택하세요.</div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <!-- now-membership -->
+                  <div class="row change membership nopm">
+                    <div class="col-xs-3 title">
+                      <div class="title-txt">
+                        화이트
+                        <p>
+                          <a href="javascript:void(0)" class="mypage-btn selected" >선택</a>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-xs-9">
+                      <div class="membership-content text">
+                        <div class="row">
+                          <div class="col-xs-12">
+                          <p>이 멤버십으로 변경 시 컨텐츠 작성 기능이 모두 제한되고 기존에 작성한 컨텐츠를 포함한 모든 컨텐츠의 조회만 가능합니다.</p>
+                          <p>변경 신청 시 익월부터 변경된 멤버십 정책이 적용되며, 기 결재한 회비는 환불되지 않습니다.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- //now-membership -->
+                </div>
+              </div>
+              <!-- row -->
+            </div>
+            <!-- mypage-content-btnSet -->
+            <div class="mypage-content-btnSet text-center mt30">
+              <a href="javascript:void(0)" class="mypage-add" name="save">변경신청</a>
+            </div>
+            <!-- //mypage-content-btnSet -->
+          </div>
+          <!-- //tab-pane -->
+          <!-- tab-pane -->
+          <div id="dropOut" class="tab-pane fade in">
+            <!-- mypage-form -->
+            <div class="mypage-form">
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">현재 비밀번호</div>
+                <div class="col-xs-10">
+                    <input type="password" placeholder="" id="" name="passwordCheck" style="width:410px;"/>
+                </div>
+              </div>
+              <!-- row -->
+
+
+
+
+              <!-- 이메일 인증 -->
+
+
+
+
+              <!-- <div class="row">
+                <div class="col-xs-2">추가인증</div>
+                <div class="col-xs-10">
+                  <div class="radio-group fl">
+                    <label><input type="radio" name='groupRadio3' value="selphone" checked/><span class="w2label">휴대폰 인증</span></label>
+                    <label><input type="radio" name='groupRadio3' value="iphone" /><span class="w2label">아이폰 인증</span></label>
+                  </div>
+                  <a href="javascript:void(0)" class="mypage-btn inner" >본인인증</a>
+                </div>
+              </div> -->
+
+            </div>
+            <!-- mypage-form -->
+            <!-- <div class="mypage-form full">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="dropout-info">
+                    <p>탈퇴 시 그동안 It’s My Story에서 작성하신 데이터 또한 모두 삭제됩니다.</p>
+                    <p>필요하신 데이터는 미리 별도로 백업하시기 바랍니다.</p>
+                    <p>정말 탈퇴하시겠습니까?</p>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- //mypage-form -->
+            <!-- mypage-content-btnSet -->
+            <div class="mypage-content-btnSet text-center mt30">
+              <a href="javascript:void(0)" class="mypage-cancle" name="cancel">취소</a>
+              <a href="javascript:void(0)" class="mypage-add" name="leave" data-modal-template='myPageLeavePopup'>탈퇴신청</a>
+            </div>
+            <!-- //mypage-content-btnSet -->
+          </div>
+          <!-- //tab-pane -->
+        </div>
+      </div>
+    </div>
+</template>

@@ -1,0 +1,22 @@
+<!-- 마이페이지 메인-->
+<template name="myPageMain">
+  <!-- 좌측 매뉴 -->
+  <!-- container -->
+  <div class="mypage-content">
+    <!-- my-gnb -->
+    <div class="mypage-gnb">
+      {{> myPageMenu}}
+    </div>
+    <!-- //my-gnb -->
+    <!-- my-main -->
+    <div class="mypage-main">
+      {{>UI.dynamic template=hpTemplate.contentTmp data=hpTemplate.data}}
+    </div>
+    <!-- //my-main -->
+    <!-- //inh-history -->
+    <a id="closeInh" class="closeInh imsr-tooltip" href="javascript:void(0)" data-toggle="tooltip" title="닫기"><i class="ion-close"></i></a>
+  </div>
+
+  <!-- //container -->
+<!-- 좋아요/ 댓글/즐겨찾기/따라쟁이/쪽지함/회원관리/친구관리/초대하기(탬플릿 변환설정 - UI.Template사용)-->
+</template>

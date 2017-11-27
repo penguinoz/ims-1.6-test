@@ -1,0 +1,304 @@
+<!-- 사전장례의향서 -->
+<template name="inheritanceAdvanceFuneralForm">
+  <!-- modal-header -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+  <div class="modal-header pop-header funeral">
+    <h1 class="modal-title"><span>{{title}}</span></h1>
+    <p class="header-info">
+      나(<small>이름 :</small> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; )는 사망진단이 내려진 후 나를 위한 여러 장례의식과 절차가 내가 바라는 형식대로 치러지기를 원해 나의 뜻을 알리고자 이 사전장례의향서(事前葬禮意向書)를 작성한다.
+    </p>
+    <a class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round"></i></a>
+    <div class="btn-set">
+      <a href="{{g_bucketPath}}ims_common/%EC%82%AC%EC%A0%84%EC%9E%A5%EB%A1%80%EC%9D%98%ED%96%A5%EC%84%9C.pdf" download><i class="ion-archive"></i></a>
+      <!-- <a href="javascript:void(0)"><i class="ion-printer"></i></a> -->
+    </div>
+  </div>
+  <!-- //modal-header -->
+  <!-- modal-body -->
+  <div class="modal-body funeral" >
+    <div class="txt">나를 위한 여러 장례의식과 절차는 다음에 표시한대로 해 주기 바란다.</div>
+    <h2>I. 기본원칙</h2>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="20%"/>
+          <col width="*"/>
+          <col width="10%"/>
+        </colgroup>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">1.부고</th>
+            <td>1.1. 나의 죽음을 널리 알려 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>1.2. 나의 죽음을 알려야 할 사람에게만 알리기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td>1.3. 나의 죽음은 장례식을 치르고 난 후에 알려 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">2.장례식</th>
+            <td>2.1. 우리나라 장례문화를 바르게 이해하고 전통문화를 계승하는 차원에서 해주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>2.2. 나의 장례는 가급적 간소하게 치르기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td>2.3. 나의 장례는 가족과 친지들만이 모여 치르기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>II. 세부사항</h2>
+
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="20%"/>
+          <col width="*"/>
+          <col width="35%"/>
+          <col width="10%"/>
+        </colgroup>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <th rowspan="5">3.장례형식</th>
+            <td colspan="2">3.1. 전통(유교)식</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">3.2. 천주교식</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">3.3. 기독교식</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">3.4. 불교식</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">3.5. 기타 (III.기타에 명기)</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">4. 부의금 및 조화</th>
+            <td colspan="2">4.1. 관례에 따라 하기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">4.2. 부의금은 받지 않고 조화만 받는다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">4.3. 일체 받지 않기 바란다</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="2">5. 음식대접</th>
+            <td colspan="2">5.1. 음식 등을 잘 대접해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">5.2. 간단히 다과를 정성스럽게 대접해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="2">6. 염습</th>
+            <td colspan="2">6.1. 정해진 절차에 따라 해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">6.2. 하지 말기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">7. 수의</th>
+            <td colspan="2">7.1. 사회적인 위상에 맞는 전통 수의를 입혀주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">7.2. 검소한 전통 수의를 선택해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">7.3. 내가 평소에 즐겨 입던 옷으로 대신해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="2">8. 관</th>
+            <td colspan="2">8.1. 사회적인 위상에 맞는 관을 선택해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">8.2. 소박한 관을 선택해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="10">9. 시신처리</th>
+            <td colspan="2">9.1. 화장해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">9.2. 매장해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">9.3. 내가 이미 약정한대로 의학적 연구 및 활용 목적으로 기증하기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td rowspan="4">9.4. 화장할 경우 유골은 ?</td>
+            <td class="noline">9.4.1. 봉안장</td>
+            <td class="noline">&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>9.4.2. 자장</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>9.4.3. 해양장</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td>9.4.4. 기타 (III.기타에 명기)</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td rowspan="3">9.5. 매장하는 경우</td>
+            <td class="noline">9.5.1. 공원묘지</td>
+            <td class="noline">&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>9.5.2. 선산</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td>9.5.3. 기타 (III.기타에 명기)</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">10. 삼우재와 사구제</th>
+            <td colspan="2">10.1. 격식에 맞추어 모두 해 주기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">10.2. 가족끼리 추모하기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">10.3. 하지 말기 바란다.</td>
+            <td>&nbsp;</td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>V. 기타</h2>
+    <p>영정사진, 제단 장식, 배경음악 등에 대한 나의 의견.</p>
+    <div class="line-box">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <!-- modal-footer -->
+  <div class="modal-footer">
+    <div class="footer-txt">
+      이상은 장례의식과 절차에 대한 나의 바람이니 이를 꼭 따라 주기 바란다.
+    </div>
+    <div class="footer-sign">
+      <p>작성일 : <span>&nbsp;</span></p>
+      <p>작성자 : <span>(인)</span></p>
+    </div>
+  </div>
+  <!-- //modal-footer -->
+</template>

@@ -1,0 +1,184 @@
+<template name="register3">
+  <!-- content -->
+<div class="login-content join-content h-scroll">
+  <div class="login-container">
+    <div class="login-head">
+      <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    </div>
+    <div class="login-step">
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class="active"><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+    </div>
+    <div class="login-title">
+      <div class="title-box">
+        <span class="title">멤버쉽 선택</span>
+        <!-- <div class="sub-title">그린회원이 되시면 It‘s my Story의 <span class="black">전체 서비스</span>를 이용하실 수 있습니다.</div> -->
+        <div class="sub-title"></div>
+      </div>
+    </div>
+    <!-- login-body -->
+    <div class="login-body membership">
+      <!-- row -->
+      <div class="row">
+        <!-- col -->
+        <!-- 임시 col처리 -->
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6">
+          <!-- login-box -->
+          <div class="login-box tran {{#if hpActive 'white'}} active {{/if}}">
+            <div class="box-head">
+              <div class="radio-group">
+                <p class="name">화이트</p>
+                <p class="price">무료</p>
+                <p class="info">It’s my Story의 버킷리스트 및일부 서비스를 이용할 수 있습니다.</p>
+              </div>
+            </div>
+            <!-- box-body -->
+            <div class="box-body">
+              <!-- box-body -->
+              <div class="box-body-head">
+                서비스 이용가능 범위
+              </div>
+              <!-- //box-body -->
+              <!-- box-table -->
+              <div class="box-table">
+                <table>
+                  <colgroup>
+                    <col width="25%"/>
+                    <col width="30%"/>
+                    <col width="*"/>
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th rowspan="3">타임라인</th>
+                      <th>나는</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>버킷리스트</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>타임캡슐</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">라이프맵</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">라이프뷰</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">엔딩노트</th>
+                      <th>상속</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>가디언</th>
+                      <td>가디언 수락/거절</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">포인트 구매대상<br/>컨텐츠</th>
+                      <td>일부 유료로 구매후 이용가능</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- //box-table -->
+              <div class="box-btn">
+                <a href="javascript:void(0)" name="choice" value="white">선택</a>
+              </div>
+            </div>
+            <!-- //box-body -->
+          </div>
+          <!-- //login-box -->
+        </div>
+        <!-- 임시 -->
+        <div class="col-xs-3"></div>
+        <!-- //col -->
+
+        <!-- col -->
+        <!-- <div class="col-xs-6">
+          <div class="login-box tran {{#if hpActive 'green'}} active {{/if}}">
+            <div class="box-head">
+              <div class="radio-group">
+                <p class="name">그린</p>
+                <p class="price">월 3,000원 <small>(VAT포함)</small></p>
+                <p class="info">It’s my Story의 <strong>전체 서비스</strong>를 이용할 수 있습니다. (포인트 결제 상품 제외)</p>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="box-body-head">
+                서비스 이용가능 범위
+              </div>
+              <div class="box-table">
+                <table>
+                  <colgroup>
+                    <col width="25%"/>
+                    <col width="30%"/>
+                    <col width="*"/>
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <th rowspan="3">타임라인</th>
+                      <th>나는</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>버킷리스트</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>타임캡슐</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">라이프맵</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">라이프뷰</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">엔딩노트</th>
+                      <th>상속</th>
+                      <td>컨텐츠 조회</td>
+                    </tr>
+                    <tr>
+                      <th>가디언</th>
+                      <td>가디언 수락/거절</td>
+                    </tr>
+                    <tr>
+                      <th colspan="2">포인트 구매대상<br/>컨텐츠</th>
+                      <td>일부 유료로 구매후 이용가능</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="box-btn">
+                <a href="javascript:void(0)" name="choice" value="green">선택</a>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- //col -->
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //login-body -->
+    <!-- login-btn-group -->
+    <div class="login-btn-group" style="margin-top:100px;">
+      <a href="javascript:void(0)" class="prev-btn" name="previous"><i class="imsr-icon icon-lg0001"></i> <span>이전으로</span></a>
+      <a href="javascript:void(0)" class="login-btn" name="next">다음단계</a>
+    </div>
+  </div>
+</div>
+  <!-- //content -->
+</template>

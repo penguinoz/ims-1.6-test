@@ -1,0 +1,43 @@
+<template name="map_overay">
+  {{> header}}
+  <div class="content wrapper">
+    <div class="map-container" id="map-canvas-custom"></div>
+    <div class='over'>
+      <div id='hideSlider'>GPS 정보가 없는 사진이 20개 있습니다.</div>
+      {{> imageMapSliderView2}}
+    </div>
+
+  </div>
+
+</template>
+
+
+<template name="imageMapSliderView2">
+
+  <div class="sliderview" id="lifeviewSlider" style="width: 300px;">
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz1.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz2.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz3.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz4.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz5.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz6.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz1.png" /></a>
+      </div>
+      <div class="image">
+        <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/lazyfonz2.png" /></a>
+      </div>
+  </div>
+</template>

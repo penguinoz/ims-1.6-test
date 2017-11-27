@@ -1,0 +1,48 @@
+<template name="topMenu1">
+  {{> header}}
+  <div class="row content-body">
+    <div class="left-container">{{> endingNoteTimeLine}}</div>
+    <div class="right-container">{{> endingNoteList}}</div>
+  </div>
+  <div class="overlay-page inh-container">
+    {{> inheritanceBase}}
+  </div>
+  {{> container}}
+</template>
+
+<template name="topMenu2">
+  {{> header}}
+  <div class="row content-body">
+    <div class="left-container">{{> lifeViewMain}}</div>
+    <div class="right-container">{{> lifeViewDetail}}</div>
+  </div>
+  <div class="overlay-page inh-container">
+    {{> inheritanceBase}}
+  </div>
+  {{> container}}
+</template>
+
+<template name="topMenu3">
+  {{> header}}
+  <div class="row content-body">
+    {{> lifeMapMain}}
+  </div>
+  {{> container}}
+</template>
+
+<template name="topMenu4">
+  {{> header}}
+  <div class="row content-body">
+    {{> guide}}
+  </div>
+  {{> container}}
+</template>
+
+<template name="container">
+  <div class="overlay-page mypage-container">
+    {{> myPageMain}}
+  </div>
+  <div class="overlay-page customer-container">
+    {{> customerMain}}
+  </div>
+</template>

@@ -1,0 +1,75 @@
+<template name="header">
+  <!-- {{#if currentUser}} -->
+  <!-- header -->
+  <div id="header" class="{{#unless hpIsPageOwner}}gnb-other-underline{{/unless}}">
+    <!-- <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1> -->
+    <h1><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    <!-- nav -->
+    <div class="gnb">
+      <div id="gnbSelect" class="gnb-select"><span class="gnb-menu">{{currentName 'menuName'}} <strong>{{currentName 'menuSubName'}}</strong><i class="caret"></i></span></div>
+      <ul id="gnbList" class="">
+        {{#each items}}
+        <!-- <li class="{{#if hpIsPageOwner}}{{isSelected}}{{else}}disabled{{/if}}" >
+          <a href="{{basePath}}">{{menuName}} <strong>{{menuSubName}}</strong></a>
+        </li> -->
+        <li class="{{isSelected}}" >
+          <a href="{{basePath}}">{{menuName}} <strong>{{menuSubName}}</strong></a>
+        </li>
+        {{/each}}
+        {{#if hpIsPageOwner}}
+        <li class="{{isSelected}}">
+          <a herf="#" id="inheritance"><strong>상속</strong></a>
+        </li>
+          {{#if g_supportAuth}}
+            <li class="{{isSelected}}">
+              <a herf="#" id="sample" data-modal-template="sample"><strong data-modal-template="sample">SAMPLE</strong></a>
+            </li>
+          {{/if}}
+        {{/if}}
+      </ul>
+    </div>
+    <!-- nav -->
+
+    <!-- {{#unless hpIsPageOwner}} -->
+    <!-- gnb_other -->
+    <!-- <div class="gnb-other">
+      <div class="other-container">
+        <div class="mem-info">
+          <span>it's</span>
+          <img src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" class="img-circle img-xs"/>
+          <span>Story</span>
+        </div>
+        <ul class="gnbList-other">
+          <li class="gnb01" ><a href="/endingNote">엔딩<strong>노트</strong></a></li>
+          <li class="gnb02" ><a href="/lifeView">라이프<strong>뷰</strong></a></li>
+        </ul>
+        <a href="javascript:void(0)" class="close-btn" name="otherClose"><i class="imsr-icon icon-in0014"></i></a>
+      </div>
+    </div> -->
+    <!-- //gnb_other -->
+    <!-- {{/unless}} -->
+    <!-- {{/unless}} -->
+
+    <!-- lnb -->
+    <div class="lnb_area">
+      <ul class="lnb">
+        {{#if hpIsPageOwner}}
+        <li><input type="text" name="searchText" placeholder="Search"/></li>
+        <li class="lnb01"><a href="javascript:void(0)" name="search" data-toggle="tooltip" title="검색" class="imsr-tooltip2"><i class="imsr-icon icon-me0018"></i></a></li>
+        <!-- <li class="lnb02"><a href="javascript:void(0)" name="notification" data-toggle="tooltip" title="알림" class="imsr-tooltip2" ><i class="imsr-icon icon-me0019"></i></a>{{#if g_isGreaterThan hpNotiCount 0}}<span class="notification_badge">{{hpNotiCount}}</span>{{/if}}</li> -->
+        <li class="lnb02"><a href="{{g_serverURL}}/notification" onclick="window.open(this.href, '알림', 'left=20,top=20,width=498,height=500,toolbar=1,resizable=0'); return false;" target="_blank" title="알림" class="imsr-tooltip2" ><i class="imsr-icon icon-me0019"></i></a>{{#if g_isGreaterThan hpNotiCount 0}}<span class="notification_badge">{{hpNotiCount}}</span>{{/if}}</li>
+        <li class="lnb03"><a href="javascript:void(0)" name="customer" data-toggle="tooltip" title="고객센터" class="imsr-tooltip2" ><i class="imsr-icon icon-me0020"></i></a></li>
+        <!-- <li class="lnb04"><a href="javascript:void(0)" name="myPage"><i class="imsr-icon icon-me0021"></i></a></li> -->
+        <!-- <li class="lnb05"><a href="javascript:void(0)" name="myPage"><span>{{g_toUpperCase (g_getSubstring (g_getNickName g_getUserId) 0 2)}}</span></a></li> -->
+        <li class="lnb05"><a href="javascript:void(0)" name="myPage" data-toggle="tooltip" title="마이페이지" class="imsr-tooltip2" ><span>MY</span></a></li>
+        {{else}}
+        <li class="lnb06"><a href="javascript:void(0)" class="close-btn imsr-tooltip2" name="otherClose" data-toggle="tooltip" title="닫기"><i class="imsr-icon icon-in0014"></i></a></li>
+        {{/if}}
+        <li class="lnb04"><a href="javascript:void(0)" name="logout" data-toggle="tooltip" title="로그아웃" class="imsr-tooltip2"><i class="glyphicon glyphicon-log-out"></i></a></li>
+      </ul>
+    </div>
+    <!-- //lnb -->
+  </div>
+  <!-- // header -->
+  <!-- {{/if}} -->
+</template>

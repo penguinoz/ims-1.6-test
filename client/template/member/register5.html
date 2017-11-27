@@ -1,0 +1,82 @@
+<template name="register5">
+  <!-- content -->
+<div class="login-content join-content h-scroll">
+  <div class="login-container">
+    <div class="login-head">
+      <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    </div>
+    <div class="login-step">
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class="active"><i class="imsr-icon icon-dot"></i></span>
+    </div>
+    <div class="login-title">
+      <div class="title-box">
+        <span class="title">It’s my Story 회원이 되신 것을 축하합니다.</span>
+        <!-- <div class="sub-title">It’s my Story 멤버십이 시작되었으며, 한 달 동안 <span class="black">무료</span>로 제공됩니다.</div> -->
+        <div class="sub-title">It’s my Story 멤버십이 시작되었으며, 현재<span class="black"> 시범서비스</span> 기간입니다.</div>
+      </div>
+      <div class="title-infobox">
+        <!-- <strong>It’s my Story 를 통해 더욱 의미 있는 삶을 일구어 나가시기를 진심으로 기원합니다.</strong>
+        <p>서비스에 대해 보다 자세한 안내를 원하시면 각 서비스 이야기와 Tutorial 을 참고하세요.</p> -->
+        <strong>마음껏 사용해보시고 다양한 의견 부탁드립니다.</strong>
+        <p>소중한 의견은 적극 반영하여 보다나은 서비스를 만들기 위해 노력하겠습니다.</p>
+        <p>support@itsmystory.com</p>
+      </div>
+    </div>
+    <!-- login-body -->
+    <div class="login-body">
+      <div class="body-title">
+        <span>가입정보</span>
+      </div>
+      <!-- login-box -->
+      {{#with hpCollection}}
+        <div class="login-box">
+          <div class="box-body info">
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">이름</div>
+              <div class="col-xs-10">{{this.profile.name}}</div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">아이디</div>
+              <div class="col-xs-10">{{this.username}}</div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">닉네임</div>
+              <div class="col-xs-10">{{this.profile.nickName}}</div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <!-- <div class="row">
+              <div class="col-xs-2">멤버십</div>
+              <div class="col-xs-10">{{this.profile.payment.membership}}</div>
+            </div> -->
+            <!-- //row -->
+            <!-- row -->
+            <!-- <div class="row">
+              <div class="col-xs-2">결제정보</div>
+              <div class="col-xs-10">신용카드 ****-****-****-1234</div>
+            </div> -->
+            <!-- //row -->
+          </div>
+        </div>
+      {{/with}}
+      <!-- //login-box -->
+    </div>
+    <!-- //login-body -->
+    <!-- login-btn-group -->
+    <div class="login-btn-group">
+      <!-- <a href="javascript:void(0)" class="prev-btn" id="btnLogin"><i class="imsr-icon icon-lg0001"></i> <span>이전으로</span></a> -->
+      <a href="javascript:void(0)" class="login-btn" name="btnLogin">로그인하기</a>
+    </div>
+  </div>
+</div>
+  <!-- //content -->
+</template>

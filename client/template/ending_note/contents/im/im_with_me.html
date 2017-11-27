@@ -1,0 +1,157 @@
+<!-- 나는 > 오눌기분어때 -->
+<template name="imWithMe">
+<!-- content -->
+<div class="content h-scroll hr-scroll ">
+  <!-- row -->
+  <div class="row content-head">
+    <h4 class="text-right"><i class="title-icon imsr-icon icon-me0014"></i>에 등록된 정보는 다른 회원들에게 <span class="title-color">공개되지 않습니다.</span><i class="icon lock gray" style="margin-top:-3px;margin-left:0px;"></i></h4>
+  </div>
+  <!-- //row -->
+  <div class="row search-container type-imwithme">
+    <div class="container-fluid nopm">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option value="title">질문</option>
+          <option value="content">내용</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right" onsubmit="return false">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      <!-- 정렬순서 -->
+      {{> imWithMeSort countentsCount=hpImWithMeList.countAll type='all'}}
+    </div>
+  </div>
+
+  <!-- row -->
+  <div class="row">
+    <ul id="ulTalkToMe" class="list-group im-qna">
+      {{#each hpImWithMeList.data}}
+        {{> imWithMeList}}
+      {{/each}}
+    </ul>
+  </div>
+  <!-- //row -->
+</div>
+<!-- //content -->
+</template>
+
+<!-- 하단에 들어가는 Content형태 -->
+<!-- 질문/답변 개별 영역 -->
+<template name="imWithMeList">
+  <li class="list-group-item {{#if hpSelected questionId}} active {{/if}}">
+  <!-- 질문영역 START -->
+      <div id="{{questionId}}" name="questionHeader" class="row toggle im-question">
+          <div class="col-xs-6 nopm">
+              {{{title}}}
+          </div>
+          <div class="col-xs-6 nopm text-right">
+            <span class="answer_txt">
+              <a href="javascript:void(0)" id="subList" value="{{questionId}}" titleText="{{title}}"><strong>{{count}}</strong>건
+                <i class="imsr-icon icon-plus-circled" value="{{questionId}}" titleText="{{title}}"></i>
+              </a>
+            </span>
+          </div>
+      </div>
+  <!-- 질문영역 END -->
+
+  <!-- 답변영역 START -->
+      <div class="im-answer">
+          <!-- row -->
+          <div class="row">
+            <div class="imwithme-list">
+              {{#each content}}
+                {{#if g_isExist this.images}}
+                  {{#if g_isExist this.content}}
+                      <!-- media-list 이미지 + 내용 -->
+                      <article class="img-type">
+                        <div class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</div>
+                        <div class="list-content">
+                          <div class="media-left media-top img-section">
+                            {{#each this.images}}
+                              {{#if g_isLessThan @index 1}}
+                                {{#if g_isGreaterThan ../images.length 1}}
+                                  <a href="javascript:void(0)" class="item overImage" value="">
+                                    <div class="objblock" value=""><span>+{{g_subtraction ../images.length 1}}</span></div>
+                                    <div>
+                                      <img class="media-object" src="{{this.path}}" alt="..." value="">
+                                    </div>
+                                  </a>
+                                {{else}}
+                                  <a href="javascript:void(0)" class="item overImage" value="">
+                                    <div>
+                                      <img class="media-object" src="{{this.path}}" alt="..." value="">
+                                    </div>
+                                  </a>
+                                {{/if}}
+                              {{/if}}
+                            {{/each}}
+                          </div>
+                          <div class="media-body text-section">
+                            <a href="javascript:void(0)" class="ellipsis-multi3" value="" >{{{this.content}}}</a>
+                          </div>
+                        </div>
+                      </article>
+                    {{else}}
+                      <article class="img-type">
+                        <div class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</div>
+                        <div class="list-content">
+                          <div class="media-left media-top img-section">
+                            {{#each this.images}}
+                              {{#if g_isLessThan @index 5}}
+                                {{#if g_isGreaterThan ../images.length 5}}
+                                  <a href="javascript:void(0)" class="item overImage" value="">
+                                    {{#if g_isEqual @index 4}}
+                                      <div class="objblock" value=""><span>+{{g_subtraction ../images.length 5}}</span></div>
+                                    {{/if}}
+                                    <div>
+                                      <img class="media-object" src="{{this.path}}" alt="..." value="">
+                                    </div>
+                                  </a>
+                                {{else}}
+                                  <a href="javascript:void(0)" class="item overImage" value="">
+                                    <div>
+                                      <img class="media-object" src="{{this.path}}" alt="..." value="">
+                                    </div>
+                                  </a>
+                                {{/if}}
+                              {{/if}}
+                            {{/each}}
+                          </div>
+                        </div>
+                      </article>
+                    {{/if}}
+                      <!-- //media-list -->
+                {{else}}
+                      <!-- media-list 이미지없음-->
+                      <article class="text-type">
+                        <div class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</div>
+                        <div class="list-content">
+                          <div class="text-section">
+                            <a href="javascript:void(0)" class="ellipsis-multi2" value="" >{{{this.content}}}</a>
+                          </div>
+                        </div>
+                      </article>
+                      <!-- //media-list -->
+                {{/if}}
+              {{/each}}
+            </div>
+          </div>
+          <!-- //row -->
+      </div>
+  </li>
+</template>
+
+
+<template name="imWithMeSort">
+  <div class="navbar-right">
+    <span class="search-total">총 <strong>{{countentsCount}}</strong>건</span>
+    <select class="selectpicker" data-width="77px"  name="options" id="sort">
+      <option value="regDateDesc" >등록일 ▼</option>
+      <option value="regDateAsc" >등록일 ▲</option>
+    </select>
+  </div>
+</template>

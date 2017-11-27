@@ -1,0 +1,57 @@
+<!-- 컨텐츠 상속 상세 (팝업) -->
+<template name="inheritanceListContentsDetailPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <div class="modal-body">
+    <!-- inh-selectlist-container -->
+    <div class="inh-selectlist-container">
+      <!-- before-list -->
+    {{#if g_isTrue isUsePreNext}}
+      {{#each hpPreContent}}
+      <div class="selectlist-list" name='nextOrPreContent'>
+        <a href="javascript:void(0)">
+          <div class="label">이전글</div>
+          <div class="subject">{{title}}</div>
+          <div class="date">{{date}}</div>
+        </a>
+      </div>
+      {{/each}}
+      {{#each hpNextContent}}
+      <div class="selectlist-list" name='nextOrPreContent'>
+        <a href="javascript:void(0)">
+          <div class="label">다음글</div>
+          <div class="subject">{{title}}</div>
+          <div class="date">{{date}}</div>
+        </a>
+      </div>
+      {{/each}}
+    {{/if}}
+      <!-- //before-list -->
+      <!-- next-list -->
+
+      <!-- //next-list -->
+    </div>
+    <!-- //inh-selectlist-container -->
+    <!-- inh-selectlist-content -->
+    <div class="inh-selectlist-content">
+      {{#if hpTemplateSelecter 'BL'}}
+        {{> bucketDetail }}
+      {{/if}}
+      {{#if hpTemplateSelecter 'IM'}}
+        {{> imDetail }}
+      {{/if}}
+      {{#if hpTemplateSelecter 'BS'}}
+        {{> imDetail }}
+      {{/if}}
+      {{#if hpTemplateSelecter 'TC'}}
+        {{> timeCapsuleDetail }}
+      {{/if}}
+      {{#if hpTemplateSelecter 'ME'}}
+        {{> imMe }}
+      {{/if}}
+    </div>
+    <!-- //inh-selectlist-content -->
+  </div>
+</template>

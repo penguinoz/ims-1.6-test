@@ -1,0 +1,45 @@
+<!-- 마이페이지 > 초대하기 > 초대내용 (팝업) -->
+<template name="myPageInvitePopup">
+    <div class="modal-header pop-header">
+      <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+      <h4 class="modal-title">It’s my story로  초대하기</h4>
+    </div>
+    <!-- modal-body -->
+    <div class="modal-body type04">
+      <div class="body-head">
+        <div class="row">
+          <div class="col-xs-9 subject">{{title}}</div>
+          <div class="col-xs-3 date text-right">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+        </div>
+      </div>
+      <div class="body-content no-bg">
+        <!-- receive-member -->
+        <div class="receive-member">
+          <div class="row">
+            <div class="col-xs-1"><span class="receiver">수신자
+              <!-- <span class="receiver-length">(3)</span> -->
+            </span></div>
+            <div class="col-xs-11">
+              <ul>
+                <li><span class="name">{{name}}</span><span class="email">&lt;{{email}}&gt;</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- receive-member -->
+        <p>
+          {{content}}
+        </p>
+      </div>
+    </div>
+    <!-- //modal-body -->
+    <div class="modal-footer">
+      <!-- fix-btnset -->
+      <div class="fix-btnset">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="save" role="button">확인</a>
+        </div>
+      </div>
+      <!-- //fix-btnset -->
+    </div>
+</template>

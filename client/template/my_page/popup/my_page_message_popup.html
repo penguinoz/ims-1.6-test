@@ -1,0 +1,52 @@
+<!-- 마이페이지 > 쪽지함 > 쪽지보기 (팝업) -->
+<template name="myPageMessagePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">쪽지보기</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          <span class="send">발신자</span>
+          {{#if g_isEqual popupFrom "mymsg" }}
+          <span class="member-pic"><img src="{{g_getProfileImg this.sender 'thumb'}}" class="img-circle img-xs" alt=""/></span>
+          <strong>{{g_getNickName this.sender}}</strong>
+          {{else}}
+          <span class="member-pic"><img src="{{g_getProfileImg this.sender 'thumb'}}" class="img-circle img-xs" alt=""/></span>
+          <strong>{{g_getNickName this.sender}}</strong>
+          {{/if}}
+        </div>
+        <div class="col-xs-3 date">{{g_dateFormChange regDate 'defaultYMD'}} </div>
+      </div>
+    </div>
+    <div class="body-content nobg">
+      <p>
+        {{{hpChangeTextForm}}}
+      </p>
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      {{#if g_isEqual popupFrom "mymsg" }}
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="reply" role="button">답장</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="delMsg" role="button">삭제</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="denialUser" role="button">이 사용자 차단</a>
+      </div>
+      {{else}}
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        {{#unless cancelSend}}
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="cancelSend" role="button">발신 취소</a>
+        {{/unless}}
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="sendDel" role="button">삭제</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="cancel" role="button">취소</a>
+      </div>
+      {{/if}}
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

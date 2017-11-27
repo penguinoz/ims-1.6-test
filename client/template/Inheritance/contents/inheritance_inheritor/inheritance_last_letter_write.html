@@ -1,0 +1,73 @@
+<!-- 마지막편지 등록/수정 -->
+<template name="inheritanceLastLetterWrite">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+
+    <div class="inh-title">
+      <h2 class="depth">나의 상속인<span>마지막 편지 (등록)</span></h2>
+    </div>
+    <!-- inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- inh-lastletter-search -->
+      <div class="row inh-lastletter-search">
+        <div class="col-xs-6 text-left" id="selectTemap">
+          <span class="label-to">To.</span>
+          {{#if hpCheckSelectSession}}
+            {{> inhListSelector }}
+          {{/if}}
+        </div>
+        <div class="col-xs-6 text-left hidden" id="selectedDiv">
+          <span class="label-to">To.</span>
+          {{#if hpgetUserName nonUsername}}
+          {{nonUsername}}
+          {{else}}
+          {{g_getNickName inheritorId}}
+          {{/if}}
+        </div>
+      </div>
+      <!-- //inh-lastletter-search -->
+      <!-- inh-lastletter-input -->
+      <div class="inh-lastletter-input">
+        {{> froalaReactive hpGetContext}}
+        <!-- custom-input -->
+        <div class="custom-input text-right">
+          <span class="w2label">작성일</span>
+          <div class="input-article icon-style" style="width:150px;">
+            {{> singleCalendar id="updateDate" value=hpLatterWriteCol.lastLetter.updateDate}}
+          </div>
+          <div class="from-name"><span class="label-from">From&nbsp;&nbsp; </span> {{g_name hpGetMeId}}&nbsp;({{g_getNickName hpGetMeId}})</div>
+        </div>
+        <!-- //custom-input -->
+      </div>
+      <!-- //inh-lastletter-input -->
+      <div class="ihn-content-btnSet text-center mt30">
+        <a href="javascript:void(0)" class="ihn-cancle" name="canselLatter">취소</a>
+        <a href="javascript:void(0)" class="ihn-add" name="saveLetter">저장</a>
+      </div>
+    </div>
+    <!-- content -->
+  </div>
+</template>
+
+<template name="inhListSelector">
+  <select class="selectpicker" data-width="100px" name="options" id="ihnSearch">
+    <!-- <option value="all">상속인 모두</option> -->
+    <option value="emptyUser">상속인 선택</option>
+    {{#each hpGetInheritors}}
+    {{#if hpGetSelecter this.inheritorId}}
+      {{#if hpgetUserName this.name}}
+        <option value="{{inheritorId}}" selected>{{name}}</option>
+      {{else}}
+      <option value="{{inheritorId}}" selected>{{this.nickName}}</option>
+      {{/if}}
+    {{else}}
+      {{#if hpgetUserName this.name}}
+      <option value="{{inheritorId}}">{{name}}</option>
+      {{else}}
+      <option value="{{inheritorId}}">{{this.nickName}}</option>
+      {{/if}}
+    {{/if}}
+    {{/each}}
+  </select>
+</template>

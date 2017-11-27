@@ -1,0 +1,338 @@
+<template name="bucketDetail">
+  <!-- content -->
+  <div class="content h-scroll type-buket hr-scroll">
+    <div>
+      <!-- container -->
+      {{#with hpCollection}}
+      <div class="container-fluid detail-container">
+        <!-- row -->
+        <div class="row detail-article buket-header">
+        <!-- {{#if hpisGroupMember this.groupUsers}}
+        <div class="row">
+        </div>
+        {{/if}} -->
+          <!-- list-group-item -->
+          <div class="detail-group">
+            <!-- subject-header -->
+            <div class="subject-header">
+              {{#if hpisGroupType this.groupType}}
+              <a class="group-btn"><span>그룹</span></a>
+              {{#unless g_userAuth this.userId}}
+                <div class="bucket-btn">
+                  <a href="javascript" class="btn btn-default btn-sm icon-type" id="outBucketGroup">이 버킷에서 빠지기 <i class="imsr-icon icon-bu0015"></i></a>
+                </div>
+              {{/unless}}
+              {{/if}}
+              <!-- Rounded switch -->
+              {{#if hpisFromPopup }}
+                {{#if g_userAuth this.userId}}
+                  <div class="group-switch">
+                    <span>따라하기</span>
+                    <label class="switch type-buket">
+                      {{#if hpCompBtVisible this.privFollow}}
+                        <input type="checkbox" id="followPermit">
+                      {{else}}
+                        <input type="checkbox" id="followPermit" checked="checked">
+                      {{/if}}
+                      <div class="slider round"></div>
+                    </label>
+                    <span>완료</span>
+                    <label class="switch type-buket">
+                      {{#if hpCompBtVisible this.isCompleted}}
+                        <input type="checkbox" id="isComplete">
+                      {{else}}
+                        <input type="checkbox" id="isComplete" checked="checked">
+                      {{/if}}
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                {{/if}}
+              {{/if}}
+            </div>
+            <!-- //subject-header -->
+            <div class="media-left subject-group">
+              <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                {{#if g_refreash}}
+                  <img class="media-object img-circle img-sm "  src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                {{else}}
+                  <img class="media-object img-circle img-sm "  src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                {{/if}}
+              </a>
+              {{> dropdownMenuUserCard targetUserId=this.userId}}
+            </div>
+            <div class="media-body body-group">
+              <p class="member2">{{this.nickName}}
+                <a href="javascript:void(0)" class="btn-lock">
+                   <span class="date">등록일 : {{g_dateFormChange this.regDate 'defaultHMS'}}</span>
+                   {{#if this.lock}}
+                   <i class="icon gray lock"></i>
+                   {{/if}}
+                </a>
+              </p>
+              <p class="subject">{{{g_getCategoryTitle this}}}</p>
+            </div>
+          </div>
+          <!-- //list-group-item -->
+          <!-- row -->
+          <div class="row detail-btnContainer">
+            <!-- col -->
+            <div class="col-xs-7 nopm" style="width:51%;">
+              <div class="group-box" role="group" aria-label="...">
+                <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnLikeList" postId="{{this._id}}">
+                  <i class="imsr-icon {{#if hpLikeFlag this.like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart" aria-hidden="true" id="btnLikeList" postId="{{this._id}}"></i>{{this.like.length}}
+                </a>
+                {{> endingNoteLikeList}}
+                <!-- <span class="group-xs" id="btnCommentCount"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{this.commentCount}} </span>-->
+                <span class="group-xs"><i class="imsr-icon icon-me0023  "  aria-hidden="true"></i><a href="javascript:void(0)" data-toggle="tooltip" title="댓글수" class="imsr-tooltip">{{this.commentCount}}</a></span>
+                <span class="group-xs"><i class="imsr-icon icon-me0024  "  aria-hidden="true"></i><a href="javascript:void(0)" data-toggle="tooltip" title="조회수" class="imsr-tooltip">{{this.open}}</a></span>
+                <div class="group-box" role="group">
+                  <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnfollowList" postId="{{this._id}}">
+                    <i class="imsr-icon icon-bu0014" aria-hidden="true" id="btnfollowList" postId="{{this._id}}"></i>{{hpFollowerCount}}
+                  </a>
+                  {{> endingNoteFollowList}}
+                </div>
+              </div>
+              <!-- <div class="group-box" role="group" aria-label="..."> -->
+
+            <!-- </div> -->
+            </div>
+            <!-- //col -->
+            <!-- col -->
+            <div class="col-xs-5 text-right detail-btn nopm" style="width:49%;">
+              <!-- btn-group -->
+              {{> endingNoteLike g_setLikeParameters this 'bucketDetail'}}
+              {{#if hpisFromPopup }}
+                {{#if g_userAuth this.userId}}
+                  <a class="btn btn-default btn-sm" role="button" id="DetailEdit">수정</a>
+                  <a class="btn btn-default btn-sm" role="button" id="DetailDelete">삭제</a>
+                {{else}}
+                  <a class="btn btn-default btn-sm icon-type yellow {{hpFavor}}" role="button" id="favorite"><i class="imsr-icon icon-bu0006"></i>즐겨찾기</a>
+                  {{#if this.privFollow}}
+                    {{#unless hpisGroupMember this.groupUsers}}
+                    <a class="btn btn-default btn-sm" role="button" id="doFollow" style="letter-spacing:-1px;">따라하기</a>
+                    {{/unless}}
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+              <!-- //btn-group -->
+            </div>
+            <!-- //col -->
+          </div>
+          <!-- Single button -->
+        </div>
+        <!-- Single button -->
+        <div class="row detail-article detail-body">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="detail-body-info">
+                {{#if hpCompBtVisible this.isCompleted}}
+                {{else}}
+                <div class="icon-complate">
+                  <img src="/images/icon/icon_complate.png" alt=""/>
+                </div>
+                {{/if}}
+                {{#if hpisGroupType this.groupType}}
+                <div class="group-member">
+                  <span class="labels">그룹원</span> :
+                  <span><i class="imsr-icon icon-bu0013" aria-hidden="true"></i>
+                    <span class="g">{{hpGroupName this.groupName}} <span style="margin-right:5px"> {{this.nickName}}</span>
+                      {{#each this.groupUsersInfo}}
+                        <a href="javascript:void(0)" name="{{this.userId}}">{{this.nickName}}</a>{{#if g_userAuth ../userId }}<a class="btn-tagDelete" id="deleteBut" style="margin-right: 8px"></a>{{/if}}
+                      {{/each}}
+                    </span>
+                  </span>
+                </div>
+                {{/if}}
+                <p><span class="labels">실행장소</span> :  {{this.exePlace}}</p>
+                <p><span class="labels">시작일</span> :  {{this.startDate}}</p>
+                <p><span class="labels">종료일</span> :  {{this.completeDate}}</p>
+              </div>
+
+              <!-- <div class="content-short" id="dropdownTarget" name="froalaEditor" contenteditable="false" style="{{#if hpOpenOrClose}}display:none;{{/if}}"> -->
+              <div class="{{#if hpOpenOrClose}}content-short{{/if}}" id="dropdownTarget" name="froalaEditor" contenteditable="false">
+              {{#if hpGetContext}}
+                {{> froalaReactive hpGetContext}}
+              {{/if}}
+              </div>
+              {{#if this.tagList}}
+              <div class="tag" style="{{#if hpOpenOrClose}}display:none;{{/if}}">
+                <ul class="searchStrong">
+                {{#each this.tagList}}
+                <li><a name="tagButton">#{{this}}</a></li>
+                {{/each}}
+                </ul>
+              </div>
+              {{/if}}
+              <!-- Rounded switch -->
+            </div>
+          </div>
+          <!-- detail-dropdown -->
+          <div class="row content-dropdown">
+            <a href="javascript:volid(0)" id="contentDropdown" class="{{#unless hpOpenOrClose}}open{{/unless}}">{{#if hpOpenOrClose}}전체내용보기{{else}}전체내용접기{{/if}}</a>
+          </div>
+          <!-- //detail-dropdown -->
+        </div>
+        <!-- //row -->
+        <div class="comment-bigcontainer {{#if hpOpenOrClose}}on{{/if}}" style="{{#if hpOpenOrClose}}display:none;{{/if}}">
+          {{> endingNoteComment postData=this}}
+        </div>
+        <!-- row -->
+        <div class="row detail-article detail-foot">
+          <a hreg="#" id='btnOpenComm' class="btn btn-primary btn-lg btn-block btn-comment-on" role="button"><span class="glyphicon glyphicon-chevron-top"></span>{{#if hpOpenOrClose}}댓글열기{{else}}댓글접기{{/if}}</a>
+        </div>
+      </div>
+
+      <div class="container-fluid detail-container">
+        <ul class="nav nav-pills nav-detail">
+          {{#if hpaddBkVisible}}
+          <li class="{{#if hpTabList 'BS'}} active {{/if}} col-xs-3"><a data-toggle="pill" href="#storyTab">버키스토리</a></li>
+          <li class="{{#if hpTabList 'BP'}} active {{/if}} col-xs-3"><a data-toggle="pill" href="#planTab">실행계획</a></li>
+          <!-- <li class="col-xs-3"><a data-toggle="pill" href="#lifeTab">버키라이프맵</a></li> -->
+          <li class="col-xs-3"><a data-toggle="pill" href="#historyTab">History</a></li>
+          {{else}}
+          <li class="{{#if hpTabList 'BS'}} active {{/if}} col-xs-4"><a data-toggle="pill" href="#storyTab">버키스토리</a></li>
+          <li class="{{#if hpTabList 'BP'}} active {{/if}} col-xs-4"><a data-toggle="pill" href="#planTab">실행계획</a></li>
+          <!-- <li class="col-xs-4"><a data-toggle="pill" href="#lifeTab">버키라이프맵</a></li> -->
+          {{/if}}
+        </ul>
+        <!-- tab-content -->
+        <div class="tab-content">
+          <!-- tab-pane -->
+          <div id="storyTab" class="tab-pane fade in {{#if hpTabList 'BS'}} active {{/if}}">
+            <!-- {{>bucketStoryContent}} -->
+            <!-- row -->
+            <div class="row tab-pane-head">
+              <div class="col-xs-6 text-left">
+                {{#if hpUseGolistButton}}
+                  <a href="javascript:void(0)" id="goList" class="text-left"><i class="imsr-icon icon-bu0010"></i>이전</a>
+                {{/if}}
+              </div>
+
+              <div class="col-xs-6 text-right">
+                {{#if hpaddBkVisible}}
+                <a href="javascript:void(0)" id="addBucketStory" class="text-right" data-modal-template="bucketStoryWriting">
+                  <i class="imsr-icon icon-bu0007" style="padding-right:12px;"></i>
+                  버키스토리만들기
+                  <i class="imsr-icon icon-bu0009"></i>
+                </a>
+                {{/if}}
+              </div>
+            </div>
+            <!-- //row -->
+            {{> UI.dynamic template=bucketContentList.template data=bucketContentList.data}}
+          </div>
+          <!-- tab-pane -->
+          <!-- //tab-pane -->
+          <div id="planTab" class="tab-pane fade in {{#if hpTabList 'BP'}} active {{/if}}">
+            <!-- row -->
+            <div class="row tab-pane-head">
+              <div class="col-xs-12 text-left">
+                <i class="imsr-icon icon-bu0007"></i>
+                이 버킷리스트 실행계획 입니다.
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- content -->
+            <div class="content me-list">
+              <!-- row -->
+              <div class="row">
+                <!-- list-group -->
+                <div class="list-group">
+                  {{#each this.exePlanList}}
+                  <!-- list-group-item -->
+                  <div href="javascript:void(0)" class="list-group-item exeplan-list ">
+                    <!-- row -->
+                    <div class="row">
+                      <!-- col -->
+                      <div class="col-xs-6 text-left">
+                        <span class="subject">{{planContent}}</span>
+                      </div>
+                      <!-- //col -->
+                      <!-- col -->
+                      <div class="col-xs-6 text-right">
+                        <small class="date">{{planStartDate}} ~ {{planCompleteDate}}</small>
+                      </div>
+                    </div>
+                    <!-- row -->
+                  </div>
+                  <!-- list-group-item -->
+                  {{/each}}
+                </div>
+                <!-- list-group -->
+              </div>
+              <!-- row -->
+            </div>
+            <!-- content -->
+          </div>
+          <!-- tab-pane -->
+          <!-- //tab-pane -->
+          <div id="lifeTab" class="tab-pane fade">
+            <!-- row -->
+            <div class="row tab-pane-head">
+              <div class="col-xs-6 text-left">
+                <a href="javascript:void(0)" class="text-left">
+                  <img src="/images/icon/icon_update.png" alt="update"/>
+                  <small>2016년 1월 29일</small>
+                </a>
+                <span class="ml7 text-left"><i class="imsr-icon icon-me0023" style="font-size:8px; margin-right:5px; "></i><small>10</small></span>
+              </div>
+              <div class="col-xs-6 text-right">
+                <a href="javascript:void(0)" class="text-right">
+                  수정<i class="ion-edit"></i>
+                </a>
+                <a href="javascript:void(0)" class="ml5 text-right">
+                  삭제<i class="ion-trash-b"></i>
+                </a>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row detail-article detail-body">
+              라이프맵 자리
+            </div>
+            <!-- //row -->
+          </div>
+          <!-- tab-pane -->
+          <!-- //tab-pane -->
+
+          <div id="historyTab" class="tab-pane fade">
+            <!-- row -->
+            <div class="row tab-pane-head">
+              <div class="col-xs-12 text-left">
+                <i class="imsr-icon icon-bu0007"></i>
+                이 버킷리스트의 전체관리기록입니다.
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- list-group -->
+            <ul class="list-group historyTab-list">
+              {{> bucketLog}}
+            </ul>
+            <!-- //list-group -->
+          </div>
+          <!-- //tab-pane -->
+        </div>
+        <!-- //tab-content -->
+      </div>
+      <!-- //container -->
+    <!-- //content -->
+  {{/with}}
+  </div>
+</div>
+<!-- fix-btnset -->
+{{#if hpisFromPopup}}
+<div class="fix-btnset type-buket">
+  <a hreg="#" id='btnToList' class="btn btn-primary btn-lg btn-block btn-list" role="button"><span class="imsr-icon icon-me0046"></span>목록</a>
+</div>
+{{/if}}
+  <!-- //fix-btnset -->
+</template>
+
+<template name="bucketLog">
+  {{#each hpBucketLog}}
+    <li class="list-group-item">
+      <span class="date">{{g_dateFormChange this.regDate 'defaultYMD'}}</span>
+      <span class="subject">{{g_logConcat contextUserId type logType title ../userId '' (g_isEqual ../groupType 'group')}}</span>
+    </li>
+  {{/each}}
+</template>

@@ -1,0 +1,57 @@
+<!-- 라이프뷰이미지 맵으로 보기 -->
+<template name="lifeViewImageMap">
+  <div class='wrapper'>
+    <div class="content map h-scroll hl-scroll ">
+      <div class="lifeview-maincontent">
+        <div class="row text-right">
+          <span class="search-total">총 <strong>{{hpImages.imagesData.imageCount}}</strong>건</span>
+          {{#if hpIsPageOwner}}
+            <div class="checkbox">
+              <input type="checkbox" id="showPrivateData">
+              <label for="showPrivateData"></label>
+            </div>
+            <span>비공개글 포함</span>
+          {{/if}}
+        </div>
+        <div class="row mt20">
+          {{#if hpImages}}
+            {{> imageMap datas=hpImages}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{#if hpIsPageOwner}}
+  <div class='over'>
+    {{#if hpSlideImages}}
+      <div class='hideSelector'>
+        <a herf="javascript:void(0)" name="imgCount"><i class="imsr-icon icon-me0019" style="color:red;"></i> GPS 정보가 없는 사진이 <strong>{{hpSlideImages.length}}</strong>개</a>
+      </div>
+      <div class='hideTarget'>
+        {{> imageMapSliderView sliderData=hpSlideImages}}
+      </div>
+    {{/if}}
+  </div>
+  {{/if}}
+</template>
+
+<template name="imageMap">
+  <input id="txtSearch" class="controls mapSearchTxt" type="text" placeholder="주소검색" style="width: 300px;">
+  <input id="btnSearch" class="controls mapSearchBtn" type="button" value="검색" style="width: 100px;">
+  <div class="map-container" id="lifeTraceMapPop"></div>
+</template>
+
+<template name="imageMapSliderView">
+  <!-- <div id='hideSlider'>GPS 정보가 없는 사진이 {{hpSliders.length}}개 있습니다.</div> -->
+  <div class="sliderview type02" id="lifeviewSlider" style="width: 585px;">
+    {{#each sliderData}}
+      <div>
+        <div class="image" id="sliderImage">
+            <img src="{{g_makeImageString this.photourl 'thumb'}}" name="{{g_concatThree this.postId 'imageMpaSlide' @index}}" style="{{g_setImageSize (g_makeImageString this.photourl 'thumb') 'imgSlider56' (g_concatThree this.postId 'imageMpaSlide' @index)}}"/>
+          <div id="slidePost" hidden>{{this.postId}}</div>
+          <div id="slideType" hidden>{{this.type}}</div>
+        </div>
+      </div>
+    {{/each}}
+    </div>
+</template>

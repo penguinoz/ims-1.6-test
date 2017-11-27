@@ -1,0 +1,30 @@
+<!-- 메인 -->
+<template name="layout">
+	<div class="main-bg"></div>
+	<div id="warp">
+		<div class="container">
+		{{#if hpLayout}}
+      {{> yield}}
+		{{/if}}
+    </div>
+  </div>
+</template>
+
+<!-- 상속타임라인 -->
+<template name="layout2">
+	<div class="main-bg"></div>
+	<div id="warp">
+		<div class="container">
+			{{#if hpLayout2}}
+	      {{> yield}}
+			{{/if}}
+    </div>
+  </div>
+</template>
+
+<!-- 알림팝업용 -->
+<template name="layout3">
+	{{#if hpLayout3}}
+		{{> yield}}
+	{{/if}}
+</template>

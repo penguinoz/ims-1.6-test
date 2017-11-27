@@ -1,0 +1,189 @@
+<template name="timeCapsuleOpenWrite">
+  <!-- content -->
+{{#with hpCollection}}
+  <div class="content h-scroll type-timecapsul hr-scroll" id="aaaaa">
+    <!-- detail-container -->
+    <div class="container-fluid detail-container">
+      <!-- row -->
+      <div class="row detail-article">
+        <!-- list-group-item -->
+          <p class="member"><span class="date">매립일 : {{regDate}}</span></p>
+      </div>
+      <!-- Single button -->
+      <div class="row detail-article nobd input-container">
+        <!-- detail-group -->
+        <div class="detail-group ">
+          <!-- row -->
+          <div class="row nopm custom-input">
+            <div class="col-xs-2">
+              <span class="w2label">제목</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="input-article" style="width:100%;">
+                <input type="text" placeholder="제목" style="width:100%" id="timeCapTitle" value="{{title}}"/>
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm custom-input">
+            <div class="col-xs-2">
+              <span class="w2label">사연</span>
+            </div>
+            <div class="col-xs-10">
+              <textarea name="Name" rows="0" cols="0" style="width:100%; height:80px" id="publicContent">{{publicContent}}</textarea>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm custom-input">
+            <div class="col-xs-2">
+              <span class="w2label">태그</span>
+            </div>
+            <div class="col-xs-10">
+              <div class="tag">
+                <ul id="tagUlList">
+                  {{#each tagList}}
+                    <li><a href="javascript:void(0)"><strong>#</strong>{{this}}</a><a href="javascript:void(0)" class="btn-tagDelete"></a></li>
+                  {{/each}}
+                  <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm">
+            <div class="col-xs-2">
+              <span class="w2label">개봉일</span>
+            </div>
+            <div class="col-xs-10">
+              <span class="text-left">{{unsealDate}}</span>
+            </div>
+          </div>
+          <!-- //row -->
+          <!-- row -->
+          <div class="row nopm">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-10">
+              <div class="tab-box">
+                <ul  class="nav nav-pills write-type">
+            			<li class="active">
+                    <a  href="#1a" data-toggle="tab">지도첨부</a>
+            			</li>
+            			<li>
+                    <a href="#2a" data-toggle="tab">사진첨부</a>
+            			</li>
+            		</ul>
+          			<div class="tab-content clearfix">
+          			  <div class="tab-pane active" id="1a">
+                    <!-- row -->
+                    <div class="row nopm">
+                      <div class="col-xs-2">
+                        <span class="w2label">지도</span>
+                      </div>
+                      <div class="col-xs-10">
+                        <div class="input-article icon-style" >
+                          <input type="text" placeholder="" id="landPlace" data-modal-template="googleMapSearch" value="{{buryPlace}}" style="width:220px;" readonly/>
+                          <a href="javascript:void(0)" class="btn mapImg" id="mapSearch" data-modal-template="googleMapSearch"><i class="ion-location"></i></a>
+                        </div>
+                        <div hidden>
+                          <input type="text" name="lat" id="lat" value="{{buryLat}}">
+                          <input type="text" name="lng" id="lng" value="{{buryLng}}">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- //row -->
+                    <!-- timecapsul-map-->
+                    <div class="timecapsul-map">
+                      <div class="timecapsul-map" id="mapViewDiv" >
+                        <div id="casuleImagePath" value="" hidden></div>
+                        <div class="map-container" id="map-canvas" style="height:220px">{{> googleMapTemplate hpLocationInfo}}</div>
+                      </div>
+                    </div>
+                    <!-- timecapsul-map-->
+          				</div>
+          				<div class="tab-pane" id="2a">
+                    <!-- row -->
+                    <div class="row nopm">
+                      <div class="col-xs-2">
+                        <span class="w2label">사진</span>
+                      </div>
+                      <div class="col-xs-10">
+                        <div class="input-article icon-style">
+                          <input type="file" id="capsuleImage" value="" style="display: none;">
+                          <input type="text" name="fileName" placeholder="" disabled style="width:220px;"/>
+                          <a href="javascript:document.getElementById('capsuleImage').click();" class="btn mapImg"><i class="ion-images"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- //row -->
+                    <!-- timecapsul-map-->
+                    <div class="timecapsul-map">
+                      <img class="timecapsul-map" src="" alt="" id="capsuleImageViewer">
+                    </div>
+                    <!-- timecapsul-map-->
+          				</div>
+          			</div>
+              </div>
+            </div>
+          </div>
+          <!-- //row -->
+          {{#with hpMessageCollection }}
+            <!-- message-container -->
+          <div class="message-container">
+            <!-- row -->
+            <div class="message-title">
+              <i class="ion-ios-email-outline"></i>메세지 <span>({{this.length}})</span>
+            </div>
+            <!-- //row -->
+
+            <!-- 작성중일때는 내 메시지만 보여야 한다. -->
+            <!-- 개봉일때는 모든 메시지가 보여진다.-->
+            <!-- 매립시에는 메시지를 출력하지 않는다.-->
+            {{#each this}}
+            <!-- message-item -->
+            <div id="msg{{this._id}}" class="message-item">
+              <!-- row -->
+              <div class="message-body">
+                <!-- <div class="thumbnail-bg" style="background-image:url({{hpMessageBackgroundImage this.backgroundImage}})"></div> -->
+                <div class="thumbnail-bg" style="background-image:url({{this.backgroundImage}})"></div>
+                <div class="message-subject">
+                  <div class="col-xs-7 msgTitle"><span class="subject">{{g_getNickName userId}}님의  {{index}}번째  메세지입니다.</span></div>
+                  <div class="col-xs-5 date-col"><span class="date">{{g_dateFormChange this.regDate 'defaultYMD'}} 작성됨</span></div>
+                </div>
+                <div class="message-content">
+                  {{{content}}}
+                  <div class="message-footer">
+                    <a href="javascript:void(0)" id="aMessageEdit" data-modal-template="timeCapsuleMessagePopup"><i class="ion-edit"></i>수정</a>
+                    <a href="javascript:void(0)" id="aMessageDelete"><i class="ion-trash-b"></i>삭제</a>
+                  </div>
+                </div>
+              </div>
+              <!-- //row -->
+            </div>
+            <!-- //message-item -->
+            {{/each}}
+          </div>
+          <!-- //message-container -->
+          {{/with}}
+        </div>
+      </div>
+    </div>
+    <!-- //detail-container -->
+  </div>
+  <!-- fix-btnset -->
+  <div class="fix-btnset type-timecapsul">
+    <div class="btn-group btn-group-justified" role="group" aria-label="..." >
+      <div class="btn-group" role="group">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWrite' role="button">취소</a>
+      </div>
+      <div class="btn-group" role="group">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWrite" role="button"><i class="imsr-icon icon-me0038"></i>저장</a>
+      </div>
+    </div>
+  </div>
+  <!-- //fix-btnset -->
+  {{/with}}
+  <!-- //content -->
+</template>

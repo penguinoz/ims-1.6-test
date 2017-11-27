@@ -1,0 +1,130 @@
+<!-- 마이페이지 > 초대하기 -->
+<template name="myPageInvite">
+    <div class="h-scroll hi-scroll">
+      <!-- mypage-title -->
+      <div class="mypage-title">
+        <h2>초대하기</h2>
+      </div>
+      <!-- mypage-title -->
+      <!-- content -->
+      <div class="content">
+        <div class="ui-tabs">
+          <ul class="nav nav-pills nav-detail">
+            <li class="active"><a data-toggle="pill" href="#invite">초대목록</a></li>
+          </ul>
+        </div>
+        <div class="tab-content inner">
+          <div id="invite" class="tab-pane fade in active">
+            <!-- addInheritor-searchContainer -->
+            <div class="mypage-searchContainer">
+              <!-- row -->
+              <div class="row">
+                <!-- search-box -->
+                <div class="col-xs-6" style="padding-top:7px;">
+                  <span>총 <strong>{{hpInvateData.sendedInvite.length}}</strong>건</span>
+                </div>
+                <!-- //search-box -->
+                <!-- sort-box -->
+                <div class="col-xs-6 text-right">
+                  <div class="mypage-content-btnSet btn-sm2">
+                    <a href="javascript:void(0)" class="mypage-default" id="delete">삭제</a>
+                    <a href="javascript:void(0)" class="mypage-default modal-link" data-modal-template="myPageInviteWritePopup">초대장보내기</a>
+                  </div>
+                </div>
+                <!-- //sort-box -->
+              </div>
+              <!-- //row -->
+            </div>
+            <!-- //addInheritor-searchContainer -->
+            <!-- mypage-assets-table -->
+            <div class="mypage-assets-table requestReady">
+                <!-- panel-table -->
+                <div class="panel panel-default panel-table row-sm no-link type-link">
+                  <!-- panel-head -->
+                  <div class="panel-heading">
+                    <div class="tr">
+                        <div class="th" style="width:5%;">No.</div>
+                        <div class="th" style="width:5%;">
+                          <!-- input-group -->
+                          <div class="input-group">
+                            <div class="checkbox"><input type="checkbox" id="allRecevie"><label for="allRecevie"></label></div>
+                          </div>
+                          <!-- input-group -->
+                        </div>
+                        <div class="th" style="width:15%;">이름</div>
+                        <div class="th" style="width:30%;">이메일</div>
+                        <div class="th" style="width:25%;">초대일</div>
+                        <div class="th" style="width:20%;">가입여부</div>
+                    </div>
+                  </div>
+                  <!-- //panel-head -->
+                  <!-- panel-body -->
+                  <div class="panel-body">
+                    {{#each hpInvateData.sendedInvite}}
+                      <div class="tr" >
+                        <div class="td modal-link" data-modal-template="myPageInvitePopup" >{{hpIndex @index}}</div>
+                        <div class="td">
+                          <!-- input-group -->
+                          <div class="input-group">
+                            <div class="checkbox"><input type="checkbox" name="inviteCheck" id="list{{hpIndex @index}}" value={{this._id}}><label for="list{{hpIndex @index}}"></label></div>
+                          </div>
+                          <!-- input-group -->
+                        </div>
+                        <div class="td modal-link" data-modal-template="myPageInvitePopup">{{name}}</div>
+                        <div class="td modal-link" data-modal-template="myPageInvitePopup">{{email}}</div>
+                        <div class="td modal-link" data-modal-template="myPageInvitePopup">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+                        <div class="td modal-link" data-modal-template="myPageInvitePopup">가입여부</div>
+                      </div>
+                    {{/each}}
+                  </div>
+                  <!-- //panel-body -->
+                </div>
+                <!-- //panel-table -->
+                <!-- pagination -->
+                <!-- <div class="row text-center">
+                  <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mypage">
+                      <li>
+                        <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                          <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                          <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                        </a>
+                      </li>
+                      <li class="active"><a href="javascript:void(0)">1</a></li>
+                      <li><a href="javascript:void(0)">2</a></li>
+                      <li><a href="javascript:void(0)">3</a></li>
+                      <li><a href="javascript:void(0)">4</a></li>
+                      <li><a href="javascript:void(0)">5</a></li>
+                      <li><a href="javascript:void(0)">6</a></li>
+                      <li><a href="javascript:void(0)">7</a></li>
+                      <li><a href="javascript:void(0)">8</a></li>
+                      <li><a href="javascript:void(0)">9</a></li>
+                      <li>
+                        <a href="javascript:void(0)" aria-label="Next">
+                          <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" aria-label="Next">
+                          <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                        </a>
+                      </li>
+                    </ul>
+                    </nav>
+                </div> -->
+                <!-- pagination -->
+              </div>
+              <!-- //mypage-assets-table -->
+          </div>
+          <!-- tab-pane -->
+        </div>
+        <!-- tab-content -->
+      </div>
+      <!-- content -->
+    </div>
+    <!-- 내가 좋아한 / 나를 좋아한(탭) -->
+</template>

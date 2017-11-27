@@ -1,0 +1,128 @@
+<!-- 마이페이지 > 친구관리 > 친구추가(팝업) -->
+<template name="myPageFriendAddPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">친구추가</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          친구요청을 보낼 대상을 선택하세요.
+        </div>
+      </div>
+    </div>
+    <div class="body-content nobg">
+      <!-- search-container -->
+      <div class="row search-container">
+        <div class="navbar-left ">
+        </div>
+        <div class="navbar-right search-box">
+          <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+            <option value="all">전체</option>
+            <option value="nickName">별명</option>
+            <option value="name">이름</option>
+          </select>
+          <div id="custom-search-form" class="form-search form-horizontal pull-right">
+            <div class="input-append">
+              <input type="text" name="keywordText" class="search-query" placeholder="Search" id="keywordText">
+              <button class="btn" id="search" name="search"><i class="imsr-icon icon-in0007"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- search-container -->
+      <!-- table-type01 -->
+      <div class="table-type01">
+        <table id="grid" class="table table-striped table-hover" data-toolbar="#toolbargrid" data-pagination="true" data-search="true">
+          <colgroup>
+            <col width="10%"/>
+            <col width="20%"/>
+            <col width="15%"/>
+            <col width="*"/>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="th-inner sortable">
+                  <div class="th-inner sortable">
+                    <div class="checkbox text-left">
+                      <input type="checkbox" id="friendAllCheck" index="0"/>
+                      <label for="friendAllCheck"></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="fht-cell"></div>
+              </th>
+              <th>
+                <div class="th-inner sortable">별명</div>
+                <div class="fht-cell"></div>
+              </th>
+              <th>
+                <div class="th-inner sortable">이름</div>
+                <div class="fht-cell"></div>
+              </th>
+              <th>
+                <div class="th-inner sortable">소개메시지</div>
+                <div class="fht-cell"></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each hpCollection}}
+              <tr>
+                <td>
+                  {{#with hpFriendCheck this.username}}
+                    {{this}}
+                  {{else}}
+                    <div class="checkbox">
+                      <input type="checkbox" name="friendAdd" id="friendAdd{{@index}}" value="{{this.username}}">
+                      <label for="friendAdd{{@index}}"></label>
+                    </div>
+                  {{/with}}
+                </td>
+                <td>
+                  <div class="content">
+                    <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                      <!-- <span class="img-circle">
+                        <img src="{{g_getProfileImg authorId 'thumb'}}" class="img-circle img-xs" alt=""/>
+                      </span> -->
+                      {{g_getNickName this.username}}
+                    </a>
+                    {{> dropdownMenuUserCard targetUserId=this.username}}
+                  </div>
+                </td>
+                <td>
+                  {{this.profile.name}}
+                </td>
+                <td>소개 메시지 입니다. 잘부탁드립니다.</td>
+              </tr>
+            {{else}}
+              <tr>
+                <td colspan="5">검색 된 데이터가 없습니다.</td>
+              </tr>
+            {{/each}}
+            <tr>
+              <td colspan="4">
+                <textarea rows="3" name="introduction" placeholder="친구요청 메시지를 작성해주세요."></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- table-type01 -->
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" name="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" name="save" role="button">저장</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

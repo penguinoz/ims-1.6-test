@@ -1,0 +1,53 @@
+<template name="timeCapsuleContent">
+  <!-- content -->
+  <div id="contentList" class="type-timecapsul list {{#if hpIsMyMenu 'all'}} public {{else}} {{hpSelectedStatusMenu}} {{/if}}">
+    <!-- row -->
+    <div class="row">
+      <!-- ui-tabs -->
+      <div class="ui-tabs tab-meList">
+        <!-- //ui-tabs -->
+        <ul class="nav nav-pills nav-justified ">
+          <li role="presentation" id="liTabMe" class="active"><a href="#tabs-1" id="tabMe" value="my"><strong>나의</strong> 타임캡슐</a></li>
+          <!-- <li role="presentation" id="liTabAll"><a href="#tabs-2" id="tabAll" value="all"><strong>모두의</strong> 타임캡슐</a></li> -->
+        </ul>
+      </div>
+    </div>
+    <!-- //row -->
+    <!-- row -->
+    {{#with hpContentCount}}
+      {{#if hpIsMyMenu 'my'}}
+        {{#if hpInheritance}}
+        <div class="container-fluid">
+          <div class="row list-headerBox" role="group" aria-label="...">
+            <a href="javascript:void(0)" id="all" class="list-item disabled"><span>전체</span></a>
+            <a href="javascript:void(0)" id="process" class="list-item disabled"><span>작성중</span></a>
+            <a href="javascript:void(0)" id="bury" class="list-item disabled"><span>매립</span></a>
+            <a href="javascript:void(0)" id="unseal" class="list-item active"><span>개봉</span><strong>{{unsealStatusCount}}</strong></a>
+          </div>
+        </div>
+        {{else}}
+        <div class="container-fluid">
+          <div class="row list-headerBox" role="group" aria-label="...">
+            <a href="javascript:void(0)" id="all" class="list-item {{#if g_isEqual hpSelectedStatusMenu 'all'}} active {{/if}}"><span>전체</span><strong>{{allCount}}</strong></a>
+            <a href="javascript:void(0)" id="process" class="list-item {{#if g_isEqual hpSelectedStatusMenu 'process'}} active {{/if}}"><span>작성중</span><strong>{{processStatusCount}}</strong></a>
+            <a href="javascript:void(0)" id="bury" class="list-item {{#if g_isEqual hpSelectedStatusMenu 'bury'}} active {{/if}}"><span>매립</span><strong>{{buryStatusCount}}</strong></a>
+            <a href="javascript:void(0)" id="unseal" class="list-item {{#if g_isEqual hpSelectedStatusMenu 'unseal'}} active {{/if}}"><span>개봉</span><strong>{{unsealStatusCount}}</strong></a>
+          </div>
+        </div>
+        {{/if}}
+      {{else}}
+      <div class="container-fluid">
+        <div class="row list-headerBox" role="group" aria-label="...">
+          <a href="javascript:void(0)" id="all_none" class="list-item disabled" style="width:20%;"><span>전체</span><strong>{{allCount}}</strong></a>
+          <a href="javascript:void(0)" id="process_none" class="list-item disabled" style="width:20%;"><span>작성중</span><strong>{{processStatusCount}}</strong></a>
+          <a href="javascript:void(0)" id="bury_none" class="list-item disabled" style="width:20%;"><span>매립</span><strong>{{buryStatusCount}}</strong></a>
+          <a href="javascript:void(0)" id="unseal_none" class="list-item disabled" style="width:20%;"><span>개봉</span><strong>{{unsealStatusCount}}</strong></a>
+          <a href="javascript:void(0)" id="public" class="list-item active" style="width:20%;"><span>공개</span><strong>{{publicStatusCount}}</strong></a>
+        </div>
+      </div>
+      {{/if}}
+    {{/with}}
+    <!-- //row -->
+    {{> UI.dynamic template=hpCapsuleListTemplate.contentTmp data=hpCapsuleListTemplate.data}}
+  </div>
+</template>

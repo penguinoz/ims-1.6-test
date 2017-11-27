@@ -1,0 +1,50 @@
+<template name="inheritanceTimelineBody">
+  {{> inheritanceTimelineHeader}}
+  <!-- {{> UI.dynamic template=bucketContentList.contentTmp data=bucketContentList.data}} -->
+  {{> UI.dynamic template=ihDynamicTemplate.contentTmp data=ihDynamicTemplate.data}}
+</template>
+
+<template name="ihTimeLine">
+  <div class="row inherit-timeline content-body">
+    <div class="left-container">{{> inheritanceTimeline}}</div>
+    <div class="right-container">{{> endingNoteList}}</div>
+  </div>
+</template>
+
+<template name="ihLifeView">
+  <div class="row content-body">
+    <!-- 메인화면 -->
+    <div class="left-container">
+      <div class="content left">
+        <!-- lifeview-header -->
+        <div class="lifeview-header">
+          <!-- lifeview-menuContainer -->
+          <div class="lifeview-menu">
+            <ul>
+              <li><a href="javascript:void(0)" name="album" class="{{#if g_isEqual selectedMenu 'album'}}active{{/if}}"><span>앨범</span></a></li>
+              <li><a href="javascript:void(0)" name="map" class="{{#if g_isEqual selectedMenu 'map'}}active{{/if}}"><span>지도</span></a></li>
+              <li><a href="javascript:void(0)" name="keyword" class="{{#if g_isEqual selectedMenu 'keyword'}}active{{/if}}"><span>키워드</span></a></li>
+            </ul>
+            <div class="customer-img">
+              <img class="img-circlex" src="{{g_getProfileImg g_getUserId 'thumb'}}" alt="Generic placeholder image">
+              <span class="user-name"><strong>{{g_getNickName g_getUserId}}</strong>님</span>
+            </div>
+          </div>
+          <!-- lifeview-menuContainer -->
+        </div>
+        <!-- lifeview-header -->
+        <!-- 하단 템플릿 추가(앨범, 사진지도, 키워드) -->
+        <div class="lifeview-body">
+          {{> UI.dynamic template=selectedBody }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세화면 -->
+    <div class="right-container">
+      <div class="lifeview-detail">
+        {{> UI.dynamic template=contentList.contentTmp data=contentList.data}}
+      </div>
+    </div>
+  </div>
+</template>

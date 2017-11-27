@@ -1,0 +1,213 @@
+<!-- 나는 > 리스트컨텐츠 -->
+<template name="imContent">
+  <!-- content -->
+  <div id="contentList" >
+    <div class="row">
+      <!-- ui-tabs -->
+      <div class="ui-tabs tab-meList">
+        <!-- //ui-tabs -->
+        <ul class="nav nav-pills nav-justified ">
+          {{#if hpTabMenu}}
+            <li role="presentation" id="liTabMe" class="{{#if g_isEqual hpSelectedMenu 'my'}}active{{/if}}"><a href="#tabs-1" id="tabMe" value="my"><strong>나의</strong> 추억</a></li>
+            <li role="presentation" id="liTabAll" class="{{#if g_isEqual hpSelectedMenu 'all'}}active{{/if}}"><a href="#tabs-2" id="tabAll" value="all"><strong>모두의</strong> 추억</a></li>
+          {{else}}
+            <li role="presentation" class="active"><a href="#tabs-1"><strong>나의</strong> 추억</a></li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="row search-container">
+      <div class="container-fluid">
+        <div class="navbar-left search-box">
+          <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+            <option value="all">전체</option>
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+            <option value="tag">태그</option>
+          </select>
+          <form id="custom-search-form" class="form-search form-horizontal pull-right">
+            <div class="input-append span12">
+              <input type="text" class="search-query" placeholder="Search" id="keywordText">
+              <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+            </div>
+          </form>
+        </div>
+        {{#if g_isEqual hpSelectedMenu 'my'}}
+          {{> imContentSort countentsCount=hpListData.count type='my'}}
+        {{else}}
+          {{> imContentSort countentsCount=hpListData.count type='all'}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  <div class="content h-scroll hr-scroll me-list">
+    <!-- row -->
+    <div class="row">
+      <!-- list-group -->
+      <div class="list-group">
+        <!-- list-group-item -->
+        {{#unless g_isExist hpListData.data}}
+        등록된 추억이 없습니다, 여러분의 이야기를 들려주세요...
+        {{/unless}}
+        {{#each hpListData.data}}
+          <div class="list-group-item subject-list">
+            <div class="row">
+            <!-- col -->
+              <!-- <div class="col-xs-1 text-center subject-group nopm {{hpisDropup}}"> -->
+              <div class="col-xs-1 text-center subject-group nopm">
+                <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                  {{#if g_refreash}}
+                    <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+                  {{else}}
+                    <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+                  {{/if}}
+                </a>
+              {{> dropdownMenuUserCard targetUserId=this.userId}}
+            </div>
+            <!-- //col -->
+            <!-- col -->
+            <div class="col-xs-11 body-group">
+              <h4 class="media-heading subject-title im">
+                <small class="text-right">등록일 : {{hpMemoryDate regDate}}</small>
+                <p class="subject-name" value="{{userId}}">{{this.nickName}}</p>
+              </h4>
+              <div class="group-box" role="group" aria-label="...">
+
+                <span class="group-xs"><i class="imsr-icon {{#if isLike like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart " aria-hidden="true"></i>{{like.length}}</span>
+                <span class="group-xs"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{commentList.length}}</span>
+                <span class="group-xs"><i class="imsr-icon icon-me0024  "  aria-hidden="true"></i>{{open}}</span>
+              </div>
+              <a href="javascript:void(0)" class="btn-lock defaultmouse">
+                <span>
+                  <small class="text-right">{{startDate}}</small>
+                </span>
+                {{#if lock}}
+                  <i class="imsr-icon icon-me0026" aria-hidden="true"></i>
+                {{/if}}
+              </a>
+
+            </div>
+
+
+
+            <div class="body-group subject-content">
+              <a href="javascript:void(0)" class="ellipsis subject-content-title" id="title" value="{{_id}}">{{{title}}}</a>
+
+              <!-- media-list -->
+              <!-- <div class="list-body img-list" style="margin-top: 3px;"> -->
+              <div class="list-body img-list">
+                <div class="img-content">
+                {{#each image}}
+                  {{#if g_isExist ../content}}
+                    {{#if g_isLessThan @index 1}}
+                      <div class="media-left media-top">
+                        {{#if g_isGreaterThan ../image.length 1}}
+                          <a href="javascript:void(0)" class="item {{#if g_isEqual @index 0}}overImage{{/if}}" id="title" value="{{../_id}}">
+                            {{#if g_isEqual @index 0}}
+                              <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 1}}</span></div>
+                            {{/if}}
+                            <div class="img-frame">
+                              <img class="media-object" src="{{g_makeImageString this.path 'originRe'}}" alt="..." id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'imContentName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'originRe') 'contentsList59' (g_concatThree ../_id 'imContentName' @index)}}"/>
+                            </div>
+                          </a>
+                        {{else}}
+                          <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                            <div class="img-frame">
+                              <img class="media-object" src="{{g_makeImageString this.path 'originRe'}}" alt="..." id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'imContentName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'originRe') 'contentsList59' (g_concatThree ../_id 'imContentName' @index)}}"/>
+                            </div>
+                          </a>
+                        {{/if}}
+                      </div>
+                    {{/if}}
+                  {{else}}
+                    {{#if g_isLessThan @index 4}}
+                      {{#if g_isGreaterThan ../image.length 4}}
+                        <a href="javascript:void(0)" class="item {{#if g_isEqual @index 3}}overImage{{/if}}" id="title" value="{{../_id}}">
+                          {{#if g_isEqual @index 3}}
+                            <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 4}}</span></div>
+                          {{/if}}
+                          <div class="img-frame">
+                            <img class="media-object" src="{{g_makeImageString this.path 'originRe'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'imContentName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'originRe') 'contentsList59' (g_concatThree ../_id 'imContentName' @index)}})"/>
+                          </div>
+                        </a>
+                      {{else}}
+                        <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                          <div class="img-frame">
+                            <img class="media-object" src="{{g_makeImageString this.path 'originRe'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}" name="{{g_concatThree ../_id 'imContentName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'originRe') 'contentsList59' (g_concatThree ../_id 'imContentName' @index)}})">
+                          </div>
+                        </a>
+                      {{/if}}
+                    {{/if}}
+                  {{/if}}
+                {{/each}}
+                  <div class="media-body">
+                    <a href="javascript:void(0)" id="title" class="ellipsis-multi3" value="{{_id}}" >{{{this.content}}}</a>
+                  </div>
+                </div>
+              </div>
+              <!-- //media-list -->
+              {{#if tags}}
+              <div>
+                <div class="tag">
+                  <ul class = "searchStrong ellipsis-tag-list">
+                    {{#each tags}}
+                    <li><a name="tagButton">#{{{this}}}</a></li>
+                    {{/each}}
+
+                  </ul>
+
+                </div>
+              </div>
+              {{/if}}
+              <!-- reply -->
+              <!-- {{#if commentTop}}
+              <ul class="media-list comment-list">
+                <li class="media">
+                  <div class="row">
+                    <div class="col-xs-1 text-center dropdown nopm">
+                      <span class="name_badge clip-24">{{g_getNickName commentTop.userId}}</span>
+                    </div>
+                    <div class="col-xs-11 comment-body nopm">
+                      <p>{{{commentTop.content}}}</p>
+                      <small>({{g_dateFormChange commentTop.updateDate 'defaultHMS'}})</small>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              {{/if}} -->
+              <!-- //reply -->
+
+            </div>
+            <!-- //col -->
+          </div>
+          <!-- //row -->
+        </div>
+        {{/each}}
+
+        <!-- //list-group-item -->
+      </div>
+      <!-- list-group -->
+      {{#if hpMoreResults}}
+          <div id="showMoreResults" style="margin-left: 25px;">
+              <span class="loading"></span>
+          </div>
+      {{/if}}
+    </div>
+    <!--//row-->
+  </div>
+</template>
+
+<template name="imContentSort">
+  <div class="navbar-right">
+    <span class="search-total">총 <strong>{{countentsCount}}</strong>건</span>
+    <select class="selectpicker" data-width="77px"  name="options" id="sort">
+      <option value="regDateDesc" data-content="등록일<i class='imsr-icon icon-down-dir'></i>">등록일 ▼</option>
+      <option value="regDateAsc" data-content="등록일<i class='imsr-icon icon-up-dir'></i>">등록일 ▲</option>
+      <option value="startDateDesc" data-content="추억일<i class='imsr-icon icon-down-dir'></i>">추억일 ▼</option>
+      <option value="startDateAsc" data-content="추억일<i class='imsr-icon icon-up-dir'></i>">추억일 ▲</option>
+      <option value="like" data-content="인기순<i class='glyphicon imsr-icon icon-down-dir'></i>">인기순 ▼</option>
+    </select>
+  </div>
+</template>

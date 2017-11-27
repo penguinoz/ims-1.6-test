@@ -1,0 +1,32 @@
+<template name="singleCalendar">
+<div class="calendar-input {{#if hpInlineStyle}}inline{{/if}}">
+  {{#unless hpNotUseText}}
+    <input
+      class="single-calendar {{class}}"
+      type="text"
+      id="{{id}}"
+      name="{{name}}"
+      value="{{value}}"
+      ref="singleCalendar"
+      placeholder="날짜입력"
+      title="{{title}}"
+      required="{{required}}"
+      readOnly
+    />
+  {{/unless}}
+
+  {{#unless hpNotUseIcon}}
+    {{#if hpCustomIcon}}
+      <label class="btn" for="{{id}}">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+      </label>
+    {{else}}
+      <a href="javascript:void(0)" class="single-calendar calendar-icon" id="{{id}}"></a>
+    {{/if}}
+  {{/unless}}
+
+  {{#if hpDeleteDateBtn}}
+  <a href="javascript:void(0)" class="deleteDate {{#if g_isEqual value ""}}hidden{{else}}{{#if g_isEqual value undefined}} hidden{{/if}}{{/if}}" id="{{id}}" name="{{id}}delBt"><i class="glyphicon glyphicon-remove-circle" id="{{id}}"></i></a>
+  {{/if}}
+</div>
+</template>

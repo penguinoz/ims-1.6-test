@@ -1,0 +1,9 @@
+<!-- 라이프뷰 상세 베이스 -->
+<template name="lifeViewDetail">
+<!-- <div>라이프뷰 상세(우측)메인</div>
+<div>다이나믹 탬플릿 : 상세리스트(lifeViewDetailList)</div>
+<div>다이나믹 탬플릿 : 컨텐츠 상세(lifeViewDetailContent)</div> -->
+<div class="lifeview-detail">
+  {{> UI.dynamic template=contentList.contentTmp data=contentList.data}}
+</div>
+</template>

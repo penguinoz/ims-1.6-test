@@ -1,0 +1,25 @@
+<!-- 상속화면 우측 상속관리 기록 화면 -->
+<template name="inheritanceHistory">
+  <div class="inh-timeline h-scroll hih-scroll">
+    <div class="inh-timeline-title"><i class="ion-clock"></i>상속관리기록</div>
+    <div class="timeline-centered">
+      <!-- timeline-entry -->
+      <article class="timeline-entry">
+        <!-- timeline-entry-inner -->
+        {{#each hpGetLogList}}
+        <div class="timeline-entry-inner timeline-write">
+          <div class="timeline-icon bg-success"></div>
+          <div class="timeline-answer">
+            <div class="timeline-label">
+              <div class="timeline-date">{{g_dateFormChange regDate 'defaultHMS'}}</div>
+              <div class="timeline-content">{{g_logConcat contextUserId type logType title '' name}}</div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        <!-- //timeline-entry-inner -->
+      </article>
+      <!-- //timeline-entry -->
+    </div>
+  </div>
+</template>

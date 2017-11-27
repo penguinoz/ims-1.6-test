@@ -1,0 +1,65 @@
+<!-- 상속받은 내역 상세보기 -->
+<template name="inheritanceListContents">
+  <div class="item-content content">
+    <!-- content-head -->
+    <div class="content-head">
+        <div><span class="bold">{{hpInhertanceAllContents.length}}</span>건 남기셨습니다.</div>
+    </div>
+    <!-- content-head -->
+    <!-- content-main -->
+    <div class="content-main">
+      <!-- inh-assets-table -->
+      <div class="inh-assets-table type2">
+        <!-- table -->
+        <table summary="">
+          <colgroup>
+            <col width="15%"/>
+            <col width="*"/>
+            <col width="25%"/>
+          </colgroup>
+          <thead>
+            <tr>
+              <!-- <th>전체</th> -->
+              <th>
+                <select class="selectpicker" data-width="84px"  name="options" id="type">
+                  <option value="AL">전체</option>
+                  <option value="IM">나는</option>
+                  <option value="ME">Me</option>
+                  <option value="BL">버킷리스트</option>
+                  <option value="TC">타임캡슐</option>
+                </select>
+              </th>
+              <th>제목</th>
+              <th>일자</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each hpInhertanceLimitContents}}
+            <!-- tr -->
+            <tr class="detail {{#if g_isTrue isOpened}}hit{{/if}}" data-modal-template="inheritanceListContentsDetailPopup">
+              <td>{{typeName}}</td>
+              <td>{{title}}</td>
+              <td class="date">{{date}}</td>
+            </tr>
+            <!-- //tr -->
+            {{/each}}
+          </tbody>
+        </table>
+        <!-- //table -->
+      </div>
+      <!-- //inh-assets-table -->
+    </div>
+    <!-- //content-main -->
+    <!-- content-foot -->
+    <div class="content-foot">
+      {{#with hpInhertanceLimitContents}}
+        {{#if hpConditionChange}}
+          {{> page _id='' limit=4 findName="inheritanceContentsList"}}
+        {{else}}
+          {{> page _id='' limit=4 findName="inheritanceContentsList"}}
+        {{/if}}
+      {{/with}}
+    </div>
+    <!-- //content-foot -->
+  </div>
+</template>

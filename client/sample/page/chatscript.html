@@ -1,0 +1,25 @@
+<template name="chatScript">
+  {{> header}}
+  <div id="responseHolder"></div>
+  <form id="frmChat" action="#">
+  <p>
+    Enter your message below:
+  </p>
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td>
+        <input type="text" id="txtUser" name="user" size="20" value="" />
+        <input type="hidden" name="send" />
+      </td>
+    </tr>
+    <tr>
+      <td>Message:</td>
+      <td><input type="text" name="message" id="txtMessage" size="70" /></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" name="send" value="Send Value" /></td>
+    </tr>
+  </table>
+  </form>
+</template>

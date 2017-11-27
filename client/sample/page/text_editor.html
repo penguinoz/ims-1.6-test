@@ -1,0 +1,56 @@
+<!-- 텍스트 에디터 -->
+<template name="textEditor">
+  {{> header}}
+  <div class="h-scroll">
+    <div class="col-xs-12">
+      {{> froalaReactive toolbarButtons=hpToolbarButtons
+        toolbarButtonsMD=hpToolbarButtons
+        toolbarButtonsSM=hpToolbarButtons
+        toolbarButtonsXS=hpToolbarButtons
+        imageUploadToS3=imageUploadToS3
+        _onimage.beforeUpload = beforeUpload
+        _onimage.beforeRemove = beforeRemove
+        _onimage.loaded = loaded
+        _onblur=doSave
+      }}
+      <button id="btnSave">저장</button>
+    </div>
+    <!-- toolbarSticky=hpTrue -->
+  <!-- <img src="https://s3.ap-northeast-2.amazonaws.com/iml-images/scshin/%EA%B3%A0%ED%95%B4%EC%83%81%EB%8F%84%EC%82%AC%EC%A7%84+%ED%85%8C%EC%8A%A4%ED%8A%B8.jpg" width="50" alt=""> -->
+
+  <img id="preview" src="" width="700" alt="로컬에 있는 이미지가 보여지는 영역">
+  <a id="download" download="thumbnail.jpg" target="_blank">
+      <img id="thumbnail" src="" width="100" alt="썸네일영역 (클릭하면 다운로드 가능)">
+  </a>
+  <input type="file" class="file_bag">
+  <button class="upload" id="upload">Upload</button>
+
+  <input type="file" class="fileItem" id='fileTs'>
+  <button class="upload2" id="upload2">사진 좌표 출력</button>
+
+
+  {{#each files}}
+    <p>{{percent_uploaded}}</p>
+    <button class="delete" id="delete">delete</button>
+  {{/each}}
+
+  <!-- {{> singleCalendar id="dd" readOnly=true}} -->
+  {{#each hp5}}
+    <p>
+    {{> singleCalendar id=(g_concat @index 'a') setDeleteDateBtn = false}}
+    {{> singleCalendar id=@index setDefaultDate = false setDeleteDateBtn = true}}
+    </p>
+  {{/each}}
+
+
+  타임피커
+  {{> timePicker}}
+
+  <button id='templatePopupbuketDetail' data-modal-template='inheritanceListContentsDetailPopup'>버킷 팝업</button>
+  <button id='templatePopupimDetail' data-modal-template='inheritanceListContentsDetailPopup'>im 팝업</button>
+  <button id='templatePopuptimeCapsuleDtail' data-modal-template='inheritanceListContentsDetailPopup'>캡슐 팝업</button>
+  <button >EXCEL 로드</button>
+  <input type="file" name="myfile" id='exelLoad' >
+  </div>
+
+</template>

@@ -1,0 +1,1075 @@
+var templateName = 'timelineMain';
+var mainDate = null;
+var isMoveScroll = false;
+var scrollPosition = '';
+var topContentId = null;
+var beforeContentId = null;
+var timelineDateArray = [];
+var userId = null;
+var isFutureSelected = false;
+var filter = 'fAll';
+var topLimit = 0;
+var beforeDataCount = 0;
+isStopIncrement = false;
+
+Template[templateName].onCreated(function(){
+  Blaze._allowJavascriptUrls();
+  var instance = this;
+  var callIndex = 0;
+  isStopIncrement = false;
+
+  Session.set('timelineMain topLoading', false);
+  Session.set('timelineMain bottomLoading', false);
+  Session.set('timelineMain data', null);
+  Session.set('timelineMain standardDate', null);
+  Session.set('timelineMain topLimit', 0);
+  Session.set('timelineMain itemsLimitBottom', global.timeLineItemsIncrement);
+  Session.set('timelineMain selectedFilter', 'fAll');
+  Session.set('timelineMain isFutureSelected', false);
+  Session.set('timelineMain isSelectedCarendar', false);
+
+  instance.autorun(function() {
+    var isPageOwner = global.fn_checkPageOwner(global.login.pageOwner);
+    if (isPageOwner) {
+      userId = global.login.userId;
+    } else {
+      userId = global.login.pageOwner;
+    }
+
+    var friendResult = [];
+    var friendsUserId = [];
+    friendResult = global.fn_getUserInfo(userId);
+    if (friendResult && friendResult.friends && friendResult.friends.accept) {
+      friendResult.friends.accept.map(function(item) {
+        friendsUserId.push(item.userId);
+      });
+    }
+    friendsUserId.unshift('admin');         // 관리자 데이터 추가
+    friendsUserId.unshift(userId);          // 나를 맨 앞에 추가
+
+    var standardDate = Session.get('timelineMain standardDate');
+    var selectedFilter = Session.get('timelineMain selectedFilter');
+    var subscriptionUp = instance.subscribe("timeline_id_upward", friendsUserId, selectedFilter, Session.get('timelineMain isFutureSelected'), Session.get('timelineMain topLimit'), standardDate ? standardDate : global.utilGetDate().defaultYMD, callIndex);
+    var subscriptionDown  = instance.subscribe("timeline_id_downward", userId, friendsUserId, selectedFilter, Session.get('timelineMain itemsLimitBottom'),  standardDate ? standardDate : global.utilGetDate().defaultYMD, callIndex);
+
+    // console.log(subscriptionUp.ready(), subscriptionDown.ready());
+    if (subscriptionUp.ready() && subscriptionDown.ready()) {
+
+      if(callIndex === 1){
+        callIndex = 0;
+      } else {
+        callIndex = 1;
+      }
+
+      timelineDateArray = [];
+
+      var timeline = CLT.EnTimeline.find().fetch();
+
+      //타임라인에 표시할 postId추출
+      var postId = [];
+      var postTimeLineDate = [];
+      _.each(timeline, function(entry){
+        postId.push(entry.postId);
+        postId = _.uniq(postId);
+        postTimeLineDate.push(entry.timelineDate);
+      });
+
+      var dateArray = [];
+        Meteor.call('enTimelineGetList', userId, isPageOwner, postId, friendsUserId, global.login.userId, standardDate, function(error, result) {
+        if (error) {
+          return alert(error);
+        } else {
+          if(result.length > 0){
+            topContentId = result[0]._id;
+          }
+          mainDate = null;
+
+          var futureData = [];
+          var currentData = [];
+          var resultData = {};
+          _.each(result, function(data){
+            if(data.timelineDate > global.utilGetDate().defaultYMD){
+              futureData.push(data);
+            } else {
+              currentData.push(data);
+            }
+
+            if(_.isUndefined(_.findWhere(dateArray, data.timelineDate ))) {
+              dateArray.push(data.timelineDate);
+            }
+            else {
+              data.timelineDate = '';
+            }
+          });
+          result = null;
+          resultData.futureData = futureData;
+          resultData.currentData = currentData;
+          Session.set('timelineMain data', resultData);
+          Template.fn_listHeightResizeControll();
+        }
+      });
+    }
+  });
+});
+
+Template[templateName].onRendered(function(){
+  //timeline 리스트 height리사이징을 위한 function
+  Template.fn_listHeightResize('.timeline-qna');
+  Template.fn_listHeightResize('.timeline-filter');
+  Template.fn_listHeightResize('.timeline-date');
+
+  //툴팁 위치 지정
+  this.$('[data-toggle="tooltip"]').tooltip({placement: 'top'});
+});
+
+Template[templateName].onDestroyed(function(){
+  Session.set('timelineMain data', null);
+  Session.set('timelineMain enStory', null);
+  Session.set('timelineMain topLoading', null);
+  Session.set('timelineMain bottomLoading', null);
+  Session.set('timelineMain standardDate', null);
+  Session.set('timelineMain topLimit', null);
+  Session.set('timelineMain itemsLimitBottom', null);
+  Session.set('timelineMain selectedFilter', null);
+  Session.set('timelineMain isFutureSelected', null);
+  Session.set('timelineMain isSelectedCarendar', null);
+});
+
+Template[templateName].events({
+  "click [name=timeline-label]": function(e, t) {
+    e.preventDefault();
+    // var value = e.currentTarget.getAttribute('value');
+    // var type = e.currentTarget.getAttribute('valueType');
+
+    var templateData = {};
+    var data = {};
+
+    var type = this.type;
+
+    //타임아웃을 이용해 선택된 페이지를 띄움
+    switch (type) {
+      // 나
+      case 'IM':
+        data._id = this.postId ? this.postId : this._id;
+        Session.set('endingNoteListHeaderIm selectedMenu', null);
+        global.utilTemplateMove('endingNoteListHeaderIm', 'imDetail', data);
+      break;
+      // 버킷
+      case 'BL': case 'BP': case 'BS':
+        if (type === 'BS' || type === 'BP') {
+          data._id = this.subPostId;  // 버킷리스트 키
+          if (type === 'BS') {
+            data.subId = this.postId; // 스토리 키
+          } else {
+            data.subId = null;
+            data.tab = 'BP';
+          }
+        } else {
+          data._id = this.postId ? this.postId : this._id; // 버킷리스트 키
+          data.subId = null;
+        }
+        global.utilTemplateMove('endingNoteListHeaderBucketList', 'bucketDetail', data);
+      break;
+
+      //타임캡슐
+      case 'TC':
+      var diffResult = global.fn_diffDate(this.unsealDate);
+
+      var openedFlag = false;
+      this.groupMember.map(function(item) {
+        if (item.userId === global.login.userId) {
+          if (item.openedDate) {
+            openedFlag = true;
+          }
+        }
+      });
+
+      if(this.status === 'PR' || diffResult.flag === '-' && diffResult.diffDay !== 'day' || openedFlag){ //개봉일 지나지 않음 || 이미 개봉됨
+        data._id = this.postId; // 타임캡슐 키
+        data.serchOption = {};
+        global.utilTemplateMove('endingNoteListHeaderTimeCapsule', 'timeCapsuleDetail', data);
+      } else {
+        data._id = this.postId;
+        data.serchOption = {};
+        data.innerData = this;
+        global.utilTemplateMove('endingNoteListHeaderTimeCapsule', 'timeCapsuleOpenEffect', data);
+      }
+      break;
+
+      //보금자리
+      case 'LT':
+        value = this.title;
+        data = {};
+        Session.set('endingNoteListHeaderIm selectedMenu', 'traceEnding');
+        global.utilTemplateMove('endingNoteListHeaderIm', 'imLifeTrace', data);
+      break;
+
+      case 'ME':
+        data.questionId = this.postId;
+        Session.set('endingNoteListHeaderIm selectedMenu', 'talkToMeEnding');
+        global.utilTemplateMove('endingNoteListHeaderIm', 'imMe', data);
+      break;
+
+      case 'WM':
+        data._id = this.postId;
+        data.searchOption = {
+          filter : 'tag',
+          searchText : ''
+        };
+        Session.set('endingNoteListHeaderIm selectedMenu', 'feelEnding');
+        global.utilTemplateMove('endingNoteListHeaderIm', 'imWithMeDetail', data);
+      break;
+
+      case 'FT':
+        data._id = this.postId;
+        global.utilTemplateMove('endingNoteListHeaderFuture', 'futureDetail', data);
+      break;
+    }
+  },
+  // 타임라인 왼쪽 이벤트풍선 더보기 버튼
+  "click #timelineL": function(e, t) {
+    e.preventDefault();
+    var value = null;
+    var type = e.target.getAttribute('valueType');
+    var templateData = {};
+    var sortParam = null;
+    switch(type) {
+      case 'IM':
+        value = e.target.getAttribute('value');
+        templateData.headerTmp = 'endingNoteListHeaderIm';
+        templateData.contentTmp = 'imContent';
+        sortParam = 'startDateDesc';
+      break;
+      case 'BL':
+        value = e.target.getAttribute('value');
+        templateData.headerTmp = 'endingNoteListHeaderBucketList';
+        templateData.contentTmp = 'bucketContent';
+        sortParam = 'regDateDesc';
+      break;
+      case 'LT':
+        value = e.target.getAttribute('txt');
+        templateData.headerTmp = 'endingNoteListHeaderIm';
+        templateData.contentTmp = 'imContent';
+      break;
+      case 'ME':
+        value = e.target.getAttribute('txt');
+        templateData.headerTmp = 'endingNoteListHeaderIm';
+        templateData.contentTmp = 'imContent';
+      break;
+    }
+    var data = {
+      searchOption: {
+        filter : 'tag',
+        searchText : value,
+        sortParam: sortParam
+      },
+      selectedMenu : 'all'
+    };
+
+    global.utilTemplateMove(templateData.headerTmp, templateData.contentTmp, data);
+  },
+  "click .spaceship": function(e, t){
+    e.preventDefault();
+    if(Session.get('timelineMain isFutureSelected')) {
+      Session.set('timelineMain isFutureSelected', false);
+      Session.set('timelineMain standardDate', global.utilGetDate().defaultYMD);
+      Session.set('timelineMain topLimit', 0);
+    } else {
+      isStopIncrement = false;
+      Session.set('timelineMain isFutureSelected', true);
+      Session.set('timelineMain topLimit', global.timeLineItemsIncrement);
+      t.$('.single-calendar').data('daterangepicker').setStartDate(global.utilGetDate().defaultYMD);
+      t.$('.single-calendar').data('daterangepicker').setEndDate(global.utilGetDate().defaultYMD);
+      // t.$('.single-calendar').data('daterangepicker').setStartDate('2017-06');
+      // t.$('.single-calendar').data('daterangepicker').setEndDate('2017-06');
+    }
+  },
+  "click .timelineFilter": function(e, t){
+    e.preventDefault();
+    beforeDataCount = 0;
+
+    Session.set('timelineMain selectedFilter', e.currentTarget.id);
+    Session.set('timelineMain data', null);
+  },
+  "click #memoryListCount": function(e, t){
+    e.preventDefault();
+
+  },
+  "click #myContents": function(e, t){
+    value = e.target.getAttribute('txt');
+    data = {
+      searchOption : {
+        filter : 'tag',
+        searchText : value
+      }
+    };
+    global.utilTemplateMove('endingNoteListHeaderIm', 'imContent', data);
+  },
+  "click [name=today]": function(e, t){
+    e.preventDefault();
+
+    if(Session.get('timelineMain data').currentData.length === 0 || Session.get('timelineMain data').currentData[0].timelineDate < global.utilGetDate().defaultYMD){
+      t.$('.single-calendar').data('daterangepicker').setStartDate(global.utilGetDate().defaultYMD);
+      t.$('.single-calendar').data('daterangepicker').setEndDate(global.utilGetDate().defaultYMD);
+      Session.set('timelineMain standardDate', global.utilGetDate().defaultYMD);
+    }
+    // targetElementLeft.mCustomScrollbar('scrollTo','.text-center.date.' + global.utilGetDate().defaultYMD);
+    //
+    // setTimeout(function(){
+    //   targetElementLeft.mCustomScrollbar('scrollTo','.text-center.date.' + global.utilGetDate().defaultYMD);
+    // }, 500);
+    Session.set('timelineMain isFutureSelected', false);
+    Session.set('timelineMain topLimit', 0);
+    targetElementLeft.mCustomScrollbar('scrollTo','top');
+
+
+  },
+  'click [name=detailR]': function(e, t) {
+    e.preventDefault();
+
+    console.log('this', this);
+  }
+});
+
+Template[templateName].helpers({
+  hpCollection: function() {
+    return Session.get('timelineMain data');
+    // return Template.instance().templateData.get();
+  },
+  hpTimelineLeftType: function(data) {
+    var template = null;
+
+    if(_.isEqual(data.contentType, 'H') || _.isEqual(data.type, 'BP')) {
+      // template = 'timelineMainType2'; //히스토리
+    } else {
+      if (data.userId === userId) {
+        if (data.type === 'BL') {
+          template = 'timelineMainLeft2';
+        } else {
+          template = 'timelineMainLeft';
+        }
+
+        if (data.follow) {
+          // 따라가기를 했을때
+          template = 'timelineFriendType1'; // 제목, 내용, 이미지
+
+          if (global.fn_isExist(data.content)) {
+            // content가 있을떄
+            if (global.fn_isExist(data.images)) {
+              // 이미지가 있을시
+              template = 'timelineFriendType2'; // 제목, 내용, 이미지
+            }
+          } else {
+            // content가 없을때
+            template = 'timelineFriendType3'; // 제목, 이미지만
+          }
+        }
+
+      } else {
+        // 등록된글이 친구 글일때
+        template = 'timelineFriendType1';
+
+        var content = global.utilTagRemove(data.content); // 태그를 제거한다
+        if (global.fn_isExist(content)) {
+          // content가 있을떄
+          if (global.fn_isExist(data.images)) {
+            // 이미지가 있을시
+            template = 'timelineFriendType2'; // 제목, 내용, 이미지
+          }
+        } else {
+          // content가 없을때
+          template = 'timelineFriendType3'; // 제목, 이미지만
+        }
+      }
+
+      if (data.type === 'FT') {
+        template = 'timelineFutrueType';
+      }
+      if (_.isEqual(data.type, 'LT') && _.isEqual(data.timeClass, 'end')) {
+        template = null;
+      }
+    }
+    return template;
+  },
+  hpTimelineRightType: function(data) {
+    var template = null;
+
+    if (data.userId === userId) {
+      if(_.isEqual(data.contentType, 'H')) {
+        template = 'timelineMainType2'; //히스토리
+      } else if (_.isEqual(data.type, 'ME')) {
+        template = 'timelineMainType3';
+      } else {
+        template = 'timelineMainType1'; //기본(제목, 내용)
+
+        var content = global.utilTagRemove(data.content); // 태그를 제거한다
+        if (global.fn_isExist(content)) {
+          // content가 있을떄
+          if (global.fn_isExist(data.images)) {
+            // 이미지가 있을시
+            template = 'timelineMainType5'; // 제목, 내용, 이미지
+          }
+        } else {
+          // content가 없을때
+          template = 'timelineMainType4'; // 제목, 이미지만
+        }
+      }
+    }
+
+    return template;
+  },
+  // 중복된날짜 제거
+  // hpMainDate: function(before) {
+  //   // if(_.isEmpty(timelineDateArray) || !_.has(_.invert(timelineDateArray),before)){
+  //   //   timelineDateArray.push(before);
+  //   //   console.log('before', before);
+  //   //   return before;
+  //   // }
+  //   // if (before !== mainDate) {
+  //   //   mainDate = before;
+  //   //   return mainDate;
+  //   // }
+  //   return before;
+  // },
+  hpMoreTopResults: function(){
+    if(_.isUndefined(Session.get('timelineMain data'))){
+      return false;
+    } else {
+      return Session.get('timelineMain topLoading');
+    }
+  },
+  hpMoreBottomResults: function(){
+    if(_.isUndefined(Session.get('timelineMain data'))){
+      return false;
+    } else {
+      return Session.get('timelineMain bottomLoading');
+    }
+  },
+  hpSelectedFilter: function(filterName){
+    if(_.isEqual(Session.get('timelineMain selectedFilter'), filterName)) {
+      return true;
+    }
+  },
+  hIsFutureListActive: function(){
+    return Session.get('timelineMain isFutureSelected') === true ? 'active' : '';
+  },
+  hpSelectedFuture: function(){
+    if(Session.get('timelineMain isFutureSelected') === true) {
+      return true;
+    }
+  }
+});
+
+Template.timelineMainType2.helpers({
+  // history 메세지 타입
+  hpHistoryMessage: function(type, len, index) {
+    if (len !== 0 && index < 2) {
+      return true;
+    }
+  },
+  // 히스토리 메세지 뿌리는형식 헬퍼
+  hpMessage: function(obj, mainType) {
+    var typeMessage = '';
+    var lastMessage = '';
+    var storyObj = {
+      _id: obj.typeKey
+    };
+    var bsTitle = null;
+    switch(obj.type) {
+      case 'WR':
+      switch(obj.postType) {
+        case global.pageType.im: typeMessage = '추억을 '; break;
+        case global.pageType.bucketList: typeMessage = '버킷리스트를 '; break;
+        case global.pageType.bucketStory:
+          bsTitle = ReactiveMethod.call('storyFind', storyObj);
+          if (bsTitle) {
+            typeMessage = '스토리[' + global.utilEllipsis(bsTitle[0].title, 15) + ']을 ';
+          }
+        break;
+        case global.pageType.timeCapsule: typeMessage = '타임캡슐을 '; break;
+        case global.pageType.lifeMap: typeMessage = '라이프맵을 '; break;
+      }
+      if (obj.postType === global.pageType.timeCapsule) {
+        lastMessage = '생성했습니다.';
+      } else {
+        lastMessage = '등록했습니다.';
+      }
+      break;
+
+      case 'LK':
+        if (obj.postType === 'BS') {
+          bsTitle = ReactiveMethod.call('storyFind', storyObj);
+          if (bsTitle) {
+            lastMessage = '[' + global.utilEllipsis(bsTitle[0].title, 11) + ']을 좋아합니다.';
+          }
+        } else {
+          lastMessage = '좋아합니다.';
+        }
+      break;
+
+      case 'CM':
+        if (obj.postType === 'BS') {
+          bsTitle = ReactiveMethod.call('storyFind', storyObj);
+          if (bsTitle) {
+            lastMessage = '[' + global.utilEllipsis(bsTitle[0].title, 9) + ']에 댓글을 썻습니다.';
+          }
+        } else {
+          lastMessage = '댓글을 썼습니다.';
+        }
+      break;
+
+      case 'FW':
+        lastMessage = '버킷을 따라하기 시작했습니다.';
+      break;
+
+      case 'CP':
+        lastMessage = '버킷을 따라하기 시작했습니다.';
+      break;
+
+      case 'BR':
+        lastMessage = '타임캡슐을 매립했습니다.';
+      break;
+
+      case 'MS':
+        lastMessage = '메세지를 등록하였습니다.';
+      break;
+
+      case 'US':
+        lastMessage = '타임캡슐을 개봉했습니다.';
+      break;
+
+      case 'GR':
+        lastMessage = '타임캡슐을 삭제했습니다.';
+      break;
+    }
+
+    if (obj.type === 'LK' || obj.type === 'CM' || obj.type === 'MS' || obj.type === 'GR' || obj.type === 'FW') {
+      if (obj.multi === 1) {
+        // typeMessage = global.utilStrCut(global.utilGetNickName(obj.user), 6) + '님이 ';
+        typeMessage = global.utilStrCut(ReactiveMethod.call('getNickName', obj.user), 6) + '님이 ';
+
+      } else {
+        // typeMessage = global.utilStrCut(global.utilGetNickName(obj.user), 6) + '님 외' + (obj.multi - 1) + '명이 ';
+        typeMessage = global.utilStrCut(ReactiveMethod.call('getNickName', obj.user), 6) + '님 외' + (obj.multi - 1) + '명이 ';
+      }
+    }
+
+    if (obj.type === 'CP') { // 따라하기한사람
+      // typeMessage = global.utilStrCut(global.utilGetNickName(obj.user), 6) + '님의 ';
+      typeMessage = global.utilStrCut(ReactiveMethod.call('getNickName', obj.user), 6) + '님의 ';
+    }
+    // 그룹원이 버킷스토리 등록한경우
+    if (obj.postType === 'BS' && obj.type === 'WR' && obj.userId !== obj.user) {
+      // typeMessage = global.utilStrCut(global.utilGetNickName(obj.user), 6) + '님이 ' + typeMessage;
+      typeMessage = global.utilStrCut(ReactiveMethod.call('getNickName', obj.user), 6) + '님이 ' + typeMessage;
+    }
+
+    return typeMessage + lastMessage;
+  },
+  hpContentSort: function(data) {
+    var content = data.content;
+    var sortData = _.chain(_.compact(content)).sortBy('typeKey').sortBy('type').sortBy('updateDate').value().reverse();
+    var result = [];
+    sortData = _.groupBy(sortData, function(a) {
+      return a.typeKey + '/' + a.postType + '/' + a.type + '/' + new Date(a.updateDate).format('yyyy-MM-dd');
+    });
+
+    var keys = _.keys(sortData);
+    keys.map(function(item, i) {
+      // var count = sortData[keys[i]].length;
+      var temp = [];
+      sortData[item].map(function(subItem) {
+        temp.push(subItem.user);
+      });
+      var count = _.uniq(temp).length;
+      sortData[item][0].multi = count;
+      if(data.type === 'TC'){
+        sortData[item][0].unsealDate = data.unsealDate;
+        sortData[item][0].title = data.title;
+        sortData[item][0].groupMember = data.groupMember;
+        sortData[item][0].nonUserGroupMember = data.nonUserGroupMember;
+        sortData[item][0].buryLocationName = data.buryLocationName;
+      }
+
+      result.push(sortData[item][0]);
+    });
+
+    // for (var i = 0; i < keys.length; i++) {
+    //   // var count = sortData[keys[i]].length;
+    //   var temp = [];
+    //   sortData[keys[i]].map(function(item) {
+    //     temp.push(item.user);
+    //   });
+    //   var count = _.uniq(temp).length;
+    //   sortData[keys[i]][0].multi = count;
+    //   result.push(sortData[keys[i]][0]);
+    // }
+    return result;
+  }
+});
+
+Template.timelineMainType3.helpers({
+
+});
+
+Template.timelineMainType4.helpers({
+  // hpImages: function(images) {
+  //   return images;
+  // }
+  hpImagesCheck: function(index) {
+    return index == 3;
+  }
+});
+
+Template.timelineMainType4.events({
+  "mouseenter .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "120%",height: "120%"}, 500);
+  },
+  "mouseleave .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "100%",height: "100%"}, 500);
+  }
+});
+
+Template.timelineFriendType3.events({
+  "mouseenter .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "120%",height: "120%"}, 500);
+  },
+  "mouseleave .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "100%",height: "100%"}, 500);
+  }
+});
+Template.timelineFriendType3.events({
+  "mouseenter .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "120%",height: "120%"}, 500);
+  },
+  "mouseleave .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "100%",height: "100%"}, 500);
+  }
+});
+
+Template.timelineMainType5.events({
+  "mouseenter .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "120%",height: "120%"}, 500);
+  },
+  "mouseleave .timeline-label .img-content a": function(e, t) {
+    // e.preventDefault();
+    // var target = e.target;
+    // $(target).find('img').animate({width: "100%",height: "100%"}, 500);
+  }
+});
+
+
+
+// Template.timelineMainType5.helpers({
+//   // 이미지 여러개중 첫번째 하나만 보여주는 헬퍼
+//   hpImageOne: function(images) {
+//     return images[0];
+//   }
+// });
+
+/*
+ * TIMELINE FUTURE onCreated
+ */
+Template.timelineFutureList.onCreated(function(){
+});
+
+/*
+ * TIMELINE FUTURE onRendered
+ */
+Template.timelineFutureList.onRendered(function(){
+  this.$('#timelineFutureContainer').slideDown();
+});
+
+Template.timelineFutureList.helpers({
+  hpCollection: function() {
+    return Session.get('timelineMain data');
+    // return Template.instance().templateData.get();
+  },
+  hpTimelineLeftType: function(data) {
+    var template = null;
+
+    if(_.isEqual(data.contentType, 'H') || _.isEqual(data.type, 'BP')) {
+      // template = 'timelineMainType2'; //히스토리
+    } else {
+      if (data.userId === userId) {
+        if (data.type === 'BL') {
+          template = 'timelineMainLeft2';
+        } else {
+          template = 'timelineMainLeft';
+        }
+        if (data.follow) {
+          // 따라가기를 했을때
+          template = 'timelineFriendType1'; // 제목, 내용, 이미지
+
+          if (global.fn_isExist(data.content)) {
+            // content가 있을떄
+            if (global.fn_isExist(data.images)) {
+              // 이미지가 있을시
+              template = 'timelineFriendType2'; // 제목, 내용, 이미지
+            }
+          } else {
+            // content가 없을때
+            template = 'timelineFriendType3'; // 제목, 이미지만
+          }
+        }
+
+      } else {
+        // 등록된글이 친구 글일때
+        template = 'timelineFriendType1';
+
+        var content = global.utilTagRemove(data.content); // 태그를 제거한다
+        if (global.fn_isExist(data.content)) {
+          // content가 있을떄
+          if (global.fn_isExist(data.images)) {
+            // 이미지가 있을시
+            template = 'timelineFriendType2'; // 제목, 내용, 이미지
+          }
+        } else {
+          // content가 없을때
+          template = 'timelineFriendType3'; // 제목, 이미지만
+        }
+      }
+      if (data.type === 'FT') {
+        template = 'timelineFutrueType';
+      }
+      if (_.isEqual(data.type, 'LT') && _.isEqual(data.timeClass, 'end')) {
+        template = null;
+      }
+    }
+    return template;
+  },
+  hpTimelineRightType: function(data) {
+    var template = null;
+
+    if (data.userId === userId) {
+      if(_.isEqual(data.contentType, 'H')) {
+        template = 'timelineMainType2'; //히스토리
+      } else if (_.isEqual(data.type, 'ME')) {
+        template = 'timelineMainType3';
+      } else {
+        template = 'timelineMainType1'; //기본(제목, 내용)
+
+        var content = global.utilTagRemove(data.content); // 태그를 제거한다
+        if (global.fn_isExist(content)) {
+          // content가 있을떄
+          if (global.fn_isExist(data.images)) {
+            // 이미지가 있을시
+            template = 'timelineMainType5'; // 제목, 내용, 이미지
+          }
+        } else {
+          // content가 없을때
+          template = 'timelineMainType4'; // 제목, 이미지만
+        }
+      }
+    }
+
+    return template;
+  },
+  // 중복된날짜 제거
+  // hpMainDate: function(before) {
+  //   // if(_.isEmpty(timelineDateArray) || !_.has(_.invert(timelineDateArray),before)){
+  //   //   timelineDateArray.push(before);
+  //   //   console.log('before', before);
+  //   //   return before;
+  //   // }
+  //   // if (before !== mainDate) {
+  //   //   mainDate = before;
+  //   //   return mainDate;
+  //   // }
+  //   return before;
+  // },
+  hpMoreTopResults: function(){
+    if(_.isUndefined(Session.get('timelineMain data'))){
+      return false;
+    } else {
+      return Session.get('timelineMain topLoading');
+    }
+  },
+  hpMoreBottomResults: function(){
+    if(_.isUndefined(Session.get('timelineMain data'))){
+      return false;
+    } else {
+      return Session.get('timelineMain bottomLoading');
+    }
+  },
+  hpSelectedFilter: function(filterName){
+    if(_.isEqual(Session.get('timelineMain selectedFilter'), filterName)) {
+      return true;
+    }
+  },
+  hIsFutureListActive: function(){
+    return Session.get('timelineMain isFutureSelected') === true ? 'active' : '';
+  }
+});
+
+// 데이터 랜덤으로 뽑아오는 헬퍼
+UI.registerHelper('hpEndingNoteStory', function(data, limit) {
+  var result = null;
+  switch (this.type) {
+    case 'IM': result = ReactiveMethod.call('endingNoteStoryRandom', data.type, data.tag, data.userId, limit);
+    break;
+
+    case 'BL': result = ReactiveMethod.call('bucketListRandom', data.tag, data.userId, limit);
+    break;
+
+    case 'LT': result = ReactiveMethod.call('endingNoteStoryRandom', 'IM', [data.title], data.userId, limit);
+    break;
+
+    case 'ME':
+      switch(data.subType) {
+        case 'ME': case 'IM':
+        var dataFlag = true;
+        if (data.category === 'NM0010' || data.category === 'NM0013' || data.category === 'NM0021' || data.category === 'NM0022') {
+          // 해당질문은 연관데이터를 안보여준다
+          dataFlag = false;
+        }
+        if (dataFlag) {
+          result = ReactiveMethod.call('endingNoteStoryRandom', 'IM', [data.title], data.userId, limit);
+        }
+        break;
+      }
+    break;
+  }
+  return result;
+});
+
+UI.registerHelper('hpGetTitle', function(data) {
+  var mainTitle = global.timelineLeftTitle[data.type];
+  if (data.type === 'LT') {
+    mainTitle = '다른분들의 ' + data.title + ' 추억은...';
+  }
+  if (data.type === 'ME') {
+    var count = ReactiveMethod.call('imMeQuestionCount', global.login.userId, data.category, data.title);
+    mainTitle = global.timelineLeftTitle[data.category];
+    mainTitle = mainTitle.replace('keyword', data.title);
+    var textPostPosition = '';
+    if(mainTitle.indexOf('|postPositionA') >= 0){
+      textPostPosition = global.fn_getTextPostPosition(data.title, 'typeA'); //typeA = 을/를
+      mainTitle = mainTitle.replace('|postPositionA', textPostPosition);
+    } else if(mainTitle.indexOf('|postPositionB') >= 0){
+      textPostPosition = global.fn_getTextPostPosition(data.title, 'typeB'); //typeB = 이/가
+      mainTitle = mainTitle.replace('|postPositionB', textPostPosition);
+    } else if(mainTitle.indexOf('|postPositionC') >= 0){
+      textPostPosition = global.fn_getTextPostPosition(data.title, 'typeC'); //typeB = 으로/로
+      mainTitle = mainTitle.replace('|postPositionC', textPostPosition);
+    } else if(mainTitle.indexOf('|postPositionD') >= 0){
+      textPostPosition = global.fn_getTextPostPosition(data.title, 'typeD'); //typeB = 은/는
+      mainTitle = mainTitle.replace('|postPositionD', textPostPosition);
+    }
+    // 인원표시는 빼기로 함
+    // if (count === 0) {
+    //   mainTitle = mainTitle.replace('count명', '');
+    // } else {
+    //   mainTitle = mainTitle.replace('count', count);
+    // }
+  }
+  return mainTitle;
+});
+
+UI.registerHelper('hpImagesCheck', function(data) {
+  return data.length >= 4;
+});
+
+UI.registerHelper('hpImages', function(images) {
+  return images;
+});
+
+// 이미지 여러개중 첫번째 하나만 보여주는 헬퍼
+UI.registerHelper('hpImageOne', function(images) {
+  return images[0];
+});
+
+UI.registerHelper('hpTypeName', function(data) {
+  var result = null;
+  switch(data.type) {
+    case 'BP': result = '플랜'; break;
+    case 'BS': result = '버키스토리'; break;
+  }
+  return result;
+});
+
+UI.registerHelper('hpMyDataCount', function(data) {
+  var result = ReactiveMethod.call('myDataCount', data);
+  return result;
+});
+
+UI.registerHelper('hpMeDataCount', function(data) {
+  var result = ReactiveMethod.call('meDataCount', data);
+  return result;
+});
+// 친구템플릿 제목 기재 헬퍼
+UI.registerHelper('hpFriendType', function(type) {
+  var result = null;
+  switch(type) {
+    case 'IM': result = '추억'; break;
+    case 'BL': result = '버킷리스트'; break;
+    case 'BS': result = '버키스토리'; break;
+  }
+  return result;
+});
+// 친구템플릿 기간 표시헬퍼
+UI.registerHelper('hpFriendDate', function(data) {
+  var result = null;
+  switch(data.type) {
+    case 'BL':
+      result = data.title + '<br/>|{preTag}|기간:|{postTag}| ' + global.utilGetDate(data.startDate).defaultYMD + ' ~ ' + (data.endDate ? global.utilGetDate(data.endDate).defaultYMD : '') + '<br/>';
+    break;
+  }
+  return result;
+});
+// lock 표시여부
+UI.registerHelper('hpIsLock', function(lock) {
+  return lock;
+});
+// 타임캡슐 개봉 표시 여부
+UI.registerHelper('hpTimeCapsuleDday', function(data) {
+  var result = null;
+  if (data.type === 'TC') {
+    var openedFlag = false;
+    data.groupMember.map(function(item) {
+      if (item.userId === global.login.userId) {
+        if (item.openedDate) {
+          openedFlag = true;
+        }
+      }
+    });
+    if (openedFlag) {
+      result = 'Opened';
+    } else {
+      var dDay = global.fn_diffDate(data.unsealDate);
+      result = 'D' + dDay.flag + dDay.diffDay;
+    }
+    return result;
+  }
+});
+// 버킷따라가기 설정
+UI.registerHelper('hpBkFollow', function(data) {
+  if (data.follow && global.login.userId === data.userId) {
+    var bkObj = {
+      _id: data.parentPostId
+    };
+    var bkData = ReactiveMethod.call('bucketTimelineGetList', bkObj);
+    if (bkData) {
+      return bkData[0];
+    }
+  }
+});
+
+/*
+* timeline 리스트 height리사이징을 위한 function (중복처리)
+* 20170117 이병현
+*/
+Template.fn_listHeightResizeControll = function(){
+  setTimeout(function(){
+    Template.fn_listHeightResize('.timeline-list');
+  }, 500);
+};
+/*
+* timeline 리스트 height리사이징을 위한 function
+* 20170117 이병현
+*/
+Template.fn_listHeightResize = function(ids){
+  var eHeight = 70;
+  var eDefault = 50;
+  var ePadding = 20;
+  $(ids).each(function(i){
+    var qObj = $(this).find('.timeline-question');
+    var aObj = $(this).find('.timeline-answer');
+    var qHeight = qObj.height();
+    var aHeight = aObj.height();
+    var tHeight = 0;
+    if( qHeight !== null && qHeight >= aHeight){
+      tHeight = qHeight + ePadding;
+      $(this).height(tHeight);
+    }else if(aHeight !== null && aHeight >= qHeight){
+      tHeight = aHeight + ePadding;
+      $(this).height(tHeight);
+    }else{
+      tHeight = eDefault + ePadding;
+      $(this).height(tHeight);
+    }
+  });
+};
+
+// setTop = function() {
+//   setTimeout(function(){
+//     targetElementLeft.mCustomScrollbar('scrollTo',"1");
+//     targetElementLeft.mCustomScrollbar('scrollTo',"top");
+//   }, 10);
+// };
+
+showMoreTopVisibleTimeline = function(data) {
+  if(data.mcs.top === 0){
+    Session.set('timelineMain topLoading', true);
+    scrollPosition = 'top';
+    // console.log('showMoreTopVisibleTimeline',isStopIncrement,isMoveScroll, Session.get('timelineMain isSelectedCarendar'), data.mcs.top);
+    if(!isStopIncrement && !Session.get('timelineMain isSelectedCarendar')){
+      beforeContentId = topContentId;
+      Session.set('timelineMain topLimit', Session.get('timelineMain topLimit') + global.timeLineItemsIncrement);
+      // console.log(Session.get('timelineMain topLimit'));
+    }
+
+    // 바로 위에서 세션 셋을 통해 autorun이 돌고난 뒤 스크롤을 무빙하기 위해 setTimeout값을 설정함
+    setTimeout(function(){
+      if(isMoveScroll) {
+        // setTop();
+        // targetElementLeft.mCustomScrollbar('scrollTo',"1");
+        // targetElementLeft.mCustomScrollbar('scrollTo', $('.timeline-label[id=' + beforeContentId + ']'));
+        // console.log('b :', beforeContentId,'t :', topContentId);
+        // beforeContentId = topContentId;
+        // targetElementLeft.mCustomScrollbar('scrollTo', '-=500');
+      } else {
+        if(!Session.get('timelineMain isSelectedCarendar')){
+          isStopIncrement = true;
+        }
+        // console.log(isStopIncrement);
+      }
+      Session.set('timelineMain isSelectedCarendar', false);
+    }, 500);
+
+    Session.set('timelineMain topLoading', false);
+  }
+};
+
+
+showMoreBottomVisibleTimeline = function(data) {
+  //인피니트 스크롤(bottom)
+  Session.set('timelineMain bottomLoading', true);
+  scrollPosition = 'bottom';
+  Session.set('timelineMain itemsLimitBottom', Session.get('timelineMain itemsLimitBottom') + global.timeLineItemsIncrement);
+  // initialData(srchCondition, srchText, sortBy, isPast);
+  Session.set('timelineMain bottomLoading', false);
+};
+
+
+UI.registerHelper("hpSetImageSize", function(_path){
+  var img = new Image();
+  img.onload = function(){
+    var width = img.width;
+    var height = img.height;
+    console.log(width, height);
+        if(width > height){
+          $('img[src="'+_path+'"]').css('width','auto');
+          $('img[src="'+_path+'"]').css('height','100%');
+        } else {
+          $('img[src="'+_path+'"]').css('width','100%');
+          $('img[src="'+_path+'"]').css('height','auto');
+        }
+    };
+  console.log(_path);
+  img.src = _path;
+});

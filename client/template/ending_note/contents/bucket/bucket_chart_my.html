@@ -1,0 +1,71 @@
+<template name="bucketChartMy">
+  <div class="content right h-scroll hr-scroll">
+  <div class="bucket-status-box my">
+    <div class="status-title" >
+      버킷 및 따라쟁이 현황
+    </div>
+    <div class="status-content">
+      <div class="list-group list-group-horizontal">
+
+        <a href="javascript:;" class="list-group-item defaultmouse" >
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_1.jpg) no-repeat 0 0; "></a>
+          <p>버킷<br><strong>작성</strong></p>
+          <div>{{g_numPad countItems.totalCount 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_2.jpg) no-repeat 0 0;"></a>
+          <p>버킷<br><strong>완료</strong></p>
+          <div>{{g_numPad countItems.completeCount 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_3.jpg) no-repeat 0 0;"></a>
+          <p>버킷<br><strong>진행</strong></p>
+          <div>{{g_numPad countItems.ingCount 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_4.jpg) no-repeat 0 0;"></a>
+          <p>나를<br><strong>따라하기</strong></p>
+          <div class="extra">{{g_numPad countItems.iFollow 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_4.jpg) no-repeat 0 0;"></a>
+          <p>내가<br><strong>따라하기</strong></p>
+          <div class="extra">{{g_numPad countItems.myFollower 2}}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- <div>
+    작성버킷 {{countItems.totalCount}}<br>
+    완료버킷 {{countItems.completeCount}}<br>
+    진행중버킷 {{countItems.ingCount}}<br>
+    내가따라쟁이 {{countItems.iFollow}}<br>
+    나의따라쟁이 {{countItems.myFollower}}<br>
+  </div> -->
+  <div class="bucket-status-box">
+    <div class="status-title" >
+      나는 어떤 버킷을 등록했을까요?
+    </div>
+    <div class="status-content">
+      <div class="bucket-vgraph-chart">
+        <!-- <div class="vgraph-"></div> -->
+        <canvas style="width:400px; height:300px;" id="myBucketChart" ></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+
+<!--
+.type-buket .bucket-status-box {text-align: center; width: 97%;    margin: 0 0 0 -2px;    border: 1px solid #dddddd;    color: #74a3ac;}
+.type-buket .bucket-status-box .status-title {padding: 10px; border-bottom: 1px solid #dddddd; color: #74a3ac; font-weight:bold; background-color: #f5f5f5;}
+.type-buket .bucket-status-box .list-group-horizontal .list-group-item:first-child {border-left: unset;}
+.type-buket .bucket-status-box .list-group-horizontal .list-group-item {border: unset; border-left: 1px solid #ddd;}
+.type-buket .bucket-status-box .list-group-horizontal .list-group-item a {display: inline-block; width: 33px; height: 33px;}
+
+
+
+
+
+     -->

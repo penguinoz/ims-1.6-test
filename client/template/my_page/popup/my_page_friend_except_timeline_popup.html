@@ -1,0 +1,45 @@
+<!-- 마이페이지 > 친구관리 > 타임라인 추가/제외 (팝업) -->
+<template name="myPageFriendExceptTimeLinePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">타임라인 추가/제외</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          회원님의 엔딩노트 타임라인에 선택한 친구의 소식을
+        </div>
+      </div>
+    </div>
+    <div class="body-content">
+      <p>
+        {{#each hpCollection}}
+          {{g_getNickName this}}<br/>
+        {{/each}}
+      </p>
+    </div>
+    <div class="radio-group mypage-friend">
+      <div class="row">
+        <div class="col-xs-6">
+          <label><input type="radio" name='groupRadio' value="add" checked/><span class="w2label"><span class="big">연결</span>합니다.</span></label>
+        </div>
+        <div class="col-xs-6">
+          <label><input type="radio" name='groupRadio' value="remove" /><span class="w2label"><span class="big">제외</span>합니다.</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" name="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" name="save" role="button">저장</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

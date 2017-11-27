@@ -1,0 +1,246 @@
+<template name="bucketwriting">
+  <!-- content -->
+    <div class="content h-scroll type-buket hr-scroll">
+      <!-- container -->
+      <div class="container-fluid detail-container">
+        <!-- row -->
+        <div class="row detail-article nobd">
+          <!-- detail-group -->
+          <div class="detail-group ">
+              <div class="media-body" style="width: 1000px;">
+                <div class="row nopm">
+                  {{> selectCategoryTemplate hpSelectPickersibal }}
+                  {{> selectprivTemplate hpSelectPickerLock }}
+                  {{> selectFollowTemplate followType=hpSelectType }}
+                </div>
+                <div class="row nopm">
+                  <div class="col">
+                    <div class="radio-group">
+                      <span class="w2label">수행주체</span>
+                      <label><input type="radio" name='groupRadio' value="solo" checked/><span class="w2label">나</span></label>
+                      <label><input type="radio" name='groupRadio' value="group" /><span class="w2label">그룹</span></label>
+                    </div>
+                  </div>
+                  <!-- <div class="col hidden" id="gName"><input type="text" id="groupName" placeholder="그룹명을 입력하세요" style="width:174px"/></div> -->
+
+                   <!-- <div class="col hidden" id="fList" style="margin-left:100px;"> -->
+                   <div class="col hidden" id="fList">
+                    <!-- <div class="input-article icon-style">
+
+                      <input type="text" id="friendList" placeholder="친구를 선택하세요." style="width:100%" disabled/>
+                      <a href="javascript:void(0)" class="btn_comment buket-alert" role="button" id="findFriend" ><i class="glyphicon glyphicon-user" data-modal-template="addFriendsPopup" ></i></a>
+                    </div>
+                    <div class="tag">
+                      <ul id="tagFrUlList">
+                      </ul>
+                    </div> -->
+
+                    <div class="col">
+                      <div class="tag">
+                        <ul class="friends" id="tagFrUlList" data-empty-message="함께 작성 할 친구를 선택하세요"></ul>
+                        <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                          <i class="ion-android-person-add" data-modal-template="bucketAddFriendsPopup"></i>
+                        </a>
+                      </div>
+                      <!-- <div class="input-article icon-style" >
+                        <input type="text" placeholder="함께 작성 할 친구를 선택하세요" style="width:200px;" id="groupFriendList" disabled />
+                        <a href="javascript:void(0)" class="btn mapImg" id="findFriend">
+                          <i class="ion-android-person-add" data-modal-template="bucketAddFriendsPopup"></i>
+                        </a>
+                      </div> -->
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row nopm">
+                    <input type="text" class="" id="meTitle" placeholder="제목을 입력하세요." style="width:100%" value="{{hpDefaultData.title}}" title="제목을 입력하세요." required="true" />
+                </div>
+                {{#with hpSetDateTime}}
+                <div class="row nopm" style="margin-top: 3px !important;">
+                  <div class="col-xs-6 nopm">
+                    <div class="text-left calendar-box" >
+                      <span class="w2label" style="margin-top:2px;">시작일</span>
+                      {{> singleCalendar id="startDate" setDeleteDateBtn=true setDefaultDate=false value=this.startDate customIcon=false}}
+                    </div>
+                  </div>
+                  <div class="col-xs-6 nopm">
+                    <div class="text-left calendar-box calendar-left" >
+                      <span class="w2label text-right" style="margin-left:10px; margin-top:2px;">완료일</span>
+                      {{> singleCalendar id="completeDate" setDeleteDateBtn=true setDefaultDate=false value=this.completeDate customIcon=false}}
+                    </div>
+                  </div>
+                </div>
+                {{/with}}
+                <div class="row nopm">
+                  <span class="w2label">실행장소</span>
+                  <div class="input-article icon-style" style="width:358px" id="mapSearch" data-modal-template="googleMapSearch">
+                    <input type="text" placeholder="" id="exePlace" style="width:100%;" disabled/>
+                    <a href="javascript:void(0)" data-modal-template="googleMapSearch">
+                      <i class="imsr-icon icon-me0032"></i>
+                    </a>
+                  </div>
+                  <div hidden>
+                    <input type="text" name="lat" id="lat" value="{{lat}}">
+                    <input type="text" name="lng" id="lng" value="{{lng}}">
+                  </div>
+                </div>
+              </div>
+              <!-- //list-group-item -->
+            </div>
+            <!-- detail-group -->
+          <!-- panel -->
+          <div class="panel panel-default im-write">
+            <!-- panel-body -->
+            <div class="panel-body">
+              <div class="editor-content">
+                  {{> froalaReactive hpGetContext}}
+              </div>
+              <div class="tag">
+                <ul id="tagUlList">
+                  <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+                </ul>
+              </div>
+              <!-- Rounded switch -->
+              <div class="row text-right">
+                <span>완료여부</span>
+                <label class="switch">
+                  <input type="checkbox" id="isComplete">
+                  <div class="slider round"></div>
+                </label>
+              </div>
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- panel -->
+        </div>
+        <!-- //row -->
+      </div>
+      <!-- //container -->
+
+      <!-- container -->
+      <div class="container-fluid detail-container">
+        <!-- row -->
+        <div class="row detail-article nobd nopm">
+          <!-- detail-group -->
+          <div class="detail-group ">
+            <!-- panel -->
+            <div class="panel panel-default buket-panel">
+              <!-- panel-heading -->
+      				<div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-7 nopm">
+        					  <h3 class="panel-title">실행계획</h3>
+                  </div>
+                  <div class="col-xs-5 nopm">
+                    <div class="text-right detail-btn nopm">
+                      <!-- btn-group -->
+                        <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="addRow">추가</a>
+                        <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="delChecked">선택삭제</a>
+                      <!-- //btn-group -->
+                    </div>
+                  </div>
+                </div>
+      				</div>
+              <!-- //panel-heading -->
+              <!-- panel-body -->
+              <div class="panel-body">
+                <div id="planGroup">
+                   {{#each hpExePlanList}}
+                   <div name="{{@index}}"></div>
+                    <!-- <div id="planList{{@index}}" value="{{planId}}"> -->
+                    {{> exePlanTemplate param=this index=@index}}
+                   {{/each}}
+                 </div>
+                <!-- //input-group -->
+              </div>
+              <!-- //panel-body -->
+            </div>
+            <!-- //panel -->
+          </div>
+          <!-- //detail-group -->
+        </div>
+        <!-- //row -->
+      </div>
+      <!-- //container-fluid -->
+    </div>
+    <!-- //content -->
+    <!-- btn-group -->
+    <div class="fix-btnset type-buket">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+        </div>
+      </div>
+    </div>
+    <!-- //btn-group -->
+</template>
+
+<template name="selectFollowTemplate">
+  <select class="selectFollowPicker ml10" data-width="106px" name="followOp" id="followOp" title="따라가기허용을 선택해주세요." required {{hpDisabled hpFollowType}}>
+      <option  value="true" >따라하기허용</option>
+      <option  {{hpSelected hpFollowType}}>따라하기불허용</option>
+  </select>
+</template>
+
+<template name="selectCategoryTemplate">
+  <select class="selectpicker" data-width="75px" name="categoryOp" id="categoryOp" title="카테고리를 선택해주세요." required>
+    <!-- <option value="" disabled selected>카테고리</option> -->
+    <option value="CA001">먹고싶은</option>
+    <option value="CA002">가고싶은</option>
+    <option value="CA003" selected>하고싶은</option>
+    <option value="CA004">갖고싶은</option>
+    <option value="CA005">되고싶은</option>
+    <option value="CA006">보고싶은</option>
+  </select>
+</template>
+
+<template name="selectprivTemplate">
+  <select class="selectpicker ml10" data-width="75px" name="lockOp" id="lockOp" title="공개구분을 선택해주세요." required>
+    <!-- <option value="" disabled selected>공개구분</option> -->
+    <option value="false">공개</option>
+    <option value="true">비공개</option>
+  </select>
+</template>
+
+<template name="exePlanTemplate">
+  <div id="planList{{index}}">
+    <!-- row -->
+    <div class="actionplan-container">
+      <div class="list-head">
+        <div class="checkbox" id="delCheckBt">
+          <input type="checkbox" id="delCheck{{this.index}}">
+          <label for="delCheck{{this.index}}"></label>
+        </div>
+      </div>
+      <div class="list-body">
+        <!-- row -->
+        <div class="row" style="margin-left: -18px;">
+          <div class="col-xs-2 nopm" style="text-align:right !important"><span class="w2label">시작일</span></div>
+          <div class="col-xs-4 nopm">
+            <div class="calendar-box">
+              {{> singleCalendar id=(g_concat 'planStartDate_' this.index) value=param.planStartDate setDeleteDateBtn=true setDefaultDate=false customIcon=false}}
+            </div>
+          </div>
+          <div class="col-xs-2 nopm" style="text-align:right !important"><span class="w2label">종료일</span></div>
+          <div class="col-xs-4 nopm">
+            <div class="calendar-box calendar-left">
+              {{> singleCalendar id=(g_concat 'planCompleteDate_' this.index) value=param.planCompleteDate setDeleteDateBtn=true setDefaultDate=false customIcon=false}}
+            </div>
+          </div>
+        </div>
+        <!-- //row -->
+        <!-- row -->
+        <div class="row">
+          <div class="col-xs-12 nopm">
+            <textarea id="exePlanContent" value='{{param.planContent}}' placeholder="내용" style="width:100%; height:30px;" rows="1" cols=""></textarea>
+          </div>
+        </div>
+        <!-- //row -->
+      </div>
+    </div>
+    <!-- //row -->
+  </div>
+</template>

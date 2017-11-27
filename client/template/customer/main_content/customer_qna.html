@@ -1,0 +1,190 @@
+<!-- 마이페이지 > 댓글 -->
+<template name="customerQna">
+<div class="h-scroll hi-scroll">
+  <!-- mypage-title -->
+  <div class="mypage-title">
+    <h2>1:1문의</h2>
+  </div>
+  <!-- mypage-title -->
+  <!-- content -->
+  <div class="content">
+    <!-- addInheritor-searchContainer -->
+    <div class="mypage-searchContainer">
+      <!-- row -->
+      <div class="row">
+        <div class="col-xs-6 search-box">
+          <select class="selectpicker" data-width="65px" name="keywordTypeSend" id="keywordTypeSend">
+            <option value="content">내용</option>
+            <option value="title">제목</option>
+            <option value="category">카테고리</option>
+          </select>
+          <form id="custom-search-form" class="form-search form-horizontal" onsubmit="return false">
+            <div class="input-append span12">
+              <input type="text" class="search-query" placeholder="" name="keywordTextSend" id="keywordTextSend">
+              <button class="btn" name="searchBtReceive"><i class="imsr-icon icon-in0007"></i></button>
+            </div>
+          </form>
+          <span>총 <strong>{{hpGetLength}}</strong>건</span>
+        </div>
+        <a href="javascript:void(0)" class="mypage-add-qna" id="qnaWritebt"  data-modal-template='customerWritePopup'>문의하기</a>
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //addInheritor-searchContainer -->
+    <!-- mypage-assets-table -->
+    <div class="mypage-assets-table requestReady">
+        <!-- panel-table -->
+        <div class="panel panel-default panel-table row-sm no-link type-link">
+          <!-- panel-head -->
+          <div class="panel-heading">
+            <div class="tr">
+                <div class="th" style="width:10%;">No</div>
+                <div class="th" style="width:65%;">제목</div>
+                <div class="th" style="width:10%;">답변여부</div>
+                <div class="th" style="width:15%;">등록일</div>
+            </div>
+          </div>
+          <!-- //panel-head -->
+          <!-- panel-body -->
+          <div class="panel-body">
+          <!-- {{#each hpLikeData.to}} -->
+            <!-- tr -->
+            {{#each hpGetQnaData}}
+            {{#if g_isEqual hpGetPageIndex this.index}}
+            {{#each data}}
+            <div class="tr {{#unless g_isExist answer}}unanswer{{/unless}}" id="faqRow">
+              <div class="td">{{rowIndex}}</div>
+              <div class="td left"><a id="{{_id}}" name="title" target="_blank">{{title}}</a></div>
+              <div class="td">{{hpIsUndefined answer}}</div>
+              <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+            </div>
+            <div class="tr detail">
+              <div class="td colspan" id="faqDetail{{_id}}" style="margin-right: 99px; display: {{#if hpisSeleted}} block; {{else}} none;{{/if}}">
+                <div class="qna-detail">
+                <!-- question-detail -->
+                  <div class="question-detail">
+                    <div class="detail-head">
+                      <div class="row">
+                        <div class="col-xs-8">
+                          <span class="questionTxt">Q.</span>
+                          <span class="subject">
+                            {{#if hpEditer}}
+                              <input type="text" value="{{title}}" />
+                            {{else}}
+                              {{title}}
+                            {{/if}}
+                          </span>
+                        </div>
+                        {{#unless hpEditer}}
+                          {{#if hpGetEmptyParam qsfile}}
+                            <div class="col-xs-4 text-right dropdownAtatch" id="filedropdown">
+                              <div class="attach-file" >
+                                <i class="imsr-icon icon-bu0004"></i>
+                                <span class="file-name">첨부파일</span>
+                                <span class="file-length">({{qsfile.length}})</span>
+                                <!-- <a href="javascript:{{hpGetPrePath qsfile}}" download>
+                                </a> -->
+                              </div>
+                              <div class="dropdown-filecontent " id="atatchfileDiv">
+                                {{#each qsfile}}
+                                  <a value="{{hpGetPrePath this}}" id="atchedFileAtage">{{hpGetFileName this}}</a>
+                                {{/each}}
+                              </div>
+                            </div>
+                          {{/if}}
+                        {{/unless}}
+                      </div>
+                    </div>
+                    <div class="detail-body">
+                      <div class="row">
+                        <div class="col-xs-12 detail-content ">
+                          {{> froalaReactive hpGetContext}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="detail-foot">
+                        <a href="javascript:void(0)" id="updateQna"  data-modal-template='customerWritePopup'>수정<i class="ion-edit"></i></a>
+                        <a href="javascript:void(0)" id="deleteQna">삭제<i class="ion-trash-b"></i></a>
+                        {{#if g_supportAuth}}
+                          <a href="javascript:void(0)" id="writeQnaAnswer" data-modal-template='customerWriteQnaanswerPopup'>답변<i class="ion-edit"></i></a>
+                        {{/if}}
+                      <!-- {{/if}} -->
+                    </div>
+                  </div>
+                  <!-- //question-detail -->
+                  <!-- answer-detail -->
+                  {{#if hpGetEmptyParam answer}}
+                    <div class="answer-detail">
+                      <div class="detail-head">
+                        <div class="row">
+                          <div class="col-xs-8">
+                            <span class="questionTxt">A.</span><span class="subject">{{title}}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="detail-body">
+                        <div class="row">
+                          <div class="col-xs-12 detail-content ">
+                            <p>
+                              {{>froalaReactive hpGetAnswerContext}}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="detail-foot">
+                        {{#if g_supportAuth}}
+                          <a href="javascript:void(0)" id="editQnaAnswer" data-modal-template='customerWriteQnaanswerPopup'>수정<i class="ion-edit"></i></a>
+                        {{/if}}
+                      </div>
+                    </div>
+                    {{/if}}
+                    <!-- //question-detail -->
+                  </div>
+                  <!-- //qna-detail -->
+              </div>
+            </div>
+            {{/each}}
+            {{/if}}
+            {{/each}}
+            <!-- tr -->
+            <!-- {{/each}} -->
+          </div>
+          <!-- //panel-body -->
+        </div>
+        <!-- //panel-table -->
+        <!-- pagination -->
+        <div class="row text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mypage">
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              {{#each hpGetQnaData}}
+              <li class="active"><a href="javascript:void(0)" id="pageBt">{{index}}</a></li>
+              {{/each}}
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+            </ul>
+            </nav>
+        </div>
+        <!-- pagination -->
+      </div>
+      <!-- //mypage-assets-table -->
+    </div>
+  </div>
+</template>

@@ -1,0 +1,141 @@
+<template name="timeCapsuleContentBury">
+  <div class="content h-scroll hr-scroll timecapsul-list">
+    <!-- row -->
+    <div class="row">
+      <!-- list-group -->
+      <div class="timecapsul-main">
+        <!-- main-list -->
+        <div class="main-article type03">
+          <div class="article-head nobr">
+            <div class="title">매립</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+                                    <!-- 삭제대기 화면 -->
+                                  <!-- <div class="row">
+                                    {{#unless g_isExist hpTimeCapsuleCollectionBrTop.bury}}
+                                    매립된 타임캡슐이 없습니다.
+                                    {{/unless}}
+                                    {{#each hpTimeCapsuleCollectionBrTop.bury}}
+                                    <div class="col-xs-4 text-center"> -->
+                                      <!-- egg -->
+                                      <!-- <a href="javascript:void(0)" id=title>
+                                      <div class="egg">
+                                        <div class="egg-inner">
+                                          <span class="egg-title ellipsis-90">{{buryLocationName}}</span>
+                                          <span class="egg-dday">D{{g_diffDate unsealDate}}</span>
+                                          <span class="egg-date">{{g_dateFormChange buryDate 'defaultYMD'}}</span>
+                                          {{#if hpIsEqualGroup authorType}}
+                                          <span class="egg-user ellipsis-55">{{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}</span>
+                                          {{else}}
+                                          <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember true}}</span>
+                                          {{/if}}
+                                        </div>
+                                        <span class="egg-outer ellipsis-90">{{title}}</span>
+                                      </div>
+                                      </a> -->
+                                      <!-- egg -->
+                                    <!-- </div>
+                                    {{/each}}
+                                  </div> -->
+            <!-- //row -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+      </div>
+      <!-- list-group -->
+    </div>
+    <!--//row-->
+    <!--row-->
+    <div class="row search-container">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="80px" name="options" id="keywordCondition">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="groupMember">참여자</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right" onsubmit="return false">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="navbar-right">
+        <span class="search-total">총 <strong>{{hpTimeCapsuleBuryCount}}</strong>건</span>
+      </div>
+    </div>
+    <!--//row-->
+    <!--row-->
+    <div class="row">
+      <!-- list-group -->
+      <div class="list-capsule type03">
+        {{#unless g_isExist hpTimeCapsuleCollectionBrList.contents}}
+        매립된 타임캡슐이 없습니다.
+        {{/unless}}
+        {{#each hpTimeCapsuleCollectionBrList.contents}}
+        <!-- list-group-item -->
+        <div class="list-capsule-item">
+          <a href="javascript:void(0)" id=title>
+            <div class="list-header ellipsis-205">{{{title}}}</div>
+            <div class="list-body">
+              <div class="row">
+                <div class="col-xs-4">
+                  <div class="egg"><span class="dday">D{{g_diffDate unsealDate}}</span></div>
+                </div>
+                <!-- title: data.title,
+                userId: userId,
+                postUserId : data.userid,
+                status: data.status,
+                groupMember: data.groupMember,
+                buryLocationName: data.buryLocationName,
+                regDate: data.regDate,
+                unsealDate : data.unsealDate,
+                buryDate : data.buryDate,
+                openedDate : data.openedDate -->
+                <div class="col-xs-8 info-list">
+                  <p class="ellipsis-126"><i class="imsr-icon icon-tc0003" aria-hidden="true"></i>{{buryLocationName}}</p>
+                  <p><i class="imsr-icon icon-tc0004" aria-hidden="true"></i>{{g_dateFormChange unsealDate 'defaultYMD'}}</p>
+                  <p>
+                    <span><i class="imsr-icon icon-me0023" aria-hidden="true"></i>{{commentCount}}</span>
+                    {{#if g_isEqual authorType 'group'}}
+                      <span class="bury"><i class="imsr-icon icon-bu0013" aria-hidden="true"></i>{{groupMember.length}}</span>
+                      <a class="group-btn"><span>그룹</span></a>
+                    {{/if}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="list-footer">
+              <div class="ellipsis-195">
+                {{#if g_isEqual authorType 'private'}}
+                  {{#if g_isEqual 1 groupMember.length}}
+                  <strong class="toStr">from.</strong>{{{g_getNickName this.postUserId}}}
+                  {{else}}
+                    {{#if (hpisLoginOnerId this.postUserId)}}
+                      <strong class="toStr">To.</strong>{{{groupMemberString}}}
+                    {{else}}
+                      <strong class="toStr">from.</strong>{{{g_getNickName this.postUserId}}}
+                    {{/if}}
+                  {{/if}}
+                  {{else}}
+                  <strong class="toStr">To.</strong>{{{groupMemberString}}}
+                {{/if}}
+              </div>
+            </div>
+          </a>
+        </div>
+        {{/each}}
+        <!-- //list-group-item -->
+      </div>
+      <!-- //list-group -->
+      {{#if hpMoreResults}}
+          <div id="showMoreResults" style="margin-left: 25px;">
+              <span class="loading"></span>
+          </div>
+      {{/if}}
+    </div>
+    <!--//row-->
+  </div>
+</template>

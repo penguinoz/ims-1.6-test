@@ -1,0 +1,202 @@
+<template name="register2">
+  <!-- content -->
+  <div class="login-content join-content h-scroll">
+    <div class="login-container">
+      <div class="login-head">
+        <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+      </div>
+      <div class="login-step">
+        <span class=""><i class="imsr-icon icon-dot"></i></span>
+        <span class="active"><i class="imsr-icon icon-dot"></i></span>
+        <span class=""><i class="imsr-icon icon-dot"></i></span>
+        <span class=""><i class="imsr-icon icon-dot"></i></span>
+        <span class=""><i class="imsr-icon icon-dot"></i></span>
+      </div>
+      <div class="login-title">
+        <div class="title-box">
+          <span class="title">가입정보 입력</span>
+          <div class="sub-title">서비스 이용을 위해 필요한 개인정보를 입력하세요. </div>
+        </div>
+      </div>
+      <!-- login-body -->
+      <div class="login-body" style="width:630px;margin-top:-50px;">
+        <!-- login-box -->
+        <div class="login-box tran">
+          <!-- box-body -->
+          <div class="box-body">
+            <!-- login-form -->
+            <div class="login-form">
+              <div class="row text-right">
+                  <span class="mandatory">*</span>는 필수 사항입니다.
+              </div>
+              <!-- row -->
+              <div class="row {{#with hpUserIdCheck}} {{this}} {{/with}}">
+                <div class="col-xs-2"><span class="mandatory">*</span>아이디</div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="text" placeholder="영문 또는 숫자 4자 ~ 12자" name="userId" value="{{hpDefaultData.username}}" style="width:100%;" required="true" title="아이디를 입력해주세요."/>
+                    <a href="javascript:void(0)" class="mypage-btn inner" name="userIdCheck">중복확인</a>
+                  </div>
+                  <p class="error">{{hpUserIdCheckMessage}}</p>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row {{#with hpPwCheck1}} {{this}} {{/with}}">
+                <div class="col-xs-2"><span class="mandatory">*</span>비밀번호</div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="password" placeholder="영문+숫자 8자 ~ 30자" name="pw1" style="width:100%;" required="true" title="패스워드를 입력해주세요."/>
+                    {{#with hpPwIcon1}}
+                      <i class="imsr-icon {{this}}"></i>
+                    {{/with}}
+                  </div>
+                  <p class="error">
+                    {{#with hpPwCheck1}}
+                      {{hpPwCheck1Message this}}
+                    {{/with}}
+                  </p>
+                </div>
+              </div>
+              <!-- //row -->
+              <!-- row -->
+              <div class="row {{#with hpPwCheck2}} {{this}} {{/with}}">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="password" placeholder="비밀번호 재확인" name="pw2" style="width:100%;" required="true" title="패스워드를 입력해주세요."/>
+                    {{#with hpPwIcon2}}
+                      <i class="imsr-icon {{this}}"></i>
+                    {{/with}}
+                  </div>
+                  <p class="error">
+                    {{#with hpPwCheck2}}
+                      {{hpPwCheck2Message this}}
+                    {{/with}}
+                  </p>
+                </div>
+              </div>
+              <!-- //row -->
+              <!-- row -->
+              <div class="row {{#with hpNickNameCheck}} {{this}} {{/with}}">
+                <div class="col-xs-2"><span class="mandatory">*</span>별명</div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="text" placeholder="서비스에서 사용 할 별명을 입력하세요(2~12자)" name="nickName" value="{{hpDefaultData.profile.nickName}}" style="width:100%;" required="true" title="별명을 입력해주세요."/>
+                    <a href="javascript:void(0)" class="mypage-btn inner" name="nickNameCheck">중복확인</a>
+                  </div>
+                  <p class="error">{{hpNickNameCheckMessage}}</p>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory">*</span>이름</div>
+                <div class="col-xs-10">
+                  <input type="text" placeholder="" name="name" value="{{hpDefaultData.profile.name}}" style="width:100%;" required="true" title="이름을 입력해주세요."/>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory">*</span>성별</div>
+                <div class="col-xs-10">
+                  <div class="radio-group">
+                    <label><input type="radio" name='sex' value="M" checked/><span class="w2label">남자</span></label>
+                    <label><input type="radio" name='sex' value="F" /><span class="w2label">여자</span></label>
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory">*</span>생일</div>
+                <div class="col-xs-3">
+                  <div class="radio-group">
+                    <label><input type="radio" name='month' value="solar" checked/><span class="w2label">양력</span></label>
+                    <label><input type="radio" name='month' value="lunar" /><span class="w2label">음력</span></label>
+                  </div>
+                </div>
+                <div class="col-xs-7">
+                  <div class="text-left calendar-box">
+                    {{> singleCalendar id="birthday" name="birthday" value=hpDefaultData.profile.birthday.date required=true drop='down' maxDate='true'}}
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory">*</span>이메일</div>
+                <div class="col-xs-10">
+                    <div class="col-xs-3">
+                      <input type="text" placeholder="" name="email1" value="{{hpEmail1}}" style="width:100%" required="true" title="이메일을 입력해주세요."/>
+                    </div>
+                    <span class="fl">@</span>
+                    <div class="col-xs-5">
+                      <div class="input-article icon-style" style="width:100%;">
+                        <input type="text" placeholder="" name="email2" value="{{hpEmail2}}" style="width:100%" required="true" title="이메일을 입력해주세요."/>
+                        <a href="javascript:void(0)" class="mypage-btn inner" name="emailCheck">본인인증</a>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <div class="select-group fl" style="width:150px;">
+                        <select class="selectpicker" data-width="100%" name="emaillSelect">
+                          <option value="">선택하세요.</option>
+                          <option value="naver.com">naver.com</option>
+                          <option value="gmail.net">gmail.net</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory">*</span>인증번호</div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="text" placeholder="이메일 인증번호" name="emailAuth" style="width:100%;" required="true" title="인증번호를 입력해주세요."/>
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2"><span class="mandatory"></span>휴대폰 번호</div>
+                <div class="col-xs-10">
+                  <div class="input-article icon-style" style="width:100%;">
+                    <input type="text" placeholder="'-'없이 정확하게 입력해주세요." name="mobile" value="{{hpDefaultData.profile.mobile}}" style="width:100%;"/>
+                    <!-- <a href="javascript:void(0)" class="mypage-btn inner">본인인증</a> -->
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+              <!-- row -->
+              <div class="row">
+                <div class="col-xs-2">가입경로</div>
+                <div class="col-xs-10">
+                  <div class="select-group" style="width:100%;">
+                    <select class="selectpicker" data-width="100%" name="joinRoute">
+                      <option value="">선택하세요.</option>
+                      <option {{g_selected hpDefaultData.profile.joinRoute 'friend'}} value="friend">친구추천</option>
+                      <option {{g_selected hpDefaultData.profile.joinRoute 'internet'}} value="internet">인터넷광고</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- row -->
+            </div>
+            <!-- //login-form -->
+          </div>
+          <!-- //box-body -->
+        </div>
+        <!-- //login-box -->
+      </div>
+      <!-- //login-body -->
+      <!-- login-btn-group -->
+      <div class="login-btn-group" style="margin-top:70px;">
+        <a href="javascript:void(0)" class="prev-btn" name="previous"><i class="imsr-icon icon-lg0001"></i> <span>이전으로</span></a>
+        <a href="javascript:void(0)" class="login-btn" name="next">다음단계</a>
+      </div>
+    </div>
+  </div>
+  <!-- //content -->
+</template>

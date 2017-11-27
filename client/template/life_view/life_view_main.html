@@ -1,0 +1,33 @@
+<!-- 라이브 뷰 메인(왼쪽) -->
+<template name="lifeViewMain">
+  <!-- content -->
+  <div class="content left">
+    <!-- lifeview-header -->
+    <div class="lifeview-header">
+      <!-- lifeview-menuContainer -->
+      <div class="lifeview-menu">
+        <ul>
+          <li><a href="javascript:void(0)" name="album" class="{{#if g_isEqual hpSelectedMenu 'album'}}active{{/if}}"><span>앨범</span></a></li>
+          <li><a href="javascript:void(0)" name="map" class="{{#if g_isEqual hpSelectedMenu 'map'}}active{{/if}}"><span>지도</span></a></li>
+          <li><a href="javascript:void(0)" name="keyword" class="{{#if g_isEqual hpSelectedMenu 'keyword'}}active{{/if}}"><span>키워드</span></a></li>
+          <!-- <li><a href="javascript:void(0)" name="keyword_all" class="{{#if g_isEqual hpSelectedMenu 'keyword_all'}}active{{/if}}"><span>(전체)키워드</span></a></li> -->
+          <!-- <li><a href="javascript:void(0)" name="keyword_all" class="{{#if hpSelectedMenu 'keyword_all'}} active {{/if}}"><span>키워드(전체보기)</span></a></li> -->
+        </ul>
+        <div class="customer-img">
+          {{#if g_refreash}}
+            <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+          {{else}}
+            <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+          {{/if}}
+          <span class="user-name"><strong>{{g_getNickName g_getPageOwnerId}}</strong>님</span>
+        </div>
+      </div>
+      <!-- lifeview-menuContainer -->
+    </div>
+    <!-- lifeview-header -->
+    <!-- 하단 템플릿 추가(앨범, 사진지도, 키워드) -->
+    <div class="lifeview-body">
+      {{> UI.dynamic template=hpTemplate.contentTmp data=hpTemplate.data}}
+    </div>
+  </div>
+</template>

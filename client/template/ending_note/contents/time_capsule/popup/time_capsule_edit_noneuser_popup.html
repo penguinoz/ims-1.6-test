@@ -1,0 +1,72 @@
+<!-- 친구 정보 수정 (비회원 정보수정)-->
+<template name="timeCapsuleEditNoneuserPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body">
+    <!-- tab-pane -->
+    <!-- <div id="selfInsert" > -->
+      <!-- <div>*타임캡슐의 수신인 정보를 수정해주세요.</div> -->
+
+      <div class="row">*타임캡슐의 수신인 정보를 수정해주세요.</div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="left">
+            <p class="name">이름</p>
+          </div>
+        </div>
+        <div class="col-xs-8">
+          <div class="right">
+            <p class="email">이메일</p>
+          </div>
+        </div>
+      </div>
+      {{#each hpNoneUserInfo}}
+        <div class="row">
+          <div class="col-xs-4">
+            <!-- <input name="_id" type="hidden"  value="{{this._id}}"/> -->
+            <input name="nonUserName" type="text" placeholder="이름입력" value="{{nonUserName}}" required="true" style="width:100%"/>
+          </div>
+          <div class="col-xs-8">
+            <input name="nonUserEmail" type="text" placeholder="이메일입력" value="{{nonUserEmail}}" required="true" style="width:99%; margin-left:1%"/>
+          </div>
+        </div>
+      {{/each}}
+
+
+      <!-- <div class="content">
+        <div class="inh-assets-table">
+            <div class="panel panel-default panel-table row-sm type-link">
+              <div class="panel-heading">
+                <div class="tr">
+                    <div class="th">이름</div>
+                    <div class="th">이메일</div>
+                </div>
+              </div>
+              <div class="panel-body">
+                {{#each hpNoneUserInfo}}
+                <div class="tr">
+                    <div class="td"><input type="text" placeholder="이름" style="width:100px;" name='nonUserName' value="{{nonUserName}}"/></div>
+                    <div class="td"><input type="text" placeholder="이메일" style="width:135px;" name='nonUserEmail' value="{{nonUserEmail}}"/></div>
+                </div>
+                {{/each}}
+            </div>
+          </div>
+        </div>
+      </div> -->
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="save" role="button"><i class="imsr-icon icon-me0038"></i>확인</a>
+
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

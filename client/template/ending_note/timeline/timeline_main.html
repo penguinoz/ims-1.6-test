@@ -1,0 +1,635 @@
+<template name="timelineMain">
+  <div class="timeline-show-more top">
+    <a href="javascript:void(0)" name="up_data"><i class="ion-chevron-down"></i><span> 더보기</span></a>
+  </div>
+  {{#if g_userAuth g_getPageOwnerId}}
+    {{> timelineQna}}
+  {{/if}}
+
+  <article class="timeline-entry timeline-filter">
+    <div class="timeline-entry-inner">
+      <div class="text-center filter">
+        <a href="javascript:void(0)" id="ALL" data-toggle="tooltip" title="전체" class="imsr-tooltip all {{#if hpSelectedFilter 'ALL'}} active {{else}} timelineFilter {{/if}}"></a>
+        <a href="javascript:void(0)" id="IM" data-toggle="tooltip" title="나는" class="imsr-tooltip im {{#if hpSelectedFilter 'IM'}} active {{else}} timelineFilter {{/if}}"></a>
+        <a href="javascript:void(0)" id="BL" data-toggle="tooltip" title="버킷리스트" class="imsr-tooltip bucket {{#if hpSelectedFilter 'BL'}} active {{else}} timelineFilter {{/if}}"></a>
+        <a href="javascript:void(0)" id="TC" data-toggle="tooltip" title="타임캡슐" class="imsr-tooltip time {{#if hpSelectedFilter 'TC'}} active {{else}} timelineFilter {{/if}}"></a>
+        <!-- <a href="javascript:void(0)" class="calendar"><i class="glyphicon glyphicon-time"><input id="timelineCalendar" /></i></a> -->
+        <!-- {{> singleCalendar value=this.timelineDate notUseText=true customIcon=false id='timelineDate'}} -->
+        <a href="javascript:void(0)" data-toggle="tooltip" title="기간선택" class="imsr-tooltip wallpaper">
+          {{> singleCalendar value=this.timelineDate notUseText=true customIcon=false id='timelineDate' drop='down' inlineStyle=true}}
+        </a>
+        <!-- {{> singleCalendar value=this.timelineDate notUseText=true customIcon=false id='timelineDate' drop='down' inlineStyle=true}} -->
+      </div>
+      {{#if hpIsFuture}}
+        <a href="javascript:void(0)" id=fSpaceship data-toggle="tooltip" title="미래는" class="imsr-tooltip spaceship {{hIsFutureListActive}}"></a>
+      {{/if}}
+    </div>
+  </article>
+  <!-- {{#if hpMoreTopResults}}
+  <div id="showMoreTopResults" style="margin-left: 25px;">
+    <span class="loading"></span>
+  </div>
+  {{/if}} -->
+
+  <!-- 미래는 클릭시 open 영역 -->
+  {{#if hpSelectedFuture}}
+    {{#if g_isExist hpCollection.futureData}}
+      {{> timelineFutureList futureData=hpCollection.futureData}}
+    {{/if}}
+  {{/if}}
+
+  {{#each hpCollection.currentData}}
+    <!-- 타임라인 날짜표시 -->
+    <!-- {{#with hpMainDate this.timelineDate}} -->
+    {{#if this.timelineDate}}
+      <article class="timeline-entry timeline-date">
+        <div class="timeline-entry-inner">
+          <div class="text-center date {{this.timelineDate}}">
+            <span>{{this.timelineDate}}</span>
+          </div>
+        </div>
+      </article>
+    {{/if}}
+    <!-- {{/with}} -->
+
+    <article class="timeline-entry timeline-list">
+      <div class="timeline-entry-inner timeline-write">
+        <!-- 타임라인 왼쪽Body -->
+        <!-- {{> Template.dynamic template=(hpTimelineLeftType this.type this.contentType) data=this}} -->
+        <div class="timeline-question">
+          {{> Template.dynamic template=(hpTimelineLeftType this) data=this}}
+        </div>
+
+        <div class="timeline-icon bg-success {{g_timelineConterIcon this}}">
+          <!-- <i class="glyphicon {{g_timelineConterIcon this}}"></i> -->
+        </div>
+
+        <!-- 타임라인 오른쪽Body -->
+        <div class="timeline-answer">
+          {{> Template.dynamic template=(hpTimelineRightType this) data=this}}
+        </div>
+
+      </div>
+    </article>
+  {{/each}}
+  <!-- {{#if hpMoreBottomResults}}
+    <div id="showMoreBottomResults" style="margin-left: 25px;">
+      <span class="loading"></span>
+    </div>
+  {{/if}} -->
+  <div class="timeline-todaybtn">
+    <!-- {{#if hpUpButton}}
+      <a href="javascript:void(0)" name="up_data"><span>△</span></a>
+    {{/if}}
+    {{#if hpDownButton}}
+      <a href="javascript:void(0)" name="down_data"><span>▽</span></a>
+    {{/if}} -->
+    <a href="javascript:void(0)" name="today"><span>오늘</span></a>
+  </div>
+  <div class="timeline-show-more bottom">
+    <a href="javascript:void(0)" name="down_data"><i class="ion-chevron-up"></i><span> 더보기</span></a>
+  </div>
+  {{#if hpDataChanged}}
+    {{> timelineHeightRebuild}}
+  {{else}}
+    {{> timelineHeightRebuild}}
+  {{/if}}
+</template>
+
+
+<!-- 타임라인 FUTURE -->
+<template name="timelineFutureList">
+  <div id="timelineFutureContainer" class="timeline-futureContainer">
+    {{#each futureData}}
+      {{#if this.timelineDate}}
+        <article class="timeline-entry timeline-date">
+          <div class="timeline-entry-inner">
+            <div class="text-center date {{this.timelineDate}}">
+              <span>{{this.timelineDate}}</span>
+            </div>
+          </div>
+        </article>
+      {{/if}}
+      <article class="timeline-entry timeline-list">
+        <div class="timeline-entry-inner timeline-write">
+          <!-- 타임라인 왼쪽Body -->
+          <!-- {{> Template.dynamic template=(hpTimelineLeftType this.type this.contentType) data=this}} -->
+          <div class="timeline-question">
+            {{> Template.dynamic template=(hpTimelineLeftType this) data=this}}
+          </div>
+
+          <div class="timeline-icon bg-success {{g_timelineConterIcon this}}">
+            <i class="imsr-icon icon-{{g_timelineConterIcon this}}"></i>
+          </div>
+
+          <!-- 타임라인 오른쪽Body -->
+          <div class="timeline-answer">
+            {{> Template.dynamic template=(hpTimelineRightType this) data=this}}
+          </div>
+        </div>
+      </article>
+    {{/each}}
+  </div>
+</template>
+
+<!-- 타임라인 간격 조정 -->
+<template name="timelineHeightRebuild">
+</template>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- 타임라인에서 사용할 템플릿들 정의 시작-->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- 타임라인 왼쪽Body -->
+
+<!-- 다른분들의 관련 추억 -->
+<template name="timelineMainLeft">
+  {{#if hpEndingNoteStory this 5}}
+    <div class="timeline-label" id="{{this._id}}">
+      <div class="lebel-head">
+        <h4>{{hpGetTitle this}}</h4>
+      </div>
+      <div class="label-body">
+        <div class="img-content img-left">
+          {{#each hpEndingNoteStory this 5}}
+            <a href="javascript:void(0)" name="timeline-label">
+              <dl class="img-single">
+                <dd class="pic-sm">
+                  <img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image" value="{{this._id}}" valueType="{{this.type}}" name="{{g_concatThree this._id hpEndNoteFirstName @index}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineLeft55' (g_concatThree this._id hpEndNoteFirstName @index)}}" />
+                </dd>
+              </dl>
+            </a>
+          {{/each}}
+        </div>
+      </div>
+      {{#with hpEndingNoteStory this 5}}
+        {{#if hpImagesCheck this}}
+          <div class="label-footer">
+            <a href="javascript:void(0)" class="btn-right" id="timelineL" value="{{../tag}}" valueType="{{../type}}" txt="{{../title}}">더보기</a>
+          </div>
+        {{/if}}
+      {{/with}}
+    </div>
+  {{/if}}
+</template>
+
+<!-- 다른분들의 버킷리스트 추천 -->
+<template name="timelineMainLeft2">
+  {{#if hpEndingNoteStory this 5}}
+    <div class="timeline-label" id="{{this._id}}">
+      <div class="lebel-head">
+        <h4>{{hpGetTitle this}}</h4>
+      </div>
+      <div class="label-body">
+        <div class="img-content">
+          <ul class="img-singles">
+            {{#each hpEndingNoteStory this 5}}
+              <li>
+                <a href="javascript:void(0)" name="timeline-label">
+                  <dl>
+                    <dd class="pic"><img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image"  value="{{this._id}}" valueType="{{this.type}}" name="{{g_concatThree this._id 'hpEndNoteFirstName' @index}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineLeft61' (g_concatThree this._id 'hpEndNoteFirstName' @index)}}"/></dd>
+                    <dd class="comment">
+                      <div class="ellipsis-multi2">{{this.title}}</div>
+                    </dd>
+                  </dl>
+                </a>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+      {{#with hpEndingNoteStory this 5}}
+        {{#if hpImagesCheck this}}
+          <div class="label-footer">
+            <a href="javascript:void(0)" class="btn-right" id="timelineL" value="{{../tag}}" valueType="{{../type}}" txt="{{../title}}">더보기</a>
+          </div>
+        {{/if}}
+      {{/with}}
+    </div>
+  {{/if}}
+</template>
+
+<!-- 내용타입1 (제목, 내용)-->
+<template name="timelineMainType1">
+  <div class="timeline-label new" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head">
+      <h4 >
+        <a href="javascript:void(0)" class="ellipsis">
+          {{{g_getCategoryTitle this}}}
+        </a>
+      </h4>
+      <span class="btn-right">
+        <span>{{g_timeClass this}}</span>
+        {{#with hpTypeName this}}
+          <span>{{this}}</span>
+        {{/with}}
+        {{#with hpMyDataCount this}}
+        내글
+        <a href="javascript:void(0)" id="myContents" valueType="{{../type}}" txt="{{../title}}" subType="{{../subType}}">
+          {{this}}
+        </a>
+        건
+        {{/with}}
+        {{#with hpTimeCapsuleDday this}}
+          <span>{{this}}</span>
+        {{/with}}
+        {{#with hpIsLock this.lock}}
+          <span class="icon gray lock"></span>
+        {{/with}}
+      </span>
+    </div>
+    <div class="label-body">
+      {{#if g_isEqual this.type 'BP'}}
+      <div class="list-content ellipsis-multi ellipsis-min2">
+        <a href="javascript:void(0)">
+          <div class="ellipsis-280">
+            {{{g_tagRemoveChange this.content}}}
+          </div><br>
+          <span class="listTh">기간</span> : {{this.startDate}} ~ {{this.endDate}}
+        </a>
+      </div>
+      {{else}}
+      <div class="list-content ellipsis-multi ellipsis-min3">
+        <a href="javascript:void(0)">
+          {{{g_tagRemoveChange this.content}}}
+        </a>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<!-- 내용타입2 (제목, 히스토리) -->
+<template name="timelineMainType2">
+  <div class="timeline-label" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head">
+      <h4>
+        <a href="javascript:void(0)" class="ellipsis">
+          {{{g_getCategoryTitle this}}}
+        </a>
+      </h4>
+      <span class="btn-right">
+        {{#with hpIsLock this.lock}}
+          <span class="icon gray lock"></span>
+        {{/with}}
+      </span>
+    </div>
+    <div class="label-body">
+      <div class="list-content title">
+        <ul class="title-list">
+          {{#each hpContentSort this}}
+          {{#if hpHistoryMessage this.type this.user.length @index}}
+          <li>
+            <a href="javascript:void(0)">
+              {{hpMessage this ../type}}
+            </a>
+            <span class="date">
+              {{g_dateCheck this.updateDate}}
+            </span>
+          </li>
+          {{/if}}
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- 내용타입3 (제목(관련글수)) -->
+<template name="timelineMainType3">
+  <div class="timeline-label new" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head ">
+      <h4>
+        <a href="javascript:void(0)" class="ellipsis">
+          {{{g_getCategoryTitle this}}}
+        </a>
+      </h4>
+      <span class="btn-right">
+        <span>{{g_timeClass this}}</span>
+        {{#with hpTypeName this}}
+          <span>{{this}}</span>
+        {{/with}}
+        {{#with hpMyDataCount this}}
+          내글
+          <a href="javascript:void(0)" id="myContents" valueType="{{../type}}" txt="{{../title}}" subType="{{../subType}}">
+            {{this}}
+          </a>
+          건
+        {{/with}}
+        {{#with hpIsLock this.lock}}
+          <span class="icon gray lock"></span>
+        {{/with}}
+      </span>
+    </div>
+  </div>
+</template>
+
+<!-- 내용타입4 (제목, 이미지) -->
+<template name="timelineMainType4">
+  <div class="timeline-label new" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head">
+      <h4>
+        <a href="javascript:void(0)" class="ellipsis">
+          {{{g_getCategoryTitle this}}}
+        </a>
+      </h4>
+      <span class="btn-right">
+        <span>{{g_timeClass this}}</span>
+        {{#with hpTypeName this}}
+          <span>{{this}}</span>
+        {{/with}}
+        {{#with hpIsLock this.lock}}
+          <span class="icon gray lock"></span>
+        {{/with}}
+      </span>
+      <!-- <a href="javascript:void(0)" class="btn-right">click</a> -->
+    </div>
+    <div class="label-body">
+      <div class="img-content">
+        {{#each this.images}}
+          {{#if g_isLessThan @index 4}}
+            {{#if g_isGreaterThan ../images.length 4}}
+                <a href="javascript:void(0)" class="{{#if hpImagesCheck @index}}overImage{{/if}}">
+                  {{#if hpImagesCheck @index}}
+                    <div class="objblock" value="{{../postId}}" valueType="{{../type}}"  postId="{{../subPostId}}"><span>+{{g_subtraction ../images.length 4}}</span></div>
+                  {{/if}}
+                  <dl class="img-single">
+                    <dd class="pic">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../postId}}" valueType="{{../type}}" name="{{g_concatThree ../postId 'timelineTherName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineRight64' (g_concatThree ../postId 'timelineTherName' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+            {{else}}
+                <a href="javascript:void(0)">
+                  <dl class="img-single">
+                    <dd class="pic">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../postId}}" valueType="{{../type}}" name="{{g_concatThree ../postId 'timelineTherName' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineRight64' (g_concatThree ../postId 'timelineTherName' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+            {{/if}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <!-- <div class="label-footer">
+      <a href="javascript:void(0)" class="btn-left">다음질문</a>
+      <a href="javascript:void(0)" class="btn-right">더보기</a>
+    </div> -->
+  </div>
+</template>
+
+<!-- 내용타입5 (제목, 이미지, 내용) -->
+<template name="timelineMainType5">
+  <div class="timeline-label new" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head ">
+      <h4>
+        <a href="javascript:void(0)" class="ellipsis">
+          {{{g_getCategoryTitle this}}}
+        </a>
+      </h4>
+      <span class="btn-right">
+        <span>{{g_timeClass this}}</span>
+        {{#with hpTypeName this}}
+          <span>{{this}}</span>
+        {{/with}}
+        {{#with hpIsLock this.lock}}
+          <span class="icon gray lock"></span>
+        {{/with}}
+      </span>
+    </div>
+    <div class="label-body el">
+      <div class="img-content">
+        <a href="javascript:void(0)" class="item {{#if g_isGreaterThan this.images.length 1}}overImage{{/if}}">
+          {{#if g_isGreaterThan this.images.length 1}}
+            <div class="objblock" style="width:73px" value="{{this.postId}}" valueType="{{this.type}}"  postId="{{this.subPostId}}"><span>+{{g_subtraction this.images.length 1}}</span></div>
+          {{/if}}
+          <dl class="img-single">
+            <dd class="pic">
+              <img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image" value="{{this.postId}}" valueType="{{this.type}}" name="{{g_concatThree this.postId 'type5' this.postId}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineRight64' (g_concatThree this.postId 'type5' this.postId)}}"/>
+            </dd>
+            <dd class="comment ellipsis-multi3" value="{{this.postId}}" valueType="{{this.type}}" postId="{{this.subPostId}}">
+              {{{g_tagRemoveChange this.content}}}
+            </dd>
+          </dl>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- 친구템플릿 제목+내용 -->
+<template name="timelineFriendType1">
+  <div class="timeline-label new line " name="timeline-label" id="{{this._id}}">
+    <div class="{{#if g_isEqual this.follow true}} {{#if g_userAuth this.userId}} follow-label {{/if}} {{/if}}"></div>
+    <div class="lebel-head ">
+      <h4>
+        {{#with hpBkFollow this}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님 {{{g_getCategoryTitle this}}}
+          </a>
+        {{else}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님이 {{#with hpFriendType this.type}}{{this}}{{/with}}을 등록했습니다.
+          </a>
+        {{/with}}
+      </h4>
+    </div>
+    <div class="label-body">
+      <div class="list-content">
+        {{#with hpBkFollow this}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            {{{g_getCategoryTitle this}}}<br />
+            <!-- {{#with hpFriendDate this}} {{{this}}} {{/with}} -->
+            {{{g_tagRemoveChange this.content}}}
+          </a>
+        {{else}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <!-- {{#with hpFriendDate this}} {{{this}}} {{/with}} -->
+            <div class="ellipsis">제목:{{{g_tagRemoveChange this.title}}}</div>
+            <div class="ellipsis">{{{g_tagRemoveChange this.content}}}</div>
+          </a>
+        {{/with}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- 친구템플릿 제목+내용+이미지 -->
+<template name="timelineFriendType2">
+  <div class="timeline-label new line" name="timeline-label" id="{{this._id}}">
+    <div class="{{#if g_isEqual this.follow true}} {{#if g_userAuth this.userId}} follow-label {{/if}} {{/if}}"></div>
+    <div class="lebel-head">
+      <h4>
+        {{#with hpBkFollow this}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <!-- g_getProfileImg g_getPageOwnerId 'thumb' -->
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님 {{{g_getCategoryTitle this}}}
+          </a>
+        {{else}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님이 {{#with hpFriendType this.type}}{{this}}{{/with}}을 등록했습니다.
+          </a>
+        {{/with}}
+      </h4>
+      <!-- {{#if hpBkFollow this}}
+        <span class="btn-right">
+          <span>내가 따라쟁이</span>
+        </span>
+      {{/if}} -->
+    </div>
+    <div class="label-body">
+      <div class="img-content">
+        {{#with hpBkFollow this}}
+          <a href="javascript:void(0)" class="item {{#if g_isGreaterThan this.images.length 1}}overImage{{/if}}">
+            {{#if g_isGreaterThan this.images.length 1}}
+              <div class="objblock" style="width:49px; height:30px;" value="{{this.postId}}" valueType="{{this.type}}"  postId="{{this.subPostId}}"><span>+{{g_subtraction this.images.length 1}}</span></div>
+            {{/if}}
+            <dl class="img-single">
+              <dd class="pic-md ">
+                <img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image" value="{{this._id}}" valueType="{{this.type}}" name="{{ g_concatThree this._id 'ftype2' this._id}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineLeft61' (g_concatThree this._id 'ftype2' this.Id)}}"/>
+              </dd>
+              <dd class="comment ellipsis-multi2" value="{{this._id}}" valueType="{{this.type}}" postId="{{this.subPostId}}">
+                {{{g_getCategoryTitle this}}}<br />
+                <!-- {{#with hpFriendDate this}} {{{this}}} {{/with}} -->
+                {{{g_tagRemoveChange this.content}}}
+              </dd>
+            </dl>
+          </a>
+        {{else}}
+          <a href="javascript:void(0)" class="item {{#if g_isGreaterThan this.images.length 1}}overImage{{/if}}">
+            {{#if g_isGreaterThan this.images.length 1}}
+              <div class="objblock" style="width:49px; height:30px;" value="{{this.postId}}" valueType="{{this.type}}"  postId="{{this.subPostId}}"><span>+{{g_subtraction this.images.length 1}}</span></div>
+            {{/if}}
+            <dl class="img-single">
+              <dd class="pic-md">
+                <img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image" value="{{this.postId}}" valueType="{{this.type}}" name="{{ g_concatThree this.postId 'ftype2' this.postId}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineLeft61' (g_concatThree this.postId 'ftype2' this.postId)}}"/>
+              </dd>
+              <dd class="comment ellipsis-multi2" value="{{this.postId}}" valueType="{{this.type}}" postId="{{this.subPostId}}">
+                <!-- {{#with hpFriendDate this}} {{{this}}} {{/with}} -->
+                <div class="ellipsis">제목:{{{g_tagRemoveChange this.title}}}</div>
+                <div class="ellipsis">{{{g_tagRemoveChange this.content}}}</div>
+              </dd>
+            </dl>
+          </a>
+        {{/with}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- 친구템플릿 제목+이미지 -->
+<template name="timelineFriendType3">
+  <div class="timeline-label new line" name="timeline-label" id="{{this._id}}">
+    <div class="{{#if g_isEqual this.follow true}} {{#if g_userAuth this.userId}} follow-label {{/if}} {{/if}}"></div>
+    <div class="lebel-head">
+      <h4>
+        {{#with hpBkFollow this}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님 {{{g_getCategoryTitle this}}}
+          </a>
+        {{else}}
+          <a href="javascript:void(0)" class="ellipsis-multi2">
+            <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+            {{g_getNickName this.userId}} 님이 {{#with hpFriendType this.type}}{{this}}{{/with}}을 등록했습니다.
+          </a>
+        {{/with}}
+      </h4>
+      <!-- {{#if hpBkFollow this}}
+        <span class="btn-right">
+          <span>내가 따라쟁이</span>
+        </span>
+      {{/if}} -->
+      <!-- <a href="javascript:void(0)" class="btn-right">click</a> -->
+    </div>
+    <div class="label-body">
+      <div class="img-content img-left">
+        {{#with hpBkFollow this}}
+          {{#each this.images}}
+            {{#if g_isLessThan @index 5}}
+              {{#if g_isGreaterThan ../images.length 5}}
+                <a href="javascript:void(0)" class="ellipsis-multi2 {{#if g_isEqual @index 4}}overImage{{/if}}">
+                  {{#if g_isEqual @index 4}}
+                    <div class="objblock" value="{{../_id}}" valueType="{{../type}}"  postId="{{../subPostId}}"><span>+{{g_subtraction ../images.length 6}}</span></div>
+                  {{/if}}
+                  <dl class="img-single">
+                    <dd class="pic-sm">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../_id}}" valueType="{{../type}}" name="{{g_concatThree ../_id 'ftype3' @index }}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineLeft55' (g_concatThree ../_id 'ftype3' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+              {{else}}
+                <a href="javascript:void(0)" class="ellipsis-multi2">
+                  <dl class="img-single">
+                    <dd class="pic-sm">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../postId}}" valueType="{{../type}}" name="{{g_concatThree ../postId 'ftype3' @index }}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineLeft55' (g_concatThree ../postId 'ftype3' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        {{else}}
+          {{#each this.images}}
+            {{#if g_isLessThan @index 5}}
+              {{#if g_isGreaterThan ../images.length 5}}
+                <a href="javascript:void(0)" class="ellipsis-multi2 {{#if g_isEqual @index 4}}overImage{{/if}}">
+                  {{#if g_isEqual @index 4}}
+                    <div class="objblock" value="{{../postId}}" valueType="{{../type}}"  postId="{{../subPostId}}"><span>+{{g_subtraction ../images.length 6}}</span></div>
+                  {{/if}}
+                  <dl class="img-single">
+                    <dd class="pic-sm">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../postId}}" valueType="{{../type}}" name="{{g_concatThree ../postId 'ftype3sec' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineLeft55' (g_concatThree ../postId 'ftype3sec' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+              {{else}}
+                <a href="javascript:void(0)" class="ellipsis-multi2">
+                  <dl class="img-single">
+                    <dd class="pic-sm">
+                      <img src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image" value="{{../postId}}" valueType="{{../type}}" name="{{g_concatThree ../postId 'ftype3sec' @index}}" style="{{g_setImageSize (g_makeImageString this.path 'thumb') 'timelineLeft55' (g_concatThree ../postId 'ftype3sec' @index)}}"/>
+                    </dd>
+                  </dl>
+                </a>
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        {{/with}}
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="timelineFutrueType">
+  <div class="timeline-label future" name="timeline-label" id="{{this._id}}">
+    <div class="lebel-head">
+      <h4>
+        <a href="javascript:void(0)" class="ellipsis-multi2">
+          <img class="media-object img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+          {{this.title}}
+        </a>
+      </h4>
+    </div>
+    <div class="label-body">
+      <div class="img-content">
+        <a href="javascript:void(0)" class="item {{#if g_isGreaterThan this.images.length 1}}overImage{{/if}}">
+          {{#if g_isGreaterThan this.images.length 1}}
+            <div class="objblock" style="width:49px" value="{{this.postId}}" valueType="{{this.type}}"  postId="{{this.subPostId}}"><span>+{{g_subtraction this.images.length 1}}</span></div>
+          {{/if}}
+          <dl class="img-single">
+            <dd class="pic-md">
+              <img src="{{g_makeImageString this.images.[0].path 'thumb'}}" alt="Generic placeholder image" value="{{this.postId}}" valueType="{{this.type}}" name="{{g_concatThree this.postId 'futureType' this.postId}}" style="{{g_setImageSize (g_makeImageString this.images.[0].path 'thumb') 'timelineLeft61' (g_concatThree this.postId 'futureType' this.postId)}}"/>
+            </dd>
+            <dd class="comment ellipsis-multi2" value="{{this.postId}}" valueType="{{this.type}}" postId="{{this.subPostId}}">
+              <div class="ellipsis">{{{g_tagRemoveChange this.content}}}</div>
+            </dd>
+          </dl>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>

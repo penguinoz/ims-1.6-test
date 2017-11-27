@@ -1,0 +1,78 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-base@1.0.4             # Packages every Meteor app needs to have
+mobile-experience@1.0.4       # Packages for a great mobile UX
+mongo@1.1.12                   # The database Meteor supports right now
+blaze-html-templates@1.0.4 # Compile .html files into Meteor Blaze views
+reactive-var@1.0.10            # Reactive variable for tracker
+#jquery@1.11.10                  # Helpful client-side library
+tracker@1.1.0                 # Meteor's client-side reactive programming library
+
+standard-minifier-css@1.2.0   # CSS minifier run for production mode
+standard-minifier-js@1.2.0    # JS minifier run for production mode
+es5-shim@4.6.14                # ECMAScript 5 compatibility for older browsers.
+ecmascript@0.5.8              # Enable ECMAScript2015+ syntax in app code
+shell-server@0.2.1            # Server-side component of the `meteor shell` command
+
+#autopublish@1.0.7             # Publish all data to the clients (for prototyping)
+
+linto:jquery-ui
+underscore@1.0.9                # underscore pack
+iron:router               # iron router pack
+mizzao:bootstrap-3        # bootstrap 3 pack
+peppelg:bootstrap-3-modal
+accounts-password@1.3.0         # meteor account management pack
+stylus@2.513.5
+check@1.2.3
+session@1.1.6
+email@1.1.17                     # email control pack
+momentjs:moment
+rajit:bootstrap3-datepicker-kr  # bootstrap3 datapicker pack
+richsilv:pikaday          # pikaday : datapicker
+json
+postrednik:meteor-rangeslider
+asemenov:meteor-ie-compatibility  # internet Explorer compatibility pack
+http@1.2.9                      # http protocol pack
+cfs:standard-packages     # s3 uploader package
+cfs:filesystem            # s3 uploader package
+service-configuration@1.0.10
+lepozepo:s3               # aws s3 sdk
+biasport:facebook-sdk     # facebook-sdk
+stevezhu:fbgraph          # fbgraph
+froala:editor-reactive    # html editor
+
+#accounts-facebook         # facebook accountManagement sdk
+emojione:emojione
+lookback:emoji
+maazalik:malihu-jquery-custom-scrollbar
+mrt:jquery-mousewheel
+mrt:bootstrap-select
+simple:reactive-method
+meteorhacks:aggregate
+npm-bcrypt
+udondan:slick
+flippyhead:bootstrap-daterangepicker
+benjaminrh:bootstrap-timepicker
+mizzao:bootboxjs
+nicolaslopezj:excel-export
+netanelgilad:excel
+mizzao:timesync
+jorisbontje:vis
+heron88:exif
+matb33:bootstrap-tooltip
+cleandersonlobo:sweetalert2
+anbuselvan:justified-gallery
+aliencorp:colorbox
+d3js:d3
+
+peernohell:c3
+cycore:scrollposition
+aldeed:scheduled-tasks
+mrt:later
+jparker:crypto-base64
+jparker:crypto-sha256
+jparker:crypto-aes

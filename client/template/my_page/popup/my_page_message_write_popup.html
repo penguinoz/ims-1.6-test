@@ -1,0 +1,38 @@
+<!-- 마이페이지 > 쪽지함 > 답장보내기 (팝업) -->
+<template name="myPageMessageWritePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">답장보내기</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          <span class="send">수신자</span>
+          <span class="member-pic"><img src="{{g_getProfileImg this.receiver 'thumb'}}" class="img-circle img-xs" alt=""/></span>
+          <strong>{{g_getNickName this.receiver}}</strong>
+        </div>
+        <div class="col-xs-3 date">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+      </div>
+    </div>
+
+    <div class="body-content">
+      <textarea id="replycontent" class="txt-detail" rows="" cols="50" autofocus></textarea>
+      {{#if hpChangeTextForm}}
+       <p class="answer">{{{hpChangeTextForm}}}</p>
+      {{/if}}
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-concle" id="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="sendMsg" role="button">보내기</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

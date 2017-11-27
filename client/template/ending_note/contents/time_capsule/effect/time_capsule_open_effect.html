@@ -1,0 +1,29 @@
+<template name="timeCapsuleOpenEffect">
+  <div class="content open-effect h-scroll type-timecapsul hr-scroll">
+    <span class="effect-container">
+      <!-- overlay 이미지 -->
+      <img class="overlay-image" src="/images/common/timebg.jpg"/>
+      {{#with hpTimeCapsuleData}}
+      <a href="javascript:void(0)" class="overlay-image2" id="buryTitle">
+      <div class="egg-effect">
+        <div class="egg-inner">
+          <span class="egg-outer ellipsis-195">{{title}}</span>
+          <span class="egg-title ellipsis-234"><span>매립장소 : </span>{{buryLocationName}}</span>
+          <!-- <span class="egg-dday">D{{g_diffDate unsealDate}}</span> -->
+          <!-- <span class="egg-date">{{g_dateFormChange buryDate 'defaultYMD'}}</span> -->
+          <span class="egg-user ellipsis-234"><span>받는사람 : </span>
+            {{#if g_isEqual authorType 'group'}}
+              {{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}
+            {{else}}
+              {{g_groupMemberNickName userId groupMember nonUserGroupMember true}}
+            {{/if}}
+          </span>
+        </div>
+      </div>
+      </a>
+      {{/with}}
+      <!-- 열린 후 뒤 내용 -->
+      {{> UI.dynamic template=hpDyTemplate.contentTmp data=hpDyTemplate.data}}
+    </span>
+  </div>
+</template>

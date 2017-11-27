@@ -1,0 +1,49 @@
+<template name="timelineQna">
+  <article class="timeline-entry timeline-qna">
+    <div class="timeline-entry-inner timeline-write">
+      {{#each hpCollection}}
+        <!-- <div class="timeline-question"> -->
+        <div class="timeline-questoday">
+          <div class="timeline-label">
+            <div class="lebel-head">
+              <h4>{{this.question}}</h4>
+              <a href="javascript:void(0)" class="btn-right" id="textOpen" value="{{this.questionId}}">next</a>
+            </div>
+            <div class="label-body">
+              <div class="img-content">
+                {{#each hpContentImage this 4}}
+                  <a href="javascript:void(0)" id="timelineR" value="{{this._id}}" valueType="{{this.type}}">
+                    <img src="{{this.images.[0]}}" alt="Generic placeholder image" value="{{this._id}}" valueType="{{this.type}}" />
+                  </a>
+                {{/each}}
+              </div>
+            </div>
+            <div class="label-footer">
+              <!-- <a href="javascript:void(0)" class="btn-left" id="nextQna" value="{{this.questionId}}">다음질문</a> -->
+              {{#if hpContentImage this 4}}
+                <a href="javascript:void(0)" class="btn-right" id="nextView" qnaType="{{this.type}}">더보기</a>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        <div class="timeline-icon bg-success qa">
+          <a href="javascript:void(0)" id="overQna"></a>
+          <!-- qna-pop -->
+          {{>timelineQnaPop}}
+          <!-- //qna-pop -->
+        </div>
+        <div class="timeline-answer">
+          <div class="timeline-label nobg">
+            <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false" novalidate>
+              <div class="form-comment-box">
+                <input type="text" class="comment-query" id="txtQna" placeholder="입력하세요."
+                  title="글을 입력하세요." required="true" _id="{{this._id}}" questionId="{{this.questionId}}" questType="{{this.type}}" />
+                <a href="javascript:void(0)" id="txtQna2"><i class="glyphicon glyphicon-pencil"></i></a>
+              </div>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </article>
+</template>

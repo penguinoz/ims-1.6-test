@@ -1,0 +1,108 @@
+<!-- 자산등록/수정 -->
+<template name="inheritanceAssetsWrite">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2 class="depth">나의 상속인<span>자산 상속 (등록)</span></h2>
+    </div>
+    <!-- inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- inh-lastletter-search -->
+      <div class="row inh-lastletter-search">
+        <div class="col-xs-6 text-left">
+          <span class="label-to">To.</span>
+          <!-- <span class="name-to">김차차</span> -->
+          {{#if hpPageType}}
+            {{#each hpInheritUserId}}
+              <span class="name-to" value="{{this._id}}" inheritorId="{{this.inheritorId}}">{{g_nonUserNickname this.inheritorId this.name}}</span>
+            {{/each}}
+          {{else}}
+            <select class="selectpicker" data-width="100px" name="inheritUserId">
+              <option value="null">선택</option>
+              {{#each hpInheritUserId}}
+                <option {{g_selected this.inheritorId hpInheritorId}} value="{{this._id}}" inheritorId="{{this.inheritorId}}">{{g_nonUserNickname this.inheritorId this.name}}</option>
+              {{/each}}
+            </select>
+          {{/if}}
+        </div>
+      </div>
+      <!-- //inh-lastletter-search -->
+      <!-- inh-lastletter-input -->
+      <div class="inh-lastletter-input">
+        <!-- inh-assets-list -->
+        <div class="inh-assets-list">
+          <!-- item -->
+          {{#each hpAsset}}
+            <div class="item">
+              <input type="hidden" name="_id" value="{{this._id}}" />
+              <!-- section -->
+              <div class="section grp-col1">
+                <select class="selectpicker" data-width="89px" name="parentCode" index="{{@index}}">
+                  {{#each hpCodeParent 'asset'}}
+                    <option {{g_selected ../parentCode this.code}} value="{{this.code}}">{{this.value}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <!-- //section -->
+              <!-- section -->
+              <div class="section grp-col2">
+                <select class="selectpicker" data-width="81px" name="childCode">
+                  {{#each hpCodeChild @index}}
+                    <option {{g_selected ../childCode this.code}} value="{{this.code}}">{{this.value}}</option>
+                  {{else}}
+                    <option value="">선택</option>
+                  {{/each}}
+                </select>
+              </div>
+              <!-- //section -->
+              <!-- section -->
+              <div class="section grp-col3">
+                <input type="text" class="" name="title" value="{{this.title}}" placeholder="자산명" title="자산명을 입력해주세요." required="true" />
+                <div class="row">
+                  <textarea rows="" cols="" class="txt-detail" name="content" value="{{this.content}}"></textarea>
+                </div>
+              </div>
+              <!-- //section -->
+              <!-- section -->
+              <div class="section grp-col4">
+                <input type="text" class="" name="share" value="{{#with this.share}} {{../share}} {{else}} 100 {{/with}}" index="{{@index}}" placeholder="상속지분" title="상속지분을 입력해주세요." required="true" style="width:55px"/>
+                <strong>%</strong>
+              </div>
+              <!-- //section -->
+              <!-- section -->
+              <div class="section grp-col5">
+                <!-- <a href="javascript:void(0)" index="{{@index}}" name="remove"><i class="ion-minus-circled" index="{{@index}}"></i></a> -->
+                <a href="javascript:void(0)" index="{{@index}}" name="remove"><i class="imsr-icon icon-minus-circled" index="{{@index}}"></i></a>
+              </div>
+              <!-- //section -->
+            </div>
+          {{/each}}
+          <!-- //item -->
+        </div>
+        <!-- //inh-assets-list -->
+        <!-- inh-assets-delete -->
+        <div class="inh-assets-delete">
+          <!-- <a href="javascript:void(0)" name="add"><i class="ion-plus-circled"></i></a> -->
+          <a href="javascript:void(0)" name="add"><i class="imsr-icon icon-plus-circled"></i></a>
+        </div>
+        <!-- //inh-assets-delete -->
+        <!-- custom-input -->
+        <div class="custom-input text-right">
+          <span class="w2label">작성일</span>
+          <div class="input-article icon-style" style="width:150px;">
+            {{> singleCalendar id="regDate" name="regDate" value=hpRegDate}}
+          </div>
+          <div class="from-name"><span class="label-from">from</span> {{g_getNickName hpWrite.userId}}</div>
+        </div>
+        <!-- //custom-input -->
+      </div>
+      <!-- //inh-lastletter-input -->
+      <div class="ihn-content-btnSet text-center mt30">
+        <a href="javascript:void(0)" class="ihn-cancle" name="cancel">취소</a>
+        <a href="javascript:void(0)" class="ihn-add" name="save">저장</a>
+      </div>
+    </div>
+    <!-- content -->
+  </div>
+</template>

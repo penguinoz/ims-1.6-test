@@ -1,0 +1,63 @@
+<template name="timeCapsuleMessagePopup">
+  <div class="modal-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">메시지 등록/수정</h4>
+  </div>
+  <div class="modal-body search_add_wrap message">
+    <!-- row -->
+    {{#with hpCollection}}
+    <div class="timecapsul-panel" id="messageList">
+      <div class="actionplan-container" id="tempIndex">
+        <div class="list-body">
+          <div class="col-xs-12 nopm">
+            <div class="imgSlider">
+              <div class="image">
+                <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum01.jpg" value="/images/bg/time_capsule_message/letter_01.jpg"/></a>
+              </div>
+              <div class="image">
+                <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum02.jpg" value="/images/bg/time_capsule_message/letter_02.jpg"/></a>
+              </div>
+              <div class="image">
+                <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum03.jpg" value="/images/bg/time_capsule_message/letter_03.jpg"/></a>
+              </div>
+              <div class="image">
+                <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum04.jpg" value="/images/bg/time_capsule_message/letter_04.jpg"/></a>
+              </div>
+              <div class="image">
+                <a class="messageBackgroundImage"><img src="/images/bg/time_capsule_message/letter_thum05.jpg" value="/images/bg/time_capsule_message/letter_05.jpg"/></a>
+              </div>
+            </div>
+            <!-- <input type="file" id="txtImageFile" value="">
+            <img id="thumbnail" src="" width="47" alt="썸네일영역 (클릭하면 다운로드 가능)"> -->
+            <div class="filebox">
+              <label for="txtImageFile" ><img class='filebox-addbtn' src="/images/bg/time_capsule_message/letter_addbtn.jpg" alt=""></label>
+              <input type="file" id="txtImageFile" class="txtImageFile">
+            </div>
+            <div class="message-content-box">
+              <div class="thumbnail-bg" id="messageContentBg" style="background-image:url('{{backgroundImage}}')"  ></div>
+              <!-- <div class="thumbnail-bg" id="messageContentBg" style="background-image:url(http://kenwheeler.github.io/slick/img/lazyfonz5.png)"  ></div> -->
+              <textarea id="messageContent" placeholder="내용" rows="" cols="" >{{hpSetContent content}}</textarea>
+              <div id='upimagePath' value='{{backgroundImage}}' hidden></div>
+            </div>
+          </div>
+        </div>
+        <!-- 이미지 슬라이더 -->
+        <!-- //row -->
+      </div>
+
+    </div>
+    {{/with}}
+  </div>
+  <div class="modal-footer">
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <a hreg="#" class="btn btn-primary btn-lg btn-cancle" id='cancelMsg' role="button">취소</a>
+          <a hreg="#" class="btn btn-primary btn-lg btn-confirm" id="saveMsg" role="button"><i class="imsr-icon icon-me0038"></i>저장</a>
+        </div>
+    </div>
+      <div class="pull-left">
+      </div>
+      <div class="pull-right">
+      </div>
+  </div>
+</template>

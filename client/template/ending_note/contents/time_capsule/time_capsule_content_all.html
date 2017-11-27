@@ -1,0 +1,170 @@
+<template name="timeCapsuleContentAll">
+  <div class="content h-scroll hr-scroll timecapsul-list">
+    <!-- row -->
+    <div class="row">
+      <!-- list-group -->
+      <div class="timecapsul-main">
+        <!-- main-list -->
+        <div class="main-article type01">
+          <div class="article-head">
+            <div class="title" id="timeContentWrite" style="cursor:pointer">작성</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+            <div class="row">
+            {{#unless g_isExist hpTimeCapsuleCollectionAl.process}}
+            작성중인 타임캡슐이 없습니다.
+            {{/unless}}
+            {{#each hpTimeCapsuleCollectionAl.process}}
+            {{#if hpIsPrivateGroupCheck userId authorType}}
+            {{#unless g_isEqual @index 3}}
+              <div class="col-xs-4 text-center">
+                <!-- egg -->
+                <a href="javascript:void(0)" id="processTitle">
+                <div class="egg">
+                  <div class="egg-inner">
+                    <span class="egg-title ready">{{#if isAllWriteMsg}}Ready{{else}}작성중{{/if}}</span>
+                    <span class="egg-title ellipsis-68">{{buryLocationName}}</span>
+                    {{#if hpIsEqualGroup authorType}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}</span>
+                    {{else}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember true}}</span>
+                    {{/if}}
+                  </div>
+                  <span class="egg-outer ellipsis-90">{{title}}</span>
+                </div>
+                </a>
+                <!-- egg -->
+              </div>
+              {{/unless}}
+              {{/if}}
+            {{/each}}
+            </div>
+            <!-- //row -->
+            <!-- article-step -->
+
+            <div class="article-step ">
+              {{#if g_isExist hpTimeCapsuleCollectionAl.process}}
+              {{#if hpContentLength hpTimeCapsuleCollectionAl.process.length}}
+              <!-- <a class="active" id="timeWriteDot"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeWriteDot"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeWriteDot"><i class="imsr-icon icon-dot"></i></a> -->
+              <a id="timeWriteDot">더보기</a>
+              {{/if}}
+              {{/if}}
+            </div>
+            <!-- //article-step -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+
+        <!-- main-list -->
+        <div class="main-article type02">
+          <div class="article-head">
+            <div class="title" id="timeContentUnseal" style="cursor:pointer">개봉</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+            <div class="row">
+              {{#unless g_isExist hpTimeCapsuleCollectionAl.unseal}}
+              개봉된 타임캡슐이 없습니다.
+              {{/unless}}
+              {{#each hpTimeCapsuleCollectionAl.unseal}}
+              {{#unless g_isEqual @index 3}}
+              <div class="col-xs-4 text-center">
+                <!-- egg -->
+                <a href="javascript:void(0)" id="unsealTitle">
+                <div class="egg">
+                  <div class="egg-inner">
+                    <span class="egg-contry ellipsis-90">{{buryLocationName}}</span>
+                    <span class="egg-date">{{g_dateFormChange unsealDate 'defaultYMD'}}</span>
+                    {{#if g_isEqual authorType 'group'}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}</span>
+                    {{else}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember true}}</span>
+                    {{/if}}
+                  </div>
+                  <span class="egg-outer ellipsis-90">{{title}}</span>
+                </div>
+                </a>
+                <!-- egg -->
+              </div>
+              {{/unless}}
+              {{/each}}
+            </div>
+            <!-- //row -->
+            <!-- article-step -->
+            <div class="article-step ">
+              {{#if g_isExist hpTimeCapsuleCollectionAl.unseal}}
+              {{#if hpContentLength hpTimeCapsuleCollectionAl.unseal.length}}
+              <!-- <a class="active" id="timeDotUnseal"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeDotUnseal"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeDotUnseal"><i class="imsr-icon icon-dot"></i></a> -->
+              <a id="timeWriteDot">목록보기</a>
+              {{/if}}
+              {{/if}}
+            </div>
+            <!-- //article-step -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+        <!-- main-list -->
+        <div class="main-article type03">
+          <div class="article-head">
+            <div class="title" id="timeContentBury" style="cursor:pointer">매립</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+            <div class="row">
+              {{#unless g_isExist hpTimeCapsuleCollectionAl.bury}}
+              매립된 타임캡슐이 없습니다.
+              {{/unless}}
+              {{#each hpTimeCapsuleCollectionAl.bury}}
+              {{#unless g_isEqual @index 3}}
+              <div class="col-xs-4 text-center">
+                <!-- egg -->
+                <a href="javascript:void(0)" id="buryTitle">
+                <div class="egg">
+                  <div class="egg-inner">
+                    <span class="egg-title ellipsis-90">{{buryLocationName}}</span>
+                    <span class="egg-dday">D{{g_diffDate unsealDate}}</span>
+                    <span class="egg-date">{{g_dateFormChange buryDate 'defaultYMD'}}</span>
+                    {{#if g_isEqual authorType 'group'}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}</span>
+                    {{else}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember true}}</span>
+                    {{/if}}
+                  </div>
+                  <span class="egg-outer ellipsis-90">{{title}}</span>
+                </div>
+                </a>
+                <!-- egg -->
+              </div>
+              {{/unless}}
+              {{/each}}
+            </div>
+            <!-- //row -->
+            <!-- article-step -->
+            <div class="article-step ">
+              {{#if g_isExist hpTimeCapsuleCollectionAl.bury}}
+              {{#if hpContentLength hpTimeCapsuleCollectionAl.bury.length}}
+              <!-- <a class="active" id="timeBuryDot"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeBuryDot"><i class="imsr-icon icon-dot"></i></a>
+              <a class="" id="timeBuryDot"><i class="imsr-icon icon-dot"></i></a> -->
+              <a id="timeWriteDot">목록보기</a>
+              {{/if}}
+              {{/if}}
+            </div>
+            <!-- //article-step -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+      </div>
+      <!-- list-group -->
+    </div>
+    <!--//row-->
+    </div>
+</template>

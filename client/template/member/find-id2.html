@@ -1,0 +1,64 @@
+<template name="findId2">
+  <!-- content -->
+<div class="login-content find-content">
+  <div class="login-container">
+    <div class="login-head">
+      <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    </div>
+    <div class="login-step">
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+      <span class="active"><i class="imsr-icon icon-dot"></i></span>
+    </div>
+    <div class="login-title">
+      <div class="title-box">
+        <span class="title">아이디를 잊으셨나요?</span>
+        <div class="sub-title">고객의 정보와 일치하는 아이디입니다.</div>
+      </div>
+    </div>
+    <!-- login-body -->
+    <div class="login-body">
+      <div class="body-title">
+        <span>계정정보</span>
+      </div>
+      <!-- login-box -->
+      <div class="login-box">
+        <div class="box-body info">
+          {{#with hpCollection}}
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">이름</div>
+              <div class="col-xs-10">{{this.profile.name}}</div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">아이디</div>
+              <div class="col-xs-10">{{this.username}}</div>
+            </div>
+            <!-- //row -->
+          {{/with}}
+        </div>
+      </div>
+      <!-- //login-box -->
+      <div class="login-footer text-right">
+        <!-- row -->
+        <div class="row find">
+          <div class="col-xs-2"></div>
+          <div class="col-xs-10">
+            <span>비밀번호가 기억나지 않으세요?</span>
+            <a href="javascript:void(0)" name="findPassword">비밀번호 찾기</a>
+          </div>
+        </div>
+        <!-- //row -->
+      </div>
+    </div>
+    <!-- //login-body -->
+    <!-- login-btn-group -->
+    <div class="login-btn-group">
+      <a href="javascript:void(0)" class="prev-btn" name="previous"><i class="imsr-icon icon-lg0001"></i> <span>이전으로</span></a>
+      <a href="javascript:void(0)" class="login-btn" name="next">로그인하기</a>
+    </div>
+  </div>
+</div>
+  <!-- //content -->
+</template>

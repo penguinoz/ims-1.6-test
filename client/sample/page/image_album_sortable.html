@@ -1,0 +1,24 @@
+<!--  라이프뷰사진앨범으로 보기 -->
+<template name="image_album_sortable">
+  {{> header}}
+<div class="h-scroll hl-scroll">
+  <div>
+    {{#if hpImages}}
+      앨범으로 보는 라이프뷰. {{hpImages.imageCount}}건
+      {{> imageSortableAlbum imageData=hpImages.images}}
+    {{/if}}
+  </div>
+</div>
+</template>
+
+<template name="imageSortableAlbum">
+  <div class="my-container">
+    {{#each imageData}}
+    <a herf="" class="my-item" name="{{#if g_isEqual type 'BS'}}{{parentPostId}}{{else}}{{postId}}{{/if}}" typeData="{{type}}" postId="{{postId}}" path="{{path}}">
+      <!-- <div class="my-item" postId="{{postId}}" path="{{path}}"> -->
+        <img height="182px" src="{{path}}" order="">
+      <!-- </div> -->
+    </a>
+    {{/each}}
+  </div>
+</template>

@@ -1,0 +1,36 @@
+<!--상속인 추가 -->
+<template name="notifyReceiveMessagePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">{{modalTitle}}</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          <span class="send">보낸사람</span>
+          <span class="member-pic"><img src="{{profileImg}}" class="img-circle img-xs" alt=""/></span>
+          <strong>{{g_getNickName sender}}</strong>
+        </div>
+        <div class="col-xs-3 date">{{regDate}}</div>
+      </div>
+    </div>
+    <div class="body-content">
+      <p>
+        {{{hpChangeTextForm}}}
+      </p>
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="reply" role="button" data-modal-template="myPageMessageWritePopup">답장</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="confirm" role="button">확인</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

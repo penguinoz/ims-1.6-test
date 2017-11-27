@@ -1,0 +1,46 @@
+<!-- 마이페이지 > 회원정보관리 > 비밀번호 확인 -->
+<template name="myPageProfileVerify">
+  <div class="h-scroll hi-scroll">
+    <!-- mypage-title -->
+    <div class="mypage-title">
+      <h2>회원정보 관리</h2>
+      <p class="title-sm">최신 정보로 내정보를 관리하세요.</p>
+    </div>
+    <!-- mypage-title -->
+    <!-- content -->
+    <div class="content">
+
+      <!-- mypage-form -->
+      <div class="mypage-form full">
+        <!-- row -->
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- login-check -->
+            <div class="login-check">
+              <p>본인 확인을 위해 비밀번호를 한번 더 입력해 주세요.</p>
+              <div class="login-input">
+                <!-- row -->
+                <div class="row">
+                  <div class="col-xs-2">비밀번호</div>
+                  <div class="col-xs-10">
+                      <input class="password" type="password" placeholder="비밀번호" name="password" style="width:100%;"/>
+                  </div>
+                </div>
+                <!-- row -->
+              </div>
+            </div>
+            <!-- //dropout-info -->
+          </div>
+        </div>
+        <!-- row -->
+      </div>
+      <!-- //mypage-form -->
+      <!-- mypage-content-btnSet -->
+      <div class="mypage-content-btnSet text-center mt30">
+        <!-- <a href="javascript:void(0)" class="mypage-cancle" name="cancel">취소</a> -->
+        <a href="javascript:void(0)" class="mypage-add" name="confirm">확인</a>
+      </div>
+      <!-- //mypage-content-btnSet -->
+    </div>
+  </div>
+</template>

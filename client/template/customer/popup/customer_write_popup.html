@@ -1,0 +1,46 @@
+<!-- 마이페이지 > 쪽지함 -->
+<template name="customerWritePopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">1:1 문의하기</h4>
+  </div>
+  <div class="modal-body search_add_wrap">
+    <div class="content h-scroll hr-scroll">
+      <div class="container-fluid detail-container nobd">
+        <div class="row detail-article nobd">
+          <div class="detail-group">
+              <div class="media-body detail-subject">
+                <div class="row nopm">
+                </div>
+                <form id="custom-comment-form" class="form-comment form-horizontal ">
+                  <div class="form-comment-box ">
+                    <input type="text" class="" id="customerTitle" placeholder="제목을 입력하세요." value=""
+                    title="제목을 입력하세요." required="true" />
+                  </div>
+                </form>
+              </div>
+          </div>
+          <div class="panel panel-default im-write">
+            <div class="panel-body">
+              <div class="editor-content">
+                  {{> froalaReactive hpGetContext}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancel' role="button">취소</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteQna" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

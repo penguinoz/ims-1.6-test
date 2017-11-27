@@ -1,0 +1,84 @@
+<!-- 엔딩노트 타임라인 메인 -->
+<!-- 엔딩노트 타임라인 (좌:타인내용/우:본인내용) -->
+<template name="endingNoteTimeLine">
+<!-- timeline_header -->
+<div class="timeline_header">
+  <div class="row nopm text-center">
+    {{#if hpUserAuth}}
+      {{> endingNoteTimeDate}}
+    {{else}}
+      <div class="others-header">{{g_getNickName g_getPageOwnerId}}님의 스토리</div>
+    {{/if}}
+    <!-- <a href="javascript:void(0)" id="inheritance">#상속</a> -->
+  </div>
+</div>
+<!-- //timeline_header -->
+<!-- content -->
+<div id="contentTimeLine" class="content left h-scroll hl-scroll">
+  <!-- row -->
+  <div class="row timeline-menuContainer">
+    <div class="timeline-menu {{#unless hpUserAuth}}others{{/unless}}">
+
+      <a herf="javascript:void(0)" id="im" data-toggle="tooltip" title="나는" class="imsr-tooltip im timeLineMenu {{#if hpSelectedMenu 'im'}} active {{/if}}"></a>
+      <a herf="javascript:void(0)" id="bucket" data-toggle="tooltip" title="버킷리스트" class="imsr-tooltip bucket timeLineMenu {{#if hpSelectedMenu 'bucket'}} active {{/if}}"></a>
+      {{#if hpUserAuth}} <!-- timeline이 rerender가 되지 않기때문에 어쩔 수 없이 사용자 권한체크를 로컬 헬퍼로 이용함 -->
+      <a herf="javascript:void(0)" id="time" data-toggle="tooltip" title="타임캡슐" class="imsr-tooltip time timeLineMenu {{#if hpSelectedMenu 'time'}} active {{/if}}"></a>
+      <!-- <a herf="javascript:void(0)" id="write" data-toggle="tooltip" title="글쓰기" class="imsr-tooltip write timeLineMenu {{#if hpSelectedMenu 'write'}}{{/if}}"><i class="imsr-icon icon-me0011"></i></a> -->
+      {{/if}}
+      <div class="customer-img">
+        {{#if g_refreash}}
+          <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+        {{else}}
+          <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+        {{/if}}
+        <div class="img-name">{{g_getNickName g_getPageOwnerId}}</div>
+      </div>
+      <!-- 사용자 정보카드 (위치가 맞지 않아서 적용하지 못함) -->
+    </div>
+    {{#if hpUserAuth}}
+    <div class="timeline-goalinlife">
+        <!-- <p class="goalinlife-subject">나의 <span>인생</span> 목표는?</p> -->
+        {{#if hpIsWriteDone}}
+        {{> endingNoteTimeLineGoal data=hpLifeGoal type='done'}}
+          {{#if hpLifeGoal.goalData.goal}}
+            <span class="goalinlife-comment" id="txtGoalPencilEdit">{{hpLifeGoal.goalData.goal}}</span>
+          {{else}}
+            <span class="goalinlife-comment none" id="txtGoalPencilEdit">인생목표를 입력해주세요.</span>
+          {{/if}}
+          {{#if hpLifeGoal.lock}}
+          <!-- <span class="goalinlife-lock">
+            <span class="icon gray lock"></span>
+          </span> -->
+          {{/if}}
+        {{else}}
+          {{> endingNoteTimeLineGoal data=hpLifeGoal type='write'}}
+        {{/if}}
+    </div>
+    {{/if}}
+  </div>
+  <!-- //row -->
+  <!-- 답변영역 START -->
+  <div class="endingNote-timeLine-list">
+    <div class="row">
+      <div class="timeline-centered timeline-padding">
+      {{> UI.dynamic template=hpTemplate.contentTmp data=hpTemplate.data}}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //content -->
+</template>
+<template name="endingNoteTimeLineGoal">
+  {{#if g_isEqual type 'done'}}
+    <div class="goalinlife-btn">
+      <a href="javascript:void(0)" id="txtGoalPencilEdit" class="imsr-tooltip" data-toggle="tooltip" title="쓰기"><i class="glyphicon glyphicon-pencil pencil {{#if data.goalData.goal}}done{{/if}}"></i></a>
+    </div>
+  {{else}}
+    <div class="goalinlife-btn">
+      <a href="javascript:void(0)" class="imsr-tooltip" id="txtGoalPencilSave" data-toggle="tooltip" title="저장"><i class="glyphicon glyphicon-pencil pencil"></i></a>
+    </div>
+    <input type="text" class="goalinlife-comment" id="txtGoal" placeholder="인생목표를 입력하세요" _id="{{data.goalData._id}}" value="{{data.goalData.goal}}" maxlength="32">
+    <!-- <a href="javascript:void(0)" class="btn-tagDelete imsr-tooltip" data-toggle="tooltip" title="취소" name="writeGoalCancel" ></a> -->
+    <a href="javascript:void(0)" class="btn-tagDelete" name="writeGoalCancel" ></a>
+  {{/if}}
+</template>

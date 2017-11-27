@@ -1,0 +1,30 @@
+<template name='timeCapsuleAllviewMapPopup'>
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">캡슐위치 보기</h4>
+  </div>
+  <div class="modal-body type-timecapsul ">
+    <!-- row -->
+    <div class="row">
+      <div class="capsule-check-group">
+        <input type="checkbox" id="checkMe" checked><label class="" for="checkMe"></label>
+        <span><strong>나의</strong> 타임캡슐 : <strong>{{hpMyCapsuleCount}}건</strong></span>
+
+        <input type="checkbox" id="checkAll"><label class="" for="checkAll"></label>
+        <span><strong>모두의</strong> 타임캡슐 : <strong>{{hpOthersCapsuleCount}}건</strong></span>
+      </div>
+      <!-- ui-tabs -->
+      <div class="ui-tabs tab-meList">
+        <!-- //ui-tabs -->
+        <!-- <ul class="nav nav-pills nav-justified ">
+          <li role="presentation" id="liTabMe" class="{{hpSelectedMenu 'liTabMe'}}"><a href="#tabs-1" value="my"><strong>나의</strong> 캡슐</a></li>
+          <li role="presentation" id="liTabAll" class="{{hpSelectedMenu 'liTabAll'}}"><a href="#tabs-2" value="all"><strong>모두의</strong> 캡슐</a></li>
+        </ul> -->
+      </div>
+
+    </div>
+    <!-- //row -->
+  <div class="map-container" id="lifeTraceMapPop"></div>
+    <!-- <h1 hidden>{{collection}}</h1> -->
+  </div>
+</template>

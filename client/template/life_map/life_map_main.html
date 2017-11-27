@@ -1,0 +1,35 @@
+<!-- 라이프맵 메인 -->
+<template name="lifeMapMain">
+  <!-- content -->
+  <div class="content lifemap-type">
+    <!-- lifeview-header -->
+    <div class="lifemap-header">
+      <!-- lifeview-menuContainer -->
+      <div class="lifemap-menu">
+        <ul>
+          <li><a href="javascript:void(0)" name="mylifeMap" class="{{#if g_isEqual hpSelectedMenu 'album'}}active{{/if}}"><span><strong>나의</strong> 라이프맵</span></a></li>
+          <li><a href="javascript:void(0)" name="mylifeMap" class="{{#if g_isEqual hpSelectedMenu 'map'}}active{{/if}}"><span><strong>나의</strong> 라이프맵</span></a></li>
+        </ul>
+        <div class="customer-img">
+          {{#if g_refreash}}
+            <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+          {{else}}
+            <img class="img-circlex" src="{{g_getProfileImg g_getPageOwnerId 'thumb'}}" alt="Generic placeholder image">
+          {{/if}}
+          <span class="user-name"><strong>{{g_getNickName g_getPageOwnerId}}</strong>님</span>
+        </div>
+        <div class="lifemap-ciclelink">
+          <a href="javascript:void(0)" class="circle-link lifemap-make"><span>라이프맵만들기</span></a>
+          <a href="javascript:void(0)" class="circle-link lifemap-tutorial"><span>듀토리얼</span></a>
+        </div>
+      </div>
+      <!-- lifeview-menuContainer -->
+    </div>
+    <!-- lifeview-header -->
+    <!-- 하단 템플릿 추가(앨범, 사진지도, 키워드) -->
+    <div class="lifeview-body">
+      {{> UI.dynamic template=hpTemplate.contentTmp data=hpTemplate.data}}
+    </div>
+  </div>
+  <!-- //content -->
+</template>

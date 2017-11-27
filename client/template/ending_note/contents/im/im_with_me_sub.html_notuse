@@ -1,0 +1,95 @@
+<!-- 나는 > 오눌기분어때 -->
+<template name="imWithMeSub">
+<!-- content -->
+<div class="content h-scroll hr-scroll ">
+  <!-- row -->
+  <div class="row content-head">
+    <h4 class="text-right"><i class="title-icon imsr-icon icon-me0014"></i>에 등록된 정보는 다른 회원들에게 <span class="title-color">공개되지 않습니다.</span><i class="title-lock glyphicon glyphicon-lock"></i></h4>
+  </div>
+  <!-- //row -->
+  <div class="row search-container type-imwithme">
+    <div class="container-fluid nopm">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+          <option value="tag">태그</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      {{> imWithMeSubSort countentsCount=hpListData.count type='all'}}
+    </div>
+  </div>
+  <!-- row -->
+  <div class="row">
+    <ul id="ulTalkToMe" class="list-group division-type im-qna">
+      {{#each hpImWithMeList}}
+        {{> imWithMeSubList}}
+      {{/each}}
+    </ul>
+  </div>
+  <!-- //row -->
+</div>
+<!-- //content -->
+</template>
+
+<!-- 질문/답변 개별 영역 -->
+<template name="imWithMeSubList">
+  <li class="list-group-item {{#if hpSelected _id}} active {{/if}}">
+  <!-- 질문영역 START -->
+      <div id="title" name="questionHeader" class="row toggle im-question">
+          <div class="col-xs-12 nopm">
+              {{hpQuestionTitle}}
+          </div>
+      </div>
+  <!-- 질문영역 END -->
+
+  <!-- 답변영역 START -->
+      <div class="im-answer">
+          <!-- row -->
+          <div class="row">
+            {{> imWithMeSubAnswerEntry}}
+          </div>
+          <!-- //row -->
+      </div>
+  </li>
+
+</template>
+
+<!-- 각 답변 항목 템플릿 -->
+<template name="imWithMeSubAnswerEntry">
+  <div class="imwithme-list">
+    <!-- media-list -->
+    <article class="img-type">
+      <div class="date">2017년 05월 09일</div>
+      <div class="list-content">
+        <div class="media-left media-top img-section">
+          <a href="javascript:void(0)" class="item overImage" id="title" value="">
+            <div class="objblock" value=""><span>+1</span></div>
+            <img class="media-object" src="/images/bg/avata_big.png" alt="..." id="title" value="">
+          </a>
+        </div>
+        <div class="media-body text-section">
+          <a href="javascript:void(0)" id="detailContent1" class="ellipsis-multi3" value="" >본문내용이 두 줄 들어갑니다.  본문내용이 있습니다. 본문내용 이 있습니다.  본문내용이 있습니다.   본문내용 이 있습니다.  본문내용 이 있습니다.  본문내용이 있습니다 .  본문내용 이 있습니다.  본문내용이... 있습니다. 본문내용 이 있습니다.  본문내용이 있습니다...</a>
+        </div>
+      </div>
+    </article>
+    <!-- //media-list -->
+    <!-- media-list -->
+    <!-- <article class="text-type">
+      <div class="date">2017년 05월 09일</div>
+      <div class="list-content">
+        <div class="text-section">
+          <a href="javascript:void(0)" id="detailContent2" class="ellipsis-multi2" value="" >본문내용이 두 줄 들어갑니다.  본문내용이 있습니다. 본문내용 이 있습니다.  본문내용이 있습니다.   본문내용 이 있습니다.  본문내용 이 있습니다.  본문내용이 있습니다 .  본문내용 이 있습니다.  본문내용이... 있습니다. 본문내용 이 있습니다.  본문내용이 있습니다...</a>
+        </div>
+      </div>
+    </article> -->
+    <!-- //media-list -->
+  </div>
+</template>

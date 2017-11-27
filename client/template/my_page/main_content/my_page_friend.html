@@ -1,0 +1,529 @@
+<!-- 마이페이지 > 친구관리 -->
+<template name="myPageFriend">
+  <!-- 친구목록 / 친구요청내역 / 그룹관리 (탭)-->
+    <div class="h-scroll hi-scroll">
+      <!-- mypage-title -->
+      <div class="mypage-title">
+        <h2>친구관리</h2>
+      </div>
+      <!-- mypage-title -->
+      <!-- content -->
+      <div class="content">
+        <div class="ui-tabs">
+          <ul class="nav nav-pills nav-detail">
+            <li class="{{hpActive 'myPageFriendList'}}"><a data-toggle="pill" href="#myPageFriendList" name="myPageFriendTab">친구 목록</a></li>
+            <li class="{{hpActive 'myPageFriendRequest'}}"><a data-toggle="pill" href="#myPageFriendRequest" name="myPageFriendTab">친구 요청 내역</a></li>
+            <li class="{{hpActive 'friendGroup'}}"><a data-toggle="pill" href="#friendGroup" name="myPageFriendTab">그룹관리</a></li>
+            <!-- <li class=""><a data-toggle="pill" href="#friendHistory" name="myPageFriendTab">요쳥이력</a></li> -->
+          </ul>
+        </div>
+        <div class="tab-content inner">
+          {{> myPageFriendList data=hpFriendData selectedTabName=hpTabName}}
+          {{> myPageFriendRequest data=hpFriendData selectedTabName=hpTabName}}
+          {{> friendGroup data=hpFriendData selectedTabName=hpTabName}}
+        </div>
+      </div>
+    </div>
+</template>
+  <!-- <div class="ui-tabs">
+    <ul class="nav nav-pills nav-detail">
+      <li class="col-xs-2 active"><a class="tabList" data-toggle="pill" value="myPageFriendList">친구 목록</a></li>
+      <li class="col-xs-2"><a class="tabList" data-toggle="pill" value="myPageFriendRequest">친구 요청 내역</a></li>
+      <li class="col-xs-2"><a class="tabList" data-toggle="pill" value="friendGroup">그룹관리</a></li>
+    </ul>
+    {{> Template.dynamic template=hpTemplate data=hpFriendData}}
+  </div>
+</template> -->
+
+<template name="myPageFriendList">
+  <div id="myPageFriendList" class="tab-pane fade{{#if g_isEqual selectedTabName 'myPageFriendList'}} in active{{/if}}">
+    <!-- addInheritor-searchContainer -->
+    <div class="mypage-searchContainer">
+      <!-- row -->
+      <div class="row">
+        <!-- search-box -->
+        <div class="col-xs-6 search-box">
+          <select class="selectpicker" data-width="65px" name="fiendListSearch">
+            <option value="all">전체</option>
+            <option value="nickName">별명</option>
+            <!-- <option value="group">그룹</option> -->
+            <option value="email">이메일</option>
+          </select>
+          <form id="custom-search-form" class="form-search form-horizontal">
+            <div class="input-append span12">
+              <input type="text" class="search-query" placeholder="" name="fiendListSearch">
+              <button class="btn search" name="fiendListSearch"><i class="imsr-icon icon-in0007" name="fiendListSearch"></i></button>
+            </div>
+          </form>
+          <span>총 <strong>{{data.profile.friends.accept.length}}</strong>건</span>
+        </div>
+        <!-- //search-box -->
+        <!-- sort-box -->
+        <div class="col-xs-6 text-right">
+          <div class="mypage-content-btnSet btn-sm2">
+            <a href="javascript:void(0)" class="mypage-default" name="friendDelete">삭제</a>
+            <a href="javascript:void(0)" class="mypage-default modal-link" name="delete" data-modal-template="myPageFriendExceptTimeLinePopup">타임라인 연결/제외</a>
+            <a href="javascript:void(0)" class="mypage-default modal-link" name="delete" data-modal-template="myPageFriendAddPopup">친구추가</a>
+          </div>
+        </div>
+        <!-- //sort-box -->
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //addInheritor-searchContainer -->
+    <!-- mypage-assets-table -->
+    <div class="mypage-assets-table requestReady">
+        <!-- panel-table -->
+        <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+          <!-- panel-head -->
+          <div class="panel-heading">
+            <div class="tr">
+              <div class="th" style="width:5%;">
+                <!-- input-group -->
+                <div class="input-group">
+                  <div class="checkbox"><input class="checkAll" type="checkbox" id="myPageFriendListAll"><label for="myPageFriendListAll"></label></div>
+                </div>
+                <!-- input-group -->
+              </div>
+              <div class="th" style="width:5%;">No</div>
+              <div class="th" style="width:15%;">별명</div>
+              <div class="th" style="width:25%;">그룹</div>
+              <div class="th" style="width:25%;">이메일</div>
+              <div class="th" style="width:15%;">타임라인연결</div>
+              <div class="th" style="width:10%;">등록일</div>
+            </div>
+          </div>
+          <!-- //panel-head -->
+          <!-- panel-body -->
+          <div class="panel-body">
+            {{#each data.profile.friends.accept}}
+              <div class="tr">
+                <div class="td">
+                  <!-- input-group -->
+                  <div class="input-group">
+                    <div class="checkbox"><input type="checkbox" id="myPageFriendList{{@index}}" name="friendList" value="{{this.userId}}"><label for="myPageFriendList{{@index}}"></label></div>
+                  </div>
+                  <!-- input-group -->
+                </div>
+                <div class="td">{{@index}}</div>
+                <div class="td left">
+                  <div class="content">
+                    <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                      <span class="img-circle">
+                        <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-xs" alt=""/>
+                      </span>
+                      {{g_getNickName this.userId}}
+                    </a>
+                    {{> dropdownMenuUserCard targetUserId=this.userId}}
+                  </div>
+                </div>
+                <div class="td left">
+                  {{#each ../data.profile.friends.groups}}
+                    {{#each this.groupMember}}
+                      {{#if hpGetGroupName ../../userId this.userId}}
+                        [{{../groupName}}]
+                      {{/if}}
+                    {{/each}}
+                  {{/each}}
+                </div>
+                <div class="td">{{g_email this.userId}}</div>
+                <div class="td circle"><i class="imsr-icon {{#with this.timeline}} icon-my0003 {{else}} icon-me0039 {{/with}}"></i></div>
+                <div class="td">{{g_dateFormChange this.regDate 'defaultYMD'}}</div>
+              </div>
+            {{/each}}
+          </div>
+          <!-- //panel-body -->
+        </div>
+        <!-- //panel-table -->
+        <!-- pagination -->
+        <!-- <div class="row text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mypage">
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li class="active"><a href="javascript:void(0)">1</a></li>
+              <li><a href="javascript:void(0)">2</a></li>
+              <li><a href="javascript:void(0)">3</a></li>
+              <li><a href="javascript:void(0)">4</a></li>
+              <li><a href="javascript:void(0)">5</a></li>
+              <li><a href="javascript:void(0)">6</a></li>
+              <li><a href="javascript:void(0)">7</a></li>
+              <li><a href="javascript:void(0)">8</a></li>
+              <li><a href="javascript:void(0)">9</a></li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+            </ul>
+            </nav>
+        </div> -->
+        <!-- pagination -->
+      </div>
+      <!-- //mypage-assets-table -->
+  </div>
+</template>
+
+<template name="myPageFriendRequest">
+  <!-- tab-pane -->
+  <div id="myPageFriendRequest" class="tab-pane fade {{#if g_isEqual selectedTabName 'myPageFriendRequest'}} in active{{/if}}">
+    <!-- addInheritor-searchContainer -->
+    <div class="mypage-searchContainer">
+      <!-- row -->
+      <div class="row">
+        <!-- search-box -->
+        <div class="col-xs-5">
+          <div class="ui-sub-tabs">
+            <ul class="nav nav-pills nav-detail">
+              <li class="{{#if g_isEqual hpFriendData.type true}}active{{/if}}"><a data-toggle="pill" href="#myPageFriendList1" name="myPageFriendRequestList" value="receive">받은요청</a></li>
+              <li class="{{#if g_isEqual hpFriendData.type false}}active{{/if}}"><a data-toggle="pill" href="#myPageFriendRequest2" name="myPageFriendRequestList" value="request">보낸요청</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- //search-box -->
+        <!-- sort-box -->
+        <div class="col-xs-7 sort-box">
+          <!-- row -->
+          <div class="row">
+            <!-- search-box -->
+            <div class="col-xs-12 search-box">
+              <select class="selectpicker" data-width="65px" name="friendRequestSearch">
+                <option value="all">전체</option>
+                <option value="nickName">별명</option>
+              </select>
+              <form id="custom-search-form" class="form-search form-horizontal">
+                <div class="input-append span12">
+                  <input type="text" class="search-query" placeholder="" name="friendRequestSearch">
+                  <button class="btn search" name="friendRequestSearch"><i class="imsr-icon icon-in0007" name="friendRequestSearch"></i></button>
+                </div>
+              </form>
+              <span>총 <strong>{{hpFriendData.collection.length}}</strong>건</span>
+            </div>
+            <!-- //search-box -->
+          </div>
+          <!-- //row -->
+        </div>
+        <!-- //sort-box -->
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //addInheritor-searchContainer -->
+    <!-- mypage-assets-table -->
+    <div class="mypage-assets-table requestReady">
+        <!-- panel-table -->
+        <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+          <!-- panel-head -->
+          <div class="panel-heading">
+            <div class="tr">
+              <div class="th" style="width:5%;">No</div>
+              <div class="th" style="width:15%;">별명</div>
+              <div class="th" style="width:30%;">요청 메시지</div>
+              <div class="th" style="width:25%;">요청일</div>
+              <div class="th" style="width:15%;">현황</div>
+            </div>
+          </div>
+          <!-- //panel-head -->
+          <!-- panel-body -->
+          <div class="panel-body">
+            <!-- tr -->
+            {{#each hpFriendData.collection}}
+              <div class="tr">
+                <div class="td">{{@index}}</div>
+                <div class="td left">
+                  <div class="content">
+                    <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                      <span class="img-circle">
+                        <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-xs" alt=""/>
+                      </span>
+                      {{g_getNickName this.userId}}
+                    </a>
+                    {{> dropdownMenuUserCard targetUserId=this.userId}}
+                  </div>
+                </div>
+                <div class="td left">{{this.message}}</div>
+                <div class="td">{{g_dateFormChange this.regDate 'defaultYMD'}}</div>
+                <div class="td button">
+                  {{#if hpFriendData.type}}
+                    <a href="javascript:void(0)" class="table-btn" name="friendRequestButton" index="{{@index}}" value="acceptance">수락</a>
+                    <a href="javascript:void(0)" class="table-btn" name="friendRequestButton" index="{{@index}}" value="refusal">거절</a>
+                  {{else}}
+                    <a href="javascript:void(0)" class="table-btn" name="friendRequestButton" index="{{@index}}" value="cancel">요청취소</a>
+                  {{/if}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+          <!-- //panel-body -->
+        </div>
+        <!-- //panel-table -->
+        <!-- pagination -->
+        <!-- <div class="row text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mypage">
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li class="active"><a href="javascript:void(0)">1</a></li>
+              <li><a href="javascript:void(0)">2</a></li>
+              <li><a href="javascript:void(0)">3</a></li>
+              <li><a href="javascript:void(0)">4</a></li>
+              <li><a href="javascript:void(0)">5</a></li>
+              <li><a href="javascript:void(0)">6</a></li>
+              <li><a href="javascript:void(0)">7</a></li>
+              <li><a href="javascript:void(0)">8</a></li>
+              <li><a href="javascript:void(0)">9</a></li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+            </ul>
+            </nav>
+        </div> -->
+        <!-- pagination -->
+      </div>
+      <!-- //mypage-assets-table -->
+  </div>
+  <!-- //tab-pane -->
+</template>
+
+<template name="friendGroup">
+  <!-- tab-pane -->
+  <div id="friendGroup" class="tab-pane fade {{#if g_isEqual selectedTabName 'friendGroup'}} in active{{/if}}">
+    <!-- row -->
+    <div class="row">
+      <div class="col-xs-6 group-setting">
+        <div class="mypage-searchContainer">
+          <div class="row">
+            <div class="col-xs-6"></div>
+            <div class="col-xs-6 text-right">
+              <div class="mypage-content-btnSet btn-sm2">
+                <a href="javascript:void(0)" class="mypage-default" name="groupAdd">추가</a>
+                <a href="javascript:void(0)" class="mypage-default" name="groupDelete">삭제</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{> friendGroupList data=data}}
+      </div>
+
+      {{#if hpGroupDetail}}
+        {{> Template.dynamic template=hpGroupDetail.template data=hpGroupDetail.data }}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="friendGroupList">
+  <div class="mypage-assets-table requestReady">
+    <div class="mypage-assets-body">
+      <div class="panel panel-default panel-table row-sm no-link type-link">
+        <div class="panel-heading">
+          <div class="tr">
+              <div class="th" style="width:20%;">
+                <div class="input-group">
+                  <div class="checkbox"><input class="checkAll" type="checkbox" id="friendGroupListAll"><label for="friendGroupListAll"></label></div>
+                </div>
+              </div>
+              <div class="th" style="width:60%;">그룹</div>
+              <div class="th" style="width:20%;">인원</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          {{#each data.profile.friends.groups}}
+            <div class="tr">
+              <div class="td">
+                <div class="input-group">
+                  <div class="checkbox"><input type="checkbox" name="friendGroupListCheck" id="friendGroupList{{@index}}" value="{{this.groupName}}"><label for="friendGroupList{{@index}}"></label></div>
+                </div>
+              </div>
+              <div class="td left" name="friendGroupName" value="{{this.groupName}}">{{this.groupName}}</div>
+              <div class="td">{{this.groupMember.length}}</div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="friendGroupDetail">
+  <div class="col-xs-6 group-setting checklist">
+    <div class="mypage-assets-table requestReady">
+      <div class="mypage-asset-head">
+        <!-- <div class="mypage-content-btnSet btn-sm2"> -->
+          <input type="hidden" name="friendGroupDetailTitleDefault" value="{{this.groupName}}" />
+          <input type="text" name="friendGroupDetailTitle" value="{{this.groupName}}" />
+          <a href="javascript:void(0)" class="mypage-default" name="groupNameSave">수정</a>
+        <!-- </div> -->
+      </div>
+      <div class="mypage-searchContainer">
+        <div class="row">
+          <div class="col-xs-6"></div>
+          <div class="col-xs-6 text-right">
+            <div class="mypage-content-btnSet btn-sm2">
+              <a href="javascript:void(0)" class="mypage-default modal-link" data-modal-template="bucketAddFriendsPopup">추가</a>
+              <a href="javascript:void(0)" class="mypage-default" name="friendGroupDetailDelete">삭제</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+        <div class="panel-heading">
+          <div class="tr">
+              <div class="th" style="width:20%;">
+                <div class="input-group">
+                  <div class="checkbox"><input class="checkAll" type="checkbox" id="friendGroupDetailAll"><label for="friendGroupDetailAll"></label></div>
+                </div>
+              </div>
+              <div class="th" style="width:35%;">별명</div>
+              <div class="th" style="width:45%;">이메일</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          {{#each this.groupMember}}
+            <div class="tr">
+              <div class="td">
+                <div class="input-group">
+                  <div class="checkbox"><input type="checkbox" name="friendGroupDetailCheck" id="friendGroupDetail{{@index}}" value="{{this.userId}}"><label for="friendGroupDetail{{@index}}"></label></div>
+                </div>
+              </div>
+              <div class="td left">
+                <div class="content">
+                  <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                    <span class="img-circle">
+                      <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-xs" alt=""/>
+                    </span>
+                    {{g_getNickName this.userId}}
+                  </a>
+                  {{> dropdownMenuUserCard targetUserId=this.userId}}
+                </div>
+              </div>
+              <div class="td">{{g_email this.userId}}</div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="friendGroupAdd">
+  <div class="col-xs-6 group-setting checklist">
+    <div class="mypage-searchContainer null">
+      <div class="row">
+        <div class="col-xs-12"></div>
+      </div>
+    </div>
+    <div class="mypage-assets-table requestReady">
+      <div class="mypage-asset-head">
+        그룹추가
+      </div>
+      <div class="mypage-assets-body">
+        <div class="mypage-formContainer">
+          <div class="row nopm">
+            <div class="col-xs-12 nopm">
+              <div class="mypage-form">
+                <div class="row">
+                  <div class="col-xs-3">그룹명</div>
+                  <div class="col-xs-9">
+                    <input type="text" placeholder="추가할 그룹명을 입력하세요." name="groupName" style="width:100%;"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-3">구성원검색</div>
+                  <div class="col-xs-9">
+                    <form id="custom-search-form" class="form-search form-horizontal">
+                      <div class="input-append span12">
+                        <input type="text" class="search-query" placeholder="" name="friendGroupAddSearch">
+                        <button class="btn search" name="friendGroupAddSearch"><i class="imsr-icon icon-in0007" name="friendGroupAddSearch"></i></button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default panel-table row-sm no-link type-link mypage">
+          <div class="panel-heading">
+            <div class="tr">
+                <div class="th" style="width:20%;">
+                  <div class="input-group">
+                    <div class="checkbox"><input class="checkAll" type="checkbox" id="friendGroupAddAll"><label for="friendGroupAddAll"></label></div>
+                  </div>
+                </div>
+                <div class="th" style="width:55%;">별명</div>
+                <div class="th" style="width:25%;">이름</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            {{#with this.profile.friends.accept}}
+              {{#each this}}
+                  <div class="tr">
+                    <div class="td">
+                      <div class="input-group">
+                        <div class="checkbox"><input type="checkbox" name="groupUserCheck" value="{{this.userId}}" id="friendGroupAdd{{@index}}"><label for="friendGroupAdd{{@index}}"></label></div>
+                      </div>
+                    </div>
+                    <div class="td left">
+                      <div class="content">
+                        <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                          <span class="img-circle">
+                            <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-xs" alt=""/>
+                          </span>
+                          {{g_getNickName this.userId}}
+                        </a>
+                        {{> dropdownMenuUserCard targetUserId=this.userId}}
+                      </div>
+                    </div>
+                    <div class="td">{{g_name this.userId}}</div>
+                  </div>
+              {{/each}}
+            {{else}}
+              <div class="tr">
+                <td colspan="3">
+                  검색 된 결과가 없습니다.
+                </td>
+              </div>
+              <!-- <div class="tr">
+                <div class="td colspan">
+                  검색된 결과가 없습니다.
+                </div>
+              </div> -->
+            {{/with}}
+          </div>
+          <div class="mypage-content-btnSet text-center mt30" style="width:400px;">
+            <a href="javascript:void(0)" class="mypage-cancle" name="groupAddCancel">취소</a>
+            <a href="javascript:void(0)" class="mypage-add" name="groupAddSave">저장</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

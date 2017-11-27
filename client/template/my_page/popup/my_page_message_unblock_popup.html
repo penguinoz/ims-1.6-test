@@ -1,0 +1,38 @@
+<!-- 마이페이지 > 쪽지함 > 차단자관리 > 차단해지(팝업) -->
+<template name="myPageMessageUnblockPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">쪽지차단해제</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    <div class="body-head">
+      <div class="row">
+        <div class="col-xs-9 subject">
+          쪽지차단을 해지 하시겠습니까?
+        </div>
+      </div>
+    </div>
+    <div class="body-content">
+      <p>
+        {{#each checkedUserId}}
+          {{g_getNickName this}}
+          {{#if hpCheckLastIndex @index}}
+          ,
+          {{/if}}
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="cancel" role="button">취소</a>
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="denialCancel" role="button">차단해제</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

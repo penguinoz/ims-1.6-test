@@ -1,0 +1,115 @@
+<template name="findAuth">
+  <!-- content -->
+<div class="login-content find-content">
+  <div class="login-container">
+    <div class="login-head">
+      <h1><img src="/images/common/logo.gif" alt="it's my story" /><span class="logo-slogun"><img src="/images/common/logo_slogun.gif" alt="it's my story" /></span></h1>
+    </div>
+    <div class="login-step">
+      <span class="active"><i class="imsr-icon icon-dot"></i></span>
+      <span class=""><i class="imsr-icon icon-dot"></i></span>
+    </div>
+    <div class="login-title">
+      <div class="title-box">
+        <span class="title">{{hpAuthType}}를 잊으셨나요?</span>
+        <div class="sub-title">{{hpAuthType}}를 찾는 방법을 선택 하세요.</div>
+      </div>
+    </div>
+    <!-- login-body -->
+    <div class="login-body">
+      <!-- login-box -->
+      <!-- <div class="login-box tran {{#if hpActive 'phone'}} active {{/if}}">
+        <div class="box-head">
+          <div class="radio-group">
+            <label><input type="radio" name='groupRadio' value="phone" checked/><span class="w2label">회원정보에 등록한 본인확인 휴대전화로 인증</span></label>
+          </div>
+        </div>
+        <div class="box-body" style="padding-top:20px;padding-bottom:10px;">
+          <div class="row">
+            <div class="col-xs-2">이름</div>
+            <div class="col-xs-10">
+              <input class="authText" type="text" placeholder="이름 입력" name="phoneAuthName" disabled="{{#unless hpActive 'phone'}} disabled {{/unless}}" style="width:100%;"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">휴대전화</div>
+            <div class="col-xs-10">
+              <div class="input-article icon-style" style="width:100%;">
+                <input class="authText" type="text" placeholder="휴대전화번호 입력" name="phone" disabled="{{#unless hpActive 'phone'}} disabled {{/unless}}" style="width:100%;"/>
+                <a href="javascript:void(0)" class="form-btn inner" name="authType" value="phone">본인인증</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-10">
+              <input class="authText" type="text" name="authPhoneNumber" placeholder="임시번호 (1234)" disabled="{{#unless hpActive 'phone'}} disabled {{/unless}}" style="width:100%;"/>
+            </div>
+          </div>
+          <div class="row find">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-10 text-right">
+              <a href="javascript:void(0)">인증번호가 오지 않나요?</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- //login-box -->
+        <!-- login-box -->
+        <div class="login-box tran {{#if hpActive 'email'}} active {{/if}}">
+          <div class="box-head">
+            <div class="radio-group">
+              <label><input type="radio" name='groupRadio' value="email" checked/><span class="w2label">회원정보에 등록한 이메일로 인증</span></label>
+            </div>
+            <span class="sub-text">본인확인 이메일 주소와 입력한 이메일주소가 같아야 이증번호를 받을 수 있습니다.</span>
+          </div>
+          <div class="box-body" style="padding-top:20px;padding-bottom:27px;">
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">이름</div>
+              <div class="col-xs-10">
+                <input class="authText" type="text" placeholder="이름 입력" name="emailAuthName" disabled="{{#unless hpActive 'email'}} disabled {{/unless}}" style="width:100%;"/>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">이메일</div>
+              <div class="col-xs-10">
+                <div class="input-article icon-style" style="width:100%;">
+                  <input class="authText" type="text" placeholder="이메일 입력" name="email" disabled="{{#unless hpActive 'email'}} disabled {{/unless}}" style="width:100%;"/>
+                  <a href="javascript:void(0)" class="form-btn inner" name="authType" value="email">본인인증</a>
+                </div>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2"></div>
+              <div class="col-xs-10">
+                <input class="authText" type="text" name="authEmailNumber" placeholder="인증번호 6자리" disabled="{{#unless hpActive 'email'}} disabled {{/unless}}" style="width:100%;"/>
+              </div>
+            </div>
+            <!-- //row -->
+            <!-- row -->
+            <!-- <div class="row find">
+              <div class="col-xs-2"></div>
+              <div class="col-xs-10 text-right">
+                <a href="javascript:void(0)">인증번호가 오지 않나요?</a>
+              </div>
+            </div> -->
+            <!-- //row -->
+          </div>
+        </div>
+        <!-- //login-box -->
+    </div>
+    <!-- //login-body -->
+    <!-- login-btn-group -->
+    <div class="login-btn-group">
+      <a href="/" class="prev-btn" name="previous"><i class="imsr-icon icon-lg0001"></i> <span>이전으로</span></a>
+      <a href="javascript:void(0)" class="login-btn" name="next">다음단계</a>
+    </div>
+  </div>
+</div>
+  <!-- //content -->
+</template>

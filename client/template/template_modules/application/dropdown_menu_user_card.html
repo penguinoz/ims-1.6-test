@@ -1,0 +1,80 @@
+<template name="dropdownMenuUserCard">
+  <div class="dropdown-menu user-pop">
+    <!-- row -->
+    <!-- <div class="row"> -->
+      <!-- col -->
+      <div class="pop-header">
+        <div class="customer-pic">
+          <div class="user-img">
+            {{#with hpUserData.isPassAway}}
+              <!-- 사망시 리본 넣어주기 -->
+              <span class="black_rebon on"></span>
+            {{/with}}
+            <img class="img-circle" src="{{g_getProfileImg hpUserData.targetUserId 'thumb'}}" alt="Generic placeholder image">
+          </div>
+        </div>
+        <div class="customer-name">
+          <strong>{{g_getNickName hpUserData.targetUserId}}</strong>
+          <div class="btn-set">
+            {{#with hpUserData}}
+              <a href="javascript:void(0)" class="{{#with this.isPassAway}} disabled {{/with}}" id="aRequestFriend" style="{{#if g_isEqual this.enableFlag 'disabled'}}pointer-events: none;{{/if}}">{{this.title}}</a>
+              {{#unless g_userAuth this.targetUserId}}<a href="javascript:void(0)" class="{{#with this.isPassAway}} disabled {{/with}}" id="aSendMemo" >쪽지보내기</a>{{/unless}}
+              <!-- <a href="javascript:void(0)" id="aVisitEndingNote" >엔딩노트방문</a> -->
+              {{#unless g_isEqual this.code 'MYS'}}
+                <a href="{{pathFor 'topMenu1' _id=(g_AES g_getUserId 'encrypt') onwer=(g_AES hpUserData.targetUserId 'encrypt') type='onwer'}}" class="{{#with this.isPassAway}} disabled {{/with}}" target="_blank">엔딩노트</a>
+              {{/unless}}
+            {{/with}}
+          </div>
+        </div>
+      </div>
+      <!-- //col -->
+      <!-- col -->
+      {{#with hpUserData}}
+      <div class="pop-body ">
+        <div class="content-section">
+          <dl>
+            <dt>소개</dt>
+            <dd>{{introduction}}</dd>
+          </dl>
+        </div>
+        <div class="content-section dot-line">
+          <dl>
+            <dt>그룹</dt>
+            <dd>{{groupNames}}</dd>
+          </dl>
+        </div>
+        <div class="content-section">
+          <strong>최근의 추억</strong>
+          <div class="box-round">
+            <ul>
+              {{#if g_isGreaterThan imList.length 0}}
+                {{#each imList}}
+                  <li class="ellipsis-265">{{title}}</li>
+                {{/each}}
+              {{else}}
+                <li>등록된 추억이 없습니다.</li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+        <div class="content-section2">
+          <strong>최근의 버킷리스트</strong>
+          <div class="box-round">
+            <ul>
+              {{#if g_isGreaterThan bucketList.length 0}}
+                {{#each bucketList}}
+                  <li class="ellipsis-265">{{title}}</li>
+                {{/each}}
+              {{else}}
+                <li>등록된 버킷리스트가 없습니다.</li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {{/with}}
+      <!-- //col -->
+    <!-- </div> -->
+    <!-- //row -->
+  </div>
+</template>

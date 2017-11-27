@@ -1,0 +1,38 @@
+<template name="inheritanceLastLetterPopup">
+  <div class="modal-header pop-header">
+    <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+    <h4 class="modal-title">마지막 편지</h4>
+  </div>
+  <!-- modal-body -->
+  <div class="modal-body type02">
+    {{#with hpCollection}}
+      <div class="body-head">
+        <div class="row">
+          <div class="col-xs-9 subject">
+            <span class="send">To</span>
+            <strong>{{g_getNickName this.inheritorId}}</strong>
+          </div>
+          <div class="col-xs-3 date">{{g_dateFormChange this.lastLetter.updateDate 'defaultYMD'}}</div>
+        </div>
+      </div>
+
+      <div class="body-content">
+        {{{this.lastLetter.context}}}
+      </div>
+
+      <div class="custom-input text-right">
+        <div class="from-name"><span class="label-from">From&nbsp;&nbsp;</span>{{g_name hpCollection.userId}}&nbsp;({{g_getNickName hpCollection.userId}}) </div>
+      </div>
+    {{/with}}
+  </div>
+  <!-- //modal-body -->
+  <div class="modal-footer">
+    <!-- fix-btnset -->
+    <div class="fix-btnset">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a hreg="#" class="btn btn-primary btn-lg btn-block btn-concle" id="cancel" role="button">확인</a>
+      </div>
+    </div>
+    <!-- //fix-btnset -->
+  </div>
+</template>

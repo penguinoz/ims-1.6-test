@@ -1,0 +1,25 @@
+<template name="timelineQnaPop">
+<div class="qna-popContainer">
+  <!-- qna-pop -->
+  <div class="qna-pop">
+    <!-- row -->
+    <div class="row">
+      <!-- col -->
+      <div class="pop-body ">
+        <h4 class="media-heading subject-title">오늘의 질문 history</h4>
+        <div class="pop-body-scroll">
+
+          <ul>
+            {{#each hpQuestionList}}
+              <li><a href="javascript:void(0)" name="questionId">{{this.question}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+      <!-- //col -->
+    </div>
+    <!-- //row -->
+  </div>
+  <!-- //qna-pop -->
+</div>
+</template>

@@ -1,0 +1,49 @@
+<!-- 좋아요 리스트 보여주기 -->
+<template name="endingNoteLikeListSub">
+    <div class="dropdown-menu like-container">
+      <div class="row nopm">
+        {{#with hpLikeList}}
+        <div class="like-content">
+          <div class="like-box-header">
+            <p>좋아하는 사람</p>
+            <strong class="text-center">{{this.likeList.length}}</strong>명
+          </div>
+          <div class="like-box-body">
+            <ul class="like-box-list">
+              {{#each this.likeList}}
+                {{#if g_isLessThan @index 20}}
+                  <li>
+                    <a id="userProfile" class="dropdown-submenu" href="javascript:void(0)">
+                      <span>
+                        <img class="img-circle img-xs " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+                      </span>
+                      <span>{{this.nickName}}</span>
+                      {{> dropdownMenuUserCard targetUserId=this.userId}}
+                    </a>
+                  </li>
+                {{/if}}
+              {{/each}}
+              {{#if g_isGreaterThan this.likeList.length 20}}
+                <span>외 {{this.max}}명...</span>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+        {{else}}
+        <div class="like-content">
+          <div class="like-box-header">
+            <p>좋아하는 사람</p>
+            <strong class="text-center">0</strong>명
+          </div>
+          <div class="like-box-body">
+            <ul class="like-box-list">
+                <li>
+                  <span>좋아요한 사람이 없습니다.</span>
+                </li>
+            </ul>
+          </div>
+        </div>
+        {{/with}}
+      </div>
+    </div>
+</template>

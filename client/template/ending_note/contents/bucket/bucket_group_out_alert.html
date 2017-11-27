@@ -1,0 +1,17 @@
+<template name="bucketGroupOutAlert">
+  버킷리스트 멤버에서 빠지기
+  <div id="contentTxt" style="height:500">
+    {{#if alertContext}}
+      이 버킷 멤버에서 빠지기를 선택하셨습니다 이 버킷에 작성하신 버키스토리는 "나는"으로 이동하거나 삭제할 수 있습니다.
+      <div class="row">
+        <label><input type="radio" name='outGroupRadio' value="moveIm" /><span class="w2label">'나는'으로 이동</span></label>
+        <label><input type="radio" name='outGroupRadio' value="delStory" /><span class="w2label">삭제</span></label>
+      </div>
+      {{else}}
+      이 버킷 멤버에서 빠지시겠습니까?
+    {{/if}}
+  </div>
+  <button id="okButton">빠지기</button>
+  <button id="cancleButton">취소</button>
+
+</template>

@@ -1,0 +1,107 @@
+<template name="bucketChartAll">
+  <div class="content right h-scroll hr-scroll">
+  <div class="bucket-status-box all">
+    <div class="status-title" >
+      모두의 이용 현황
+    </div>
+    <div class="status-content">
+      <div class="list-group list-group-horizontal">
+
+        <a href="javascript:;" class="list-group-item defaultmouse" >
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_1.jpg) no-repeat 0 0; "></a>
+          <p>버킷<br><strong>작성</strong></p>
+          <div>{{g_numPad hpTotalCountData.totalCount 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_2.jpg) no-repeat 0 0;"></a>
+          <p>버킷<br><strong>완료</strong></p>
+          <div>{{g_numPad hpTotalCountData.completeCount 2}}</div>
+        </a>
+        <a href="javascript:;" class="list-group-item defaultmouse">
+          <a href="javascript:void(0)" class="defaultmouse" style="background: url(images/btn/btn_bk_st_3.jpg) no-repeat 0 0;"></a>
+          <p>버킷<br><strong>진행</strong></p>
+          <div>{{g_numPad hpTotalCountData.ingCount 2}}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="bucket-status-box">
+    <div class="status-title" >
+      어떤 버킷들이 등록되어 있을까요?
+    </div>
+    <div class="status-content">
+      <div class="bucket-vgraph-chart">
+        <canvas id="allBucketChart" style="width:400px; height:300px;"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="bucket-status-box">
+    <div class="status-title" >
+      다른 사람들은 몇 개의 버킷을 가지고 있을까요?
+    </div>
+    <div class="status-content">
+      <div class="bucket-cgraph-chart">
+        <canvas id="howManyGetBucket" style="margin:auto;"></canvas>
+      </div>
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>별명</th>
+          <th>버킷 수</th>
+          <th>최근 등록한 버킷</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each getHaveBLRankList}}
+          <tr>
+            <th scope="row">{{hpGetIndexNumber @index}}위</th>
+            <td>{{g_getNickName userId}}</td>
+            <td>{{cnt}}</td>
+            <td>{{data.title}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="bucket-status-box">
+    <div class="status-title" >
+      다른 사람들은 얼마나 많은 버킷리스트를 실현했을까요?
+    </div>
+    <div class="status-content">
+      <div class="bucket-cgraph-chart">
+        <canvas id="howManyCompleteBucket" style="margin:auto;" ></canvas>
+      </div>
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>별명</th>
+          <th>버킷 수</th>
+          <th>최근 등록한 버킷</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each getCompBLRankList}}
+          <tr>
+            <th scope="row">{{hpGetIndexNumber @index}}위</th>
+            <td>{{g_getNickName userId}}</td>
+            <td>{{cnt}}</td>
+            <td>{{data.title}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+</template>
+
+
+<!--
+.type-buket.bucket-chart .bucket-status-box .table > thead > tr > th {border-bottom: 0px; text-align:center; color: #b0b0b0; background-color: #f9f9f9;}
+.type-buket.bucket-chart .bucket-status-box .table > tbody > tr > td {border-top: 0px; text-align:center; color: #b0b0b0;}
+.type-buket.bucket-chart .bucket-status-box .table > tbody > tr {background-color: #f9f9f9;}
+.table-striped > tbody > tr:nth-child(odd) {background-color: #ffffff;};
+ -->

@@ -1,0 +1,139 @@
+<template name="timeCapsuleContentProcess">
+  <div class="content h-scroll hr-scroll timecapsul-list">
+    <!-- row -->
+    <div class="row">
+      <!-- list-group -->
+      <div class="timecapsul-main">
+        <!-- main-list -->
+        <div class="main-article type01">
+          <div class="article-head nobr">
+            <div class="title">작성</div>
+          </div>
+          <!-- article-body -->
+          <div class="article-body">
+            <!-- <div class="row">
+              {{#unless g_isExist hpTimeCapsuleCollectionPrTop.process}}
+              작성중인 타임캡슐이 없습니다.
+              {{/unless}}
+              {{#each hpTimeCapsuleCollectionPrTop.process}}
+              {{#if hpIsPrivateGroupCheck userId authorType}}
+              <div class="col-xs-4 text-center"> -->
+                <!-- egg -->
+                <!-- <a href="javascript:void(0)" id=title>
+                <div class="egg">
+                  <div class="egg-inner">
+                    <span class="egg-title ready">{{#if isAllWriteMsg}}Ready{{else}}작성중{{/if}}</span>
+                    <span class="egg-title ellipsis-68">{{buryLocationName}}</span>
+                    {{#if hpIsEqualGroup authorType}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickNameExceptMe userId groupMember nonUserGroupMember true}}</span>
+                    {{else}}
+                    <span class="egg-user ellipsis-55">{{g_groupMemberNickName userId groupMember nonUserGroupMember true}}</span>
+                    {{/if}}
+                  </div>
+                  <span class="egg-outer ellipsis-90">{{title}}</span>
+                </div>
+                </a> -->
+                <!-- egg -->
+              <!-- </div>
+              {{/if}}
+              {{/each}}
+            </div> -->
+            <!-- //row -->
+          </div>
+          <!-- //article-body -->
+        </div>
+        <!-- //main-list -->
+      </div>
+      <!-- list-group -->
+    </div>
+    <!--//row-->
+    <!--row-->
+    <div class="row search-container">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="groupMember">참여자</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="navbar-right">
+        <span class="search-total">총 <strong>{{hpTimeCapsuleProcessCount}}</strong>건</span>
+      </div>
+    </div>
+    <!--//row-->
+
+    <!--row-->
+    <div class="row">
+      <!-- list-group -->
+      <div class="list-capsule type01">
+        {{#unless g_isExist hpTimeCapsuleCollectionPrList.contents}}
+        작성중인 타임캡슐이 없습니다.
+        {{/unless}}
+        {{#each hpTimeCapsuleCollectionPrList.contents}}
+        {{#if hpIsPrivateGroupCheck postUserId authorType}}
+        <!-- list-group-item -->
+        <div class="list-capsule-item">
+          <a href="javascript:void(0)" id=title>
+            <div class="list-header ellipsis-205">{{{title}}}</div>
+            <div class="list-body">
+              <div class="row">
+                <div class="col-xs-4">
+                  <!-- <div class="egg {{#if g_isGreaterThan messageCount 0}} {{#if g_isEqual isAllWriteMsg true}} {{#if g_isEqual authorType 'group'}} type03 {{else}} type02 {{/if}} {{else}} type02 {{/if}} {{else}} type01 {{/if}}"> -->
+                  <div class="egg {{#if g_isGreaterThan messageCount 0}} {{#if g_isEqual isAllWriteMsg true}} type03 {{else}} type02 {{/if}} {{else}} type01 {{/if}}">
+                    {{#if g_isGreaterThan messageCount 0}}
+                      <span class="write-num">{{messageCount}}</span>
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="col-xs-8 info-list">
+                  <p class="ellipsis-126"><i class="imsr-icon icon-tc0003" aria-hidden="true"></i>{{buryLocationName}}</p>
+                  <!-- <p><i class="imsr-icon icon-tc0004" aria-hidden="true"></i>{{g_dateFormChange regDate 'defaultYMD'}}</p> -->
+                  <p><i class="imsr-icon icon-tc0004" aria-hidden="true"></i>{{g_dateFormChange regDate 'defaultYMD'}}</p>
+                  <p>
+                    {{#if g_isEqual authorType 'group'}}
+                    <span><i class="imsr-icon icon-bu0013" aria-hidden="true"></i>{{groupMember.length}}</span>
+                    <a class="group-btn"><span>그룹</span></a>
+                    {{/if}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="list-footer">
+              <div class="ellipsis-195">
+                {{#if g_isEqual authorType 'private'}}
+                  {{#if g_isEqual 1 groupMember.length}}
+                  <strong class="toStr">from.</strong>{{{g_getNickName this.postUserId}}}
+                  {{else}}
+                    {{#if (hpisLoginOnerId this.postUserId)}}
+                      <strong class="toStr">To.</strong>{{{groupMemberString}}}
+                    {{else}}
+                      <strong class="toStr">from.</strong>{{{g_getNickName this.postUserId}}}
+                    {{/if}}
+                  {{/if}}
+                  {{else}}
+                  <strong class="toStr">To.</strong>{{{groupMemberString}}}
+                {{/if}}
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- //list-group-item -->
+        {{/if}}
+        {{/each}}
+      </div>
+      <!-- //list-group -->
+      {{#if hpMoreResults}}
+          <div id="showMoreResults" style="margin-left: 25px;">
+              <span class="loading"></span>
+          </div>
+      {{/if}}
+    </div>
+    <!--//row-->
+  </div>
+</template>

@@ -1,0 +1,84 @@
+<!-- 마이페이지 > 초대하기 > 초대하기 작성 (팝업) -->
+<template name="myPageInviteWritePopup">
+    <div class="modal-header pop-header">
+      <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true"><i class="imsr-icon icon-me0039"></i></a>
+      <h4 class="modal-title">It’s my story로  초대하기</h4>
+    </div>
+    <!-- modal-body -->
+    <div class="modal-body type03">
+      <div class="body-head bg-invite">
+        <div class="row">
+          <div class="col-xs-4"></div>
+          <div class="col-xs-8">
+            <div class="invite-info">
+            추억을 함께 나누고 기억하고 싶은 사람들이 있나요?<br/>
+            지금 초대장을 보내세요.  초대장을 통해 가입시 ,<br/>
+            초대장을 보내신 분과 가입하신 친구 모두에게 특별한 혜택을 드립니다.<br/>
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- body-content -->
+      <div class="body-content">
+        <!-- mypage-form -->
+        <div class="mypage-form full">
+          <!-- row -->
+          {{#each hpInviteUserList}}
+          <div class="row" id="{{@index}}">
+            <div class="col-xs-2">수신자</div>
+            <div class="col-xs-10">
+              <div class="row">
+                <div class="col-xs-4">
+                  <input type="text" placeholder="이름" id="name" style="width:100%;"/>
+                </div>
+                <div class="col-xs-8">
+                  <div class="input-article icon-style" style="width:99%; margin-left:1%">
+                    <input type="text" placeholder="이메일" id="email" style="width:100%;"/>
+                    {{#if hpMatchIndex @index}}
+                    <!-- {{#unless g_isEqual @index 0}}
+                    <a href="javascript:void(0)" id="delInvite" ><i class="ion-minus-circled" ></i></a>
+                    {{/unless}} -->
+                    <a href="javascript:void(0)" id="addInvite"><i class="imsr-icon icon-in0018"></i></a>
+                    {{else}}
+                    <a href="javascript:void(0)" id="delInvite" ><i class="ion-minus-circled" ></i></a>
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+          <!-- row -->
+          <!-- row -->
+          <div class="row">
+            <div class="col-xs-2">제목</div>
+            <div class="col-xs-10">
+              <input type="text" placeholder="서비스에서 사용 할 변명을 입력하세요" id="inviteTitle" style="width:100%;"/>
+            </div>
+          </div>
+          <!-- row -->
+          <!-- row -->
+          <div class="row">
+            <div class="col-xs-2">초대메세지</div>
+            <div class="col-xs-10">
+              <textarea cols="0" rows="0" style="width:100%; height:130px;" id="inviteContent"></textarea>
+            </div>
+          </div>
+          <!-- row -->
+        </div>
+        <!-- //mypage-form -->
+      </div>
+      <!-- body-content -->
+    </div>
+    <!-- //modal-body -->
+    <div class="modal-footer">
+      <!-- fix-btnset -->
+      <div class="fix-btnset">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="cancel" role="button">취소</a>
+          <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveInvite" role="button">저장</a>
+        </div>
+      </div>
+      <!-- //fix-btnset -->
+    </div>
+</template>

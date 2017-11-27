@@ -1,0 +1,155 @@
+<!-- 나는 > 리스트컨텐츠 -->
+<template name="futureContent">
+<!-- content -->
+<div id="contentList" class="type-future">
+  <div class="row search-container">
+    <div class="container-fluid ">
+      <div class="navbar-left search-box">
+        <select class="selectpicker" data-width="65px" name="options" id="keywordCondition">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+        </select>
+        <form id="custom-search-form" class="form-search form-horizontal pull-right">
+          <div class="input-append span12">
+            <input type="text" class="search-query" placeholder="Search" id="keywordText">
+            <button type="submit" class="btn" id="search"><i class="imsr-icon icon-in0007"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="checkbox text-left" id="pastButton">
+        <input type="checkbox" id="past">
+        <label for="past"></label> 과거포함
+      </div>
+      <div class="navbar-right">
+        <span class="search-total">총 <strong>{{hpTotalCount}}</strong>건</span>
+        <select class="selectpicker" data-width="77px" name="options" id="sort">
+          <option value="regDateDesc" data-content="등록일<i class='imsr-icon icon-down-dir'></i>">등록일 ▼</option>
+          <option value="regDateAsc" data-content="등록일<i class='imsr-icon icon-up-dir'></i>">등록일 ▲</option>
+          <option value="like" data-content="인기순<i class='glyphicon imsr-icon icon-down-dir'></i>">인기순 ▼</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="content h-scroll hr-scroll future-list ">
+      <!-- row -->
+      <div class="row">
+        <!-- list-group -->
+        <div class="list-group">
+          <!-- list-group-item -->
+          {{#each hpListData}}
+          <div class="list-group-item subject-list">
+            <div class="row">
+              <!-- col -->
+              <div class="col-xs-12 body-group nopm">
+                <h4 class="media-heading subject-title"><a href="javascript:void(0)" id="title" value="{{_id}}">{{{title}}}</a><small class="text-right">{{hpMemoryDate startDate}}</small>
+                  <span class="text-right" >과거</span>
+                </h4>
+                <div class="group-box" role="group" aria-label="...">
+                  <a href="javascript:void(0)" class="group-xs" data-toggle="dropdown">
+                    <i class="imsr-icon {{#if isLike like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart " aria-hidden="true"></i>{{like.length}}
+                  </a>
+                  <a href="javascript:void(0)" class="group-xs"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{commentList.length}}</a>
+                  <a href="javascript:void(0)" class="group-xs"><i class="imsr-icon icon-me0024  "  aria-hidden="true"></i>{{open}}</a>
+                </div>
+
+                <!-- media-list -->
+                <div class="list-body img-list">
+                  <div class="img-content">
+                    {{#each image}}
+                      {{#if g_isExist ../content}}
+                        {{#if g_isLessThan @index 1}}
+                          <div class="media-left media-top">
+                            {{#if g_isGreaterThan ../image.length 1}}
+                              <a href="javascript:void(0)" class="item {{#if g_isEqual @index 0}}overImage{{/if}}" id="title" value="{{../_id}}">
+                                {{#if g_isEqual @index 0}}
+                                  <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 1}}</span></div>
+                                {{/if}}
+                                <div class="img-frame">
+                                  <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="..." id="title" value="{{../_id}}">
+                                </div>
+                              </a>
+                            {{else}}
+                              <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                                <div class="img-frame">
+                                  <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="..." id="title" value="{{../_id}}">
+                                </div>
+                              </a>
+                            {{/if}}
+                          </div>
+                        {{/if}}
+                      {{else}}
+                        {{#if g_isLessThan @index 4}}
+                          {{#if g_isGreaterThan ../image.length 4}}
+                            <a href="javascript:void(0)" class="item {{#if g_isEqual @index 3}}overImage{{/if}}" id="title" value="{{../_id}}">
+                              {{#if g_isEqual @index 3}}
+                                <div class="objblock" value="{{../_id}}"><span>+{{g_subtraction ../image.length 4}}</span></div>
+                              {{/if}}
+                              <div class="img-frame">
+                                <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}"/>
+                              </div>
+                            </a>
+                          {{else}}
+                            <a href="javascript:void(0)" class="item" id="title" value="{{../_id}}">
+                              <div class="img-frame">
+                                <img class="media-object" src="{{g_makeImageString this.path 'thumb'}}" alt="Generic placeholder image"  id="title" value="{{../_id}}"/>
+                              </div>
+                            </a>
+                          {{/if}}
+                        {{/if}}
+                      {{/if}}
+                    {{/each}}
+                    <div class="media-body">
+                      <a href="javascript:void(0)" id="title" value="{{_id}}">{{{content}}}</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- //media-list -->
+
+                <!-- <div class="tag">
+                  <ul>
+                  {{#each tags}}
+                  <li><a href="javascript:void(0)">#{{{this}}}</a></li>
+                  {{/each}}
+                  </ul>
+                </div> -->
+
+                <!-- reply -->
+                {{#if commentTop}}
+                <ul class="media-list comment-list">
+                  <li class="media">
+                    <div class="row">
+                      <!-- col -->
+                      <div class="col-xs-1 text-center dropdown nopm">
+                        <span class="name_badge clip-24" title="{{commentTop.userId}}">{{commentTop.userId}}</span>
+                      </div>
+                      <!-- col -->
+                      <div class="col-xs-11 comment-body nopm">
+                        <p>{{{commentTop.content}}}</p>
+                        <small>({{commentTop.updateDate}})</small>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                {{/if}}
+                <!-- //reply -->
+              </div>
+              <!-- //col -->
+            </div>
+            <!-- //row -->
+          </div>
+          {{/each}}
+
+          <!-- //list-group-item -->
+        </div>
+        <!-- list-group -->
+        {{#if hpMoreResults}}
+            <div id="showMoreResults" style="margin-left: 25px;">
+                <span class="loading"></span>
+            </div>
+        {{/if}}
+      </div>
+      <!--//row-->
+    </div>
+  </div>
+</template>

@@ -1,0 +1,6 @@
+{
+  "public":{
+    "publicTest":"productPublicEnv"
+  },
+  "serverType": "product"
+}

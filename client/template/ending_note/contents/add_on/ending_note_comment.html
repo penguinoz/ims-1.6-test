@@ -1,0 +1,249 @@
+<!-- 엔딩노트 댓글영역 -->
+<template name="endingNoteComment">
+  <div class="comment-container">
+    <!-- row -->
+    <div class="row">
+      <!-- panel -->
+      <div class="panel panel-default widget commnet_input">
+        <!-- panel-body -->
+        <div class="panel-body custom-comment">
+          <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false">
+            <div class="form-comment-box ">
+              <textarea class="comment-query" id="txtComment" placeholder="댓글을 입력하세요." title="댓글을 입력하세요." required="{{hpRequired}}"></textarea>
+              <!-- <a class="btn_icons comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a> -->
+              <a class="btn_comment comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a>
+                {{> emoticon 'main'}}
+            </div>
+          </form>
+          <p><small>글을 입력하시려면 ENTER키를 누르세요.</small></p>
+        </div>
+        <!-- //panel-body -->
+      </div>
+      <!-- //panel -->
+    </div>
+    <!-- //row -->
+    <div class="row">
+      <div class="panel panel-default widget comment_content">
+        <!-- panel-body -->
+        <div class="panel-body">
+          <ul class="list-group">
+            <!-- list-group-item -->
+            {{#each hpCollection}}
+              {{> endingNoteCommentDetail commentData=this postData=../postData}}
+            {{/each}}
+            <!-- list-group-item -->
+          </ul>
+          {{#if hpIsShowButton}}
+            <div class="col-xs-12 text-center trace-btn ">
+              <a href="javascript:void(0)" id="showMore" class="btn btn-default btn-sm icon-type"><i class="imsr-icon icon-me0048"></i>더불러오기</a>
+            </div>
+          {{/if}}
+        </div>
+        <!-- //panel-body -->
+      </div>
+    </div>
+    <!-- <div class="row text-center">
+      <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm">
+            <li>
+              <a href="javascript:void(0)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="active"><a href="javascript:void(0)">1</a></li>
+            <li><a href="javascript:void(0)">2</a></li>
+            <li><a href="javascript:void(0)">3</a></li>
+            <li><a href="javascript:void(0)">4</a></li>
+            <li><a href="javascript:void(0)">5</a></li>
+            <li>
+              <a href="javascript:void(0)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+    </div> -->
+  </div>
+</template>
+
+<template name="endingNoteCommentDetail">
+  <li class="list-group-item">
+    <div class="row">
+      <!-- <div class="col-pic nopm {{hpisDropup}}"> -->
+        <div class="col-pic nopm">
+        <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+          <!-- <img src="{{#if g_isExist commentData.profileImg}} {{g_makeProfileImageString commentData.profileImg 'thumb'}} {{else}} https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRoZWhAIg-xJtTQ5vpATNreiIyG_OrMKYgDYIRBPUjDmWJ31isw {{/if}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/> -->
+          {{#if g_refreash}}
+            <img src="{{g_getProfileImg commentData.userId 'thumb'}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/>
+          {{else}}
+            <img src="{{g_getProfileImg commentData.userId 'thumb'}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/>
+          {{/if}}
+        </a>
+        {{> dropdownMenuUserCard targetUserId=commentData.userId}}
+      </div>
+      <div class="col-content nopm">
+        <span class="comment-title">
+          {{#if hpisPublicCapsule postData}}
+            작성자
+          {{else}}
+            {{commentData.nickName}}
+          {{/if}}
+        </span>
+
+        <!-- 댓글 메시지영역 -->
+        {{#if commentUpdateInput commentData._id hpCmtUpdateKey}}
+          <!-- panel -->
+          <div class="panel panel-default widget commnet_input m0 mt10">
+            <!-- panel-body -->
+            <div class="panel-body custom-comment">
+              <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false">
+                <div class="form-comment-box ">
+                  <textarea class="comment-query" id="txtCommentUpdate" value="{{commentData.content}}" key="{{commentData._id}}" title="댓글을 입력하세요." required="true" ></textarea>
+                  <!-- <a class="btn_icons comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a> -->
+                  <a class="btn_comment comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a>
+                    {{> emoticon }}
+                </div>
+              </form>
+              <p><small>글을 입력하시려면 ENTER키를 누르세요.</small></p>
+            </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- //panel -->
+        {{else}}
+        <span class="comment-text">
+          {{{commentData.content}}}
+        </span>
+        {{/if}}
+
+        <!-- 댓글 메시지영역 끝 -->
+
+        <!-- 수정, 삭제, 답글달기 버튼영역 -->
+        <div class="comment-btn">
+          {{#if g_userAuth commentData.userId}}
+            {{#if commentUpdateInput commentData._id hpCmtUpdateKey}}
+            <a id="cmtCancel">취소</a>
+            {{else}}
+            <a id="cmtUpdate" value="{{commentData._id}}">수정</a>
+            {{/if}}
+            <a id="cmtDelete" value="{{commentData._id}}">삭제</a>
+          {{/if}}
+
+          {{#if commentReplyInput commentData._id hpCmtReplyKey}}
+          <a id="cmtCancel">취소</a>
+          {{else}}
+          <a id="cmtReply" value="{{commentData._id}}">답글달기</a>
+          {{/if}}
+          <span class="mic-info">{{g_dateFormChange commentData.updateDate 'defaultHMS'}}</span>
+        </div>
+        <!-- 수정, 삭제, 답글달기 버튼영역 끝 -->
+
+        <!-- 답글영역 -->
+        {{#if commentReplyInput commentData._id hpCmtReplyKey}}
+          <!-- row -->
+          <div class="row">
+            <!-- panel -->
+            <div class="panel panel-default widget commnet_input comment-reply">
+              <!-- panel-body -->
+              <div class="panel-body custom-comment">
+              <div class="form-comment-box ">
+                <textarea class="comment-query" id="cmtReplyContent" key="{{commentData._id}}" placeholder="답글을 입력하세요."  title="답글을 입력하세요." required="true"></textarea>
+                <!-- <a class="btn_icons comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a> -->
+                <a class="btn_comment comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a>
+                  {{> emoticon }}
+              </div>
+              <p><small>글을 입력하시려면 ENTER키를 누르세요.</small></p>
+              </div>
+              <!-- //panel-body -->
+            </div>
+            <!-- //panel -->
+          </div>
+          <!-- //row -->
+        {{/if}}
+        <!-- 답글영역 끝 -->
+      </div>
+    </div>
+
+    <!-- 댓글의 답글영역 -->
+    <ul class="list-group">
+      <!-- list-group-item -->
+        {{#each hpCommentReply commentData._id}}
+        <li class="list-group-item">
+          <div class="row">
+            <!-- <div class="col-pic nopm {{hpisDropup}}"> -->
+            <div class="col-pic nopm">
+              <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+                <!-- <img src="{{#if g_isExist this.profileImg}} {{g_makeProfileImageString this.profileImg 'thumb'}} {{else}} http://teeshot.co.kr/images/avatars/avatar-unknown.jpg {{/if}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/> -->
+                {{#if g_refreash}}
+                  <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/>
+                {{else}}
+                  <img src="{{g_getProfileImg this.userId 'thumb'}}" class="img-circle img-responsive comment_img" alt="" width="30" height="30"/>
+                {{/if}}
+              </a>
+              {{> dropdownMenuUserCard targetUserId=this.userId}}
+            </div>
+            <div class="col-content nopm">
+              <span class="comment-title">
+                {{#if hpisPublicCapsule ../postData}}
+                  작성자
+                {{else}}
+                  {{this.nickName}}
+                {{/if}}
+              </span>
+
+              <!-- 댓글 메시지영역 -->
+              {{#if commentUpdateInput this._id hpCmtUpdateKey}}
+              <!-- panel -->
+              <div class="panel panel-default widget commnet_input m0 mt10">
+                <!-- panel-body -->
+                <div class="panel-body custom-comment">
+                  <form id="custom-comment-form" class="form-comment form-horizontal " onsubmit="return false">
+                    <div class="form-comment-box ">
+                      <textarea class="comment-query" id="txtCommentUpdate" value="{{this.content}}" key="{{this._id}}" title="댓글을 입력하세요." required="true"></textarea>
+                      <!-- <a class="btn_icons comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a> -->
+                      <a class="btn_comment comment-alert" href="javascript:void(0)" role="button"><span class="imsr-icon icon-me0023"></span></a>
+                        {{> emoticon }}
+                    </div>
+                  </form>
+                  <p><small>글을 입력하시려면 ENTER키를 누르세요.</small></p>
+                </div>
+                <!-- //panel-body -->
+              </div>
+              <!-- //panel -->
+              {{else}}
+                <span class="comment-text">
+                {{{this.content}}}
+                </span>
+              {{/if}}
+              <!-- 댓글 메시지영역 끝 -->
+
+              <!-- 답글영역 -->
+              {{#if commentReplyInput this._id hpCmtReplyKey}}
+                <textarea class="comment-query" id="cmtReplyContent" key="{{this._id}}" title="댓글을 입력하세요." required="true"></textarea>
+              {{/if}}
+              <!-- 답글영역 끝 -->
+
+              <!-- 수정, 삭제, 답글달기 버튼영역 -->
+              {{#if g_userAuth this.userId}}
+                <div class="comment-btn">
+                  {{#if commentUpdateInput this._id hpCmtUpdateKey}}
+                  <a id="cmtCancel">취소</a>
+                  {{else}}
+                  <a id="cmtUpdate" value="{{this._id}}">수정</a>
+                  {{/if}}
+                  <a id="cmtDelete" value="{{this._id}}">삭제</a>
+                  <span class="mic-info">{{g_dateFormChange this.updateDate 'defaultHMS'}}</span>
+                </div>
+              {{/if}}
+              <!-- 수정, 삭제, 답글달기 버튼영역 끝 -->
+            </div>
+            {{#unless g_userAuth this.userId}}
+            <span class="mic-info">{{g_dateFormChange this.updateDate 'defaultHMS'}}</span>
+            {{/unless}}
+          </div>
+        </li>
+        {{/each}}
+    </ul>
+    <!-- 댓글의 답글영역 끝 -->
+
+  </li>
+</template>

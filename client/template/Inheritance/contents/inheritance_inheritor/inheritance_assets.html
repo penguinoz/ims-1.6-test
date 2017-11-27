@@ -1,0 +1,72 @@
+<!-- 자산리스트 -->
+<template name="inheritanceAssets">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2 class="depth">나의 상속인<span>자산 상속 (상세)</span></h2>
+    </div>
+    <!-- inh-title -->
+    <!-- content -->
+    <div class="content">
+      <!-- inh-lastletter-search -->
+      <div class="row inh-lastletter-search">
+        <div class="col-xs-6 text-left">
+          <span class="label-to">To.</span>
+          <span class="name-to">{{g_nonUserNickname hpCollection.inheritorId hpCollection.name}}</span>
+        </div>
+        <div class="col-xs-6 text-right">
+          <div class="ihn-content-btnSet btn-sm">
+            <a href="javascript:void(0)" class="ihn-modify" name="edit">수정</a>
+          </div>
+        </div>
+      </div>
+      <!-- //inh-lastletter-search -->
+      <!-- inh-lastletter-input -->
+      <div class="inh-lastletter-input">
+        <!-- inh-assets-table -->
+        <div class="inh-assets-table">
+          <!-- panel-table -->
+          <div class="panel panel-default panel-table">
+            <!-- panel-head -->
+            <div class="panel-heading">
+                <div class="tr">
+                    <div class="th">자산명</div>
+                    <div class="th">자산내용</div>
+                    <div class="th">상속지분</div>
+                </div>
+            </div>
+            <!-- //panel-head -->
+            <!-- panel-body -->
+              <div class="panel-body">
+                {{#each hpCollection.asset}}
+                  <div class="tr">
+                      <div class="td">{{this.title}}</div>
+                      <div class="td">
+                        <div class="content-info">
+                          {{{g_enter this.content}}}
+                        </div>
+                      </div>
+                      <div class="td">{{this.share}}%</div>
+                  </div>
+                  {{/each}}
+              </div>
+            <!-- //panel-body -->
+          </div>
+          <!-- //panel-table -->
+        </div>
+        <!-- //inh-assets-table -->
+        <!-- custom-input -->
+        <div class="custom-input text-right">
+          <span class="from-date">{{g_dateFormChange hpCollection.assetRegDate 'defaultYMD'}}</span>
+          <div class="from-name"><span class="label-from">from</span>{{g_getNickName hpCollection.userId}}</div>
+        </div>
+        <!-- //custom-input -->
+      </div>
+      <!-- //inh-lastletter-input -->
+      <div class="ihn-content-btnSet text-center mt30">
+        <a href="javascript:void(0)" class="ihn-list" name="cancel">목록</a>
+      </div>
+    </div>
+    <!-- content -->
+  </div>
+</template>

@@ -1,0 +1,152 @@
+<!-- 나는 > im -->
+<template name="notification">
+  <div class="row content-body">
+    <div class="right-container notification">
+      <div class="ending_note_header">
+        <div class="row nopm">
+          <a href="javascript:void(0)" id="futureMain"><h3 class="ending_note_titel title_im"><span class="title-circle"><i class="imsr-icon icon-me0019"></i></span>알림</h3></a>
+        </div>
+      </div>
+    <div class="content h-scroll hr-scroll notify-content">
+      <!-- row -->
+      <div class="notify-head">
+      </div>
+      <!-- //row -->
+      <!-- row -->
+      <div class="row notify-body">
+        <div class="list-length">총 <strong>{{hpNotification.length}}</strong> 건</div>
+        <ul class="list-group notification">
+          {{#each hpNotification}}
+          <li class="list-group-item {{#if isNew}}new{{/if}} {{#if isReaded}}visited{{/if}} {{#if g_isEqual this._id hpSelectedId}}active{{/if}}" data-modal-template='{{#if g_isEqual contentType 'msgReceive'}}notifyReceiveMessagePopup{{else}}noticePopup{{/if}}'>
+            <div class="row">
+              <div class="col-xs-2 group">{{hpTypeName type contentType}}</div>
+              <div class="col-xs-8 subject">{{#if isNew}}<i class="imsr-icon icon-nt0001"></i>{{/if}}{{{title}}}</div>
+              <div class="col-xs-2 date">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+            </div>
+          </li>
+          {{/each}}
+          <!-- <li class="list-group-item" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">공지사항</div>
+              <div class="col-xs-8 subject">알림 팝업 테스트용(확인버튼만 있음)</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item new visited" data-modal-template='notifyReceiveMessagePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">공지사항</div>
+              <div class="col-xs-8 subject">쪽지 확인 팝업 테스트용</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-xs-2 group">공지사항</div>
+              <div class="col-xs-8 subject">페이지 이동 테스트용</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li> -->
+          <!-- <li class="list-group-item new visited" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">공지사항</div>
+              <div class="col-xs-8 subject"><i class="imsr-icon icon-nt0001"></i>이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item new" data-modal-template='notifyReceiveMessagePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">버킷리스트</div>
+              <div class="col-xs-8 subject"><i class="imsr-icon icon-nt0001"></i>이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item new" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">친구소식</div>
+              <div class="col-xs-8 subject"><i class="imsr-icon icon-nt0001"></i>이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item new" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">버킷리스트</div>
+              <div class="col-xs-8 subject"><i class="imsr-icon icon-nt0001"></i>이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item active" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">나는</div>
+              <div class="col-xs-8 subject">이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item visited" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">친구소식</div>
+              <div class="col-xs-8 subject">이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">쪽지함</div>
+              <div class="col-xs-8 subject">이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li>
+          <li class="list-group-item" data-modal-template='noticePopup'>
+            <div class="row">
+              <div class="col-xs-2 group">공지사항</div>
+              <div class="col-xs-8 subject">이러저러이러저러이러저한 내용이 들어가고 있습...</div>
+              <div class="col-xs-2 date">2016-03-03</div>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+      <!-- //row -->
+      <!-- pagination -->
+      <!-- <div class="row">
+        <div class="row text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mypage">
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li class="active"><a href="javascript:void(0)">1</a></li>
+              <li><a href="javascript:void(0)">2</a></li>
+              <li><a href="javascript:void(0)">3</a></li>
+              <li><a href="javascript:void(0)">4</a></li>
+              <li><a href="javascript:void(0)">5</a></li>
+              <li><a href="javascript:void(0)">6</a></li>
+              <li><a href="javascript:void(0)">7</a></li>
+              <li><a href="javascript:void(0)">8</a></li>
+              <li><a href="javascript:void(0)">9</a></li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+            </ul>
+            </nav>
+        </div>
+      </div> -->
+      <!-- pagination -->
+    </div>
+    <!-- //content -->
+    </div>
+  </div>
+</template>
+<!-- 삭제 가능 영역 테스트용 end -->

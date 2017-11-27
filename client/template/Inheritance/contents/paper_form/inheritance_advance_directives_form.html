@@ -1,0 +1,244 @@
+<!-- 사전 의료의향서 (양식)-->
+<template name="inheritanceAdvanceDirectivesForm">
+  <!-- modal-header -->
+  <div class="modal-header pop-header funeral">
+    <h1 class="modal-title"><span>{{title}}</span></h1>
+    <a class="close" data-dismiss="modal" aria-hidden="true"><i class="ion-close-round"></i></a>
+    <div class="btn-set">
+      <a href="{{g_bucketPath}}ims_common/%EC%82%AC%EC%A0%84%EC%9D%98%EB%A3%8C%EC%9D%98%ED%96%A5%EC%84%9C.pdf" download ><i class="ion-archive" download></i></a>
+      <!-- <a href="javascript:void(0)"><i class="ion-printer"></i></a> -->
+    </div>
+  </div>
+  <!-- //modal-header -->
+  <!-- modal-body -->
+  <div class="modal-body">
+    <h2>I. 적용시기</h2>
+    <p>다음과 같은 건강과 정신 상태에서 이 사전의료의향서의 뜻을 반영해 주십시오. (원하시는 부분에  표시해 주십시오.)</p>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="20%"/>
+          <col width="10%"/>
+          <col width="10%"/>
+          <col width="*"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">시기</th>
+            <th colspan="2">연명치료</th>
+            <th rowspan="2">설명</th>
+          </tr>
+            <tr>
+              <th>동의</th>
+              <th>비동의</th>
+            </tr>
+        </thead>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <td>뇌 기능의 심각한 장애</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>뇌 기능의 심각한 장애로호흡과 체온 유지 등 기본적 신체 기능 유지가 불가능하고, 단기간 내에죽음을 맞이할 가능성이 높은 것으로 의료진 (2인 이상) 이 판단한 경우 </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>질병의 말기</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>질병이 진행하여 말기상태로 건강 회복이 불가능하고, 단기간 내에 죽음을 맞이할 가능성이 높은 것으로 의료진(2인 이상)이 판단한 경우 </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>노령과 관련된 죽음</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>특정한 질병이 없이, 노화로 몸의 장기와 조직이 기능을 다하여 단기간 내에 죽음을 맞이할 가능성이 높은 것으로 의료진(2인 이상)이 판단한 경우</td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>II. 무의미한 연명치료의 거절</h2>
+    <p>건강을 회복할 수 없는 상태에서 생명유지장치를 사용한 연명치료가 신체적, 정신적 고통만 증가시키며 죽음의 과정을 무의미하게 연장한다면 다음의 선택을 존중해주십시오. (원하시는 부분에  표시해 주십시오)</p>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="20%"/>
+          <col width="10%"/>
+          <col width="10%"/>
+          <col width="*"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">시기</th>
+            <th colspan="2">연명치료</th>
+            <th rowspan="2">설명</th>
+          </tr>
+            <tr>
+              <th>동의</th>
+              <th>비동의</th>
+            </tr>
+        </thead>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <td>생명유지장치</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>강심제와 승압제, 심폐소생술, 제세동기, 인공호흡기 적용, 혈액투석, 체외순환 등 연명조치를 통해 혈액순환과 호흡기능 등 기본적인 기능만을 유지하는 것</td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>인위적인 영양공급</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>질위나 장으로 경관 튜브를 삽입하거나 혈관에 연결한 관을 통해 영양을 공급하는 것 </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td>완화 의료 치료</td>
+            <td colspan="3">무의미한 연명조치를 거절하는 경우라도 신체적, 정신적 고통을 줄이는 완화 치료를 원합니다. 적절한 최선의 통증조절, 체온 유지, 욕창예방, 배변과 배뇨의 도움, 수분 및 영양공급 등 청결하고 편안하게 지낼 수 있는 조치를 원합니다</td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>III. 대리인 지정</h2>
+    <p>내가 치료법에 대한 결정을 직접 내릴 수 없는 때에 아래에 기록된 사람이 치료에 대한 최종적인 권한을 행사하도록 위임합니다. 만약 불가피한 사정으로 1순위 대리인이 결정을 내릴 수 없다면, 아래 2순위 대리인이 나의 권한을 위임 받도록 지정합니다. 같은 방법으로 이후 순위 대리인에게도 적용됩니다.</p>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table type-trans">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="10%"/>
+          <col width="15%"/>
+          <col width="20%"/>
+          <col width="25%"/>
+          <col width="*"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>관계</th>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>주소</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <th>1순위</th>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th>2순위</th>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+            <td><p class="line">&nbsp;</p></td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>IV. 작성자 및 증인 서명</h2>
+    <p>작성자 본인과 증인 본인이 직접 작성과 서명을 하셔야 합니다.</p>
+    <!-- inh-modal-table -->
+    <div class="inh-modal-table">
+      <!-- table -->
+      <table summary="">
+        <colgroup>
+          <col width="20%"/>
+          <col width="40%"/>
+          <col width="*"/>
+        </colgroup>
+        <tbody>
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">작성자</th>
+            <td>성명 : <span class="sign">(서명/인)</span></td>
+            <td>주민등록번호 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">전화 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">주소 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <th rowspan="3">증인</th>
+            <td>성명 : <span class="sign">(서명/인)</span></td>
+            <td>주민등록번호 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr>
+            <td colspan="2">전화 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <td colspan="2">주소 : </td>
+          </tr>
+          <!-- //tr -->
+          <!-- tr -->
+          <tr class="stline">
+            <th rowspan="3">작성일자</th>
+            <td colspan="2" class="date">
+              <span class="text-center">
+              년&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일
+              </span>
+            </td>
+          </tr>
+          <!-- //tr -->
+        </tbody>
+      </table>
+      <!-- //table -->
+    </div>
+    <!-- //inh-modal-table -->
+
+    <h2>V. 그 외 남기고 싶은 정보</h2>
+    <div class="line-box">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+
+  </div>
+  <!-- //modal-body -->
+  <!-- modal-footer -->
+  <div class="modal-footer">
+  </div>
+  <!-- //modal-footer -->
+</template>

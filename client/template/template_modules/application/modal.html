@@ -1,0 +1,20 @@
+<template name="modal" >
+  <div class="modal {{#unless modalTemplate.fade}} fade {{/unless}}" id="modal" data-backdrop="{{modalTemplate.backdrop}}">
+    <div class="modal-dialog {{modalTemplate.size}}">
+      <div class="modal-content">
+        {{#if modalTemplate}}
+          {{> Template.dynamic template=modalTemplate.template data=modalTemplate.data}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<!--
+  ㅇ modal option
+  ㅇ fade : 모달창 표시 효과 있음(슬라이드)
+  ㅇ size : 모달창 사이즈
+  ㅇ backdrop : 모달창 이외의 부분 눌렀을경우 모달 닫히는 옵션
+    - basic : 닫음
+    - static : 닫지않음
+-->

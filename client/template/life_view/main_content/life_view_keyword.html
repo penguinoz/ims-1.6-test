@@ -1,0 +1,38 @@
+<!-- 라이프맵 키워드로 보기 -->
+<template name="lifeViewKeyword">
+  <div class="wrapper">
+    <div class="content keyword h-scroll hl-scroll">
+      <div class="lifeview-maincontent">
+        <div id="viz"></div>
+      </div>
+    </div>
+  </div>
+  {{#if hpIsPageOwner}}
+    <div class="over">
+      {{#with hpNotTagList}}
+        <div class='hideSelector'>
+          <a herf="javascript:void(0)" name="imgCount"><i class="imsr-icon icon-me0019" style="color:red;"></i> 태그가 없는 글이 <strong>{{this.length}}</strong>개</a>
+        </div>
+        <div class='hideTarget'>
+          {{> keywordSlider data=this}}
+        </div>
+      {{/with}}
+    </div>
+  {{/if}}
+</template>
+
+<template name="keywordSlider">
+  <div class="sliderview type02" id="lifeviewKeywordSlider" style="width: 585px;">
+    {{#each hpNotTagList}}
+      <div name="keywordSlider" postId="{{this._id}}" postType="{{this.type}}">
+        <div class="image" name="keywordSlider" postId="{{this._id}}" postType="{{this.type}}">
+          {{this.title}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <div>
+    태그: <input type="text" name="tagText" placeholder="태그 입력 후 엔터" required="true" title="태그를 입력해주세요." />
+    <input type="button" name="addTag" value="확인" />
+  </div>
+</template>

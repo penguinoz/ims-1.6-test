@@ -1,0 +1,11 @@
+var templateName = 'timelineQnaList';
+
+Template[templateName].onCreated(function(){
+
+});
+
+Template[templateName].helpers({
+  hpCollection: function() {
+    return Session.get('timelineQnaList data');
+  }
+});

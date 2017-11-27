@@ -1,0 +1,141 @@
+<!-- 마이페이지 > 댓글 -->
+<template name="customerNotice">
+<div class="h-scroll hi-scroll">
+  <!-- mypage-title -->
+  <div class="mypage-title">
+    <h2>공지사항</h2>
+  </div>
+  <!-- mypage-title -->
+  <!-- content -->
+  <div class="content">
+    <!-- addInheritor-searchContainer -->
+    <div class="mypage-searchContainer">
+      <!-- row -->
+      <div class="row">
+        <!-- search-box -->
+        <div class="col-xs-6 search-box">
+          <select class="selectpicker" data-width="65px" name="keywordTypeSend" id="keywordTypeSend">
+            <option value="content">내용</option>
+            <option value="title">제목</option>
+          </select>
+          <form id="custom-search-form" class="form-search form-horizontal" onsubmit="return false">
+            <div class="input-append span12">
+              <input type="text" class="search-query" placeholder="" name="keywordTextSend" id="keywordTextSend">
+              <button class="btn" name="searchBtReceive"><i class="imsr-icon icon-in0007"></i></button>
+            </div>
+          </form>
+          <span>총 <strong>{{hpGetLength}}</strong>건</span>
+        </div>
+        <!-- //sort-box -->
+      </div>
+      <!-- //row -->
+    </div>
+    <!-- //addInheritor-searchContainer -->
+    <!-- mypage-assets-table -->
+    <div class="mypage-assets-table requestReady">
+        <!-- panel-table -->
+        <div class="panel panel-default panel-table row-sm no-link type-link">
+          <!-- panel-head -->
+          <div class="panel-heading">
+            <div class="tr">
+                <div class="th" style="width:10%;">No</div>
+                <div class="th" style="width:70%;">제목</div>
+                <div class="th" style="width:20%;">등록일</div>
+            </div>
+          </div>
+          <!-- //panel-head -->
+          <!-- panel-body -->
+          <div class="panel-body">
+          <!-- {{#each hpLikeData.to}} -->
+            <!-- tr -->
+            {{#each hpGetNoticeData}}
+            {{#if g_isEqual hpGetPageIndex this.index}}
+            {{#each data}}
+            <div class="tr" id="noticetr">
+              <div class="td">{{index}}</div>
+              <div class="td left"><a name="title" target="_blank">{{title}}</a></div>
+              <div class="td">{{g_dateFormChange regDate 'defaultYMD'}}</div>
+            </div>
+            {{/each}}
+            {{/if}}
+            {{/each}}
+            <!-- {{/each}} -->
+          </div>
+          <!-- //panel-body -->
+        </div>
+        <!-- //panel-table -->
+        <!-- pagination -->
+        <div class="row text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mypage">
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Previous" class="disabled">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0002"></i></span>
+                </a>
+              </li>
+              {{#each hpGetNoticeData}}
+              <li class="" id="pageBt"><a href="javascript:void(0)">{{index}}</a></li>
+              {{/each}}
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" aria-label="Next">
+                  <span aria-hidden="true"><i class="imsr-icon icon-li0003"></i><i class="imsr-icon icon-li0003"></i></span>
+                </a>
+              </li>
+            </ul>
+            </nav>
+        </div>
+        <!-- pagination -->
+      </div>
+      <!-- //mypage-assets-table -->
+      <!-- notice-detail -->
+      <div class="notice-detail hidden" id="noticDetail">
+        <div class="detail-head">
+          <div class="row">
+            <div class="col-xs-8">
+              <span class="subject" id="noticeTitle"></span>
+            </div>
+            <div class="col-xs-4 text-right">
+              <!-- 운영자 권한 -->
+              {{#if g_supportAuth}}
+              <a href="javascript:void(0)" id="editNotice">수정  </a>
+              <a href="javascript:void(0)" id="deleteNotice">  삭제</a>
+              {{/if}}
+              <!-- 운영자 권한 -->
+              <span class="date" id="noticeRegDate"></span>
+            </div>
+          </div>
+        </div>
+        <!-- 파일 없으면 삭제 -->
+                              <!-- {{#if g_isEmpty file}}
+                              <div class="detail-attach text-right">
+                                <div class="attach-file">
+                                  <a href="javascript:{{hpGetPrePath file}}" download>
+                                    <i class="imsr-icon icon-bu0004"></i>
+                                    <span class="file-name">첨부파일</span> -->
+                                    <!-- <span class="file-length">(2)</span> -->
+                                  <!-- </a>
+                                </div>
+                              </div>
+                              {{/if}} -->
+        <div class="detail-body">
+          <div class="row">
+            <div class="detail-content">
+              {{> froalaReactive hpGetContext}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- //notice-detail -->
+    </div>
+  </div>
+</template>

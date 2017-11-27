@@ -1,0 +1,102 @@
+// 마이페이지 > 댓글
+var templateName = 'customerWrite';
+
+Template[templateName].onRendered(function(){
+  this.fileIndex = 1;
+  global.fn_customerScrollBarInit(this.$('.hi-scroll'), "dark");
+  global.fn_selectPicker('.selectpicker', null);
+});
+
+Template[templateName].events({
+  "click #save": function(e, t){
+    var insertObj = {};
+    var triger = 0;
+    insertObj.title = $("#title").val();
+    insertObj.question = $("#question").val();
+    insertObj.userId = global.login.userId;
+    insertObj.qsfile = [];
+    insertObj.ansfile = [];
+    var files = [];
+    $("input[name='inputFile1']").each(function(){
+      if($(this).val()){
+        var nameString = $(this).val();
+        var newFileName =  Meteor.uuid();
+        var pathId = "customer_desk/"+newFileName+ "." + nameString.substring(nameString.lastIndexOf('.')+1);
+        var pushObj = {
+          file:$(this)[0].files[0],
+          fileName:pathId
+        };
+        files.push(pushObj);
+      }
+    });
+
+
+
+    if(files.length){
+      for(var i in files){
+        // insertObj.qsfile.push(files[i].fileName);
+        S3.upload({
+          file:files[i].file,
+          upload_name: files[i].fileName,
+          unique_name:false,
+          acl:"private",
+          path:"customer_desk",
+          encoding:"base64",
+        },function(e,r){
+          console.log(r);
+          triger++;
+          insertObj.qsfile.push(r.relative_url);
+          console.log("i"+i);
+          if(triger === files.length){
+            Meteor.call('insertQna',insertObj,function(err,res){
+              if(err){console.log(err);}
+              if(res){
+                global.utilAlert('저장 되었습니다.');
+                // $("#title").val("");
+                // $("#question").val("");
+                var templateData = {};
+                templateData.contentTmp = 'customerWrite';
+                Session.set('customerMain templateData', templateData);
+              }
+            });
+          }
+
+        });
+      }
+
+
+
+    }else{
+      Meteor.call('insertQna',insertObj,function(err,res){
+        if(err){console.log(err);}
+        if(res){
+          global.utilAlert('저장 되었습니다.');
+          // $("#title").val("");
+          // $("#question").val("");
+          var templateData = {};
+          templateData.contentTmp = 'customerWrite';
+          Session.set('customerMain templateData', templateData);
+        }
+      });
+    }
+      var templateData = {};
+      templateData.contentTmp = 'customerQna';
+      Session.set('customerMain templateData', templateData);
+
+  },
+  "click #addAtachFile":function(e, t){
+    var fileIndex = t.fileIndex;
+    if(fileIndex < 5){
+      t.fileIndex = fileIndex + 1;
+      var param = "<div id='fileSet'><input type='file' placeholder='' id='inputFile1' name='inputFile1' style='width:210px;''/><a class='btn-tagDelete' id='frListTag'></a></div>";
+      // var param = "<div id='fileSet'><input type='file' placeholder='' name='inputFileName' id='inputFile"+fileIndex +"' style='width:210px;''/>";
+      //     param =  param +"<a class='btn-tagDelete' id='frListTag'></a>";
+      //     param =  param +"<a href='javascript:document.getElementById('"+fileIndex+"').click();' style='width:210px;'>파일찾기</a></div>";
+      $("#fileList").append(param);
+    }
+  },
+  "click #frListTag":function(e, t){
+    t.fileIndex = t.fileIndex - 1;
+    $(e.currentTarget.parentNode).remove();
+  }
+});

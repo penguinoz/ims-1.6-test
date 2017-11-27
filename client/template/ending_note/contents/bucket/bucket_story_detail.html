@@ -1,0 +1,89 @@
+<!-- 나는 > 리스트 상세 -->
+<template name="bucketStoryDetail">
+  <!-- content -->
+  <div class="content">
+    <!-- container -->
+    <div class="container-fluid detail-container">
+      {{#with hpCollection}}
+      <!-- row -->
+      <div class="row detail-article">
+        <!-- list-group-item -->
+        <div class="detail-group">
+          <!-- <div class="media-left subject-group {{hpisDropup}}"> -->
+          <div class="media-left subject-group">
+            <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+              {{#if g_refreash}}
+                <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+              {{else}}
+                <img class="media-object img-circle img-sm " src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image">
+              {{/if}}
+            </a>
+            {{> dropdownMenuUserCard targetUserId=this.userId}}
+          </div>
+          <div class="media-body body-group">
+            <p class="member">{{this.nickName}}<span class="date">등록일 : {{g_dateFormChange this.regDate 'defaultHMS'}}</span></p>
+            <p class="subject">{{this.title}}</p>
+          </div>
+        </div>
+        <!-- //list-group-item -->
+        <!-- row -->
+        <div class="row detail-btnContainer">
+          <!-- col -->
+          <div class="col-xs-6 nopm">
+            <div class="group-box" role="group" aria-label="...">
+              <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnLikeList" postId="{{this._id}}">
+                <i class="imsr-icon {{#if likeFlag this.like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart" aria-hidden="true" id="btnLikeList" postId="{{this._id}}"></i>{{this.like.length}}
+              </a>
+              {{> endingNoteLikeListSub}}
+              <span class="group-xs" id="btnCommentCount"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{this.commentCount}}</span>
+              <span class="group-xs"><i class="imsr-icon icon-me0024 "  aria-hidden="true"></i>{{this.open}}</span>
+            </div>
+          </div>
+          <!-- //col -->
+          <!-- col -->
+          <div class="col-xs-6 text-right detail-btn nopm">
+            <!-- btn-group -->
+            <!-- <a class="btn btn-default" href="javascript:void(0)" role="button">좋아요</a> -->
+            {{> endingNoteLikeSub (g_setLikeParameters this 'bucketStoryDetail')}}
+            {{#if g_userAuth this.userId}}
+              <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="bucketStoryEdit" data-modal-template="bucketStoryWriting">수정</a>
+              <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="bucketStoryDelete">삭제</a>
+            {{/if}}
+            <!-- //btn-group -->
+          </div>
+          <!-- //col -->
+        </div>
+        <!-- Single button -->
+      </div>
+      <!-- Single button -->
+      <div class="row detail-article detail-body">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="text-right">
+              추억일: {{this.startDate}}
+            </div>
+            <div name="froalaEditor" contenteditable="false">
+            {{#if hpGetContext}}
+              {{> froalaReactive hpGetContext}}
+            {{/if}}
+            </div>
+            {{#if this.tagList}}
+            <div class="tag">
+              <ul>
+              {{#each this.tagList}}
+              <li><a href="javascript:void(0)">#{{this}}</a></li>
+              {{/each}}
+              </ul>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <!-- //row -->
+      {{> endingNoteCommentSub postData=this}}
+      <!-- row -->
+      {{/with}}
+    </div>
+  </div>
+  <!-- //content -->
+</template>

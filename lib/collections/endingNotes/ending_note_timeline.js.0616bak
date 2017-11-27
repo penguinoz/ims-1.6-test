@@ -1,0 +1,651 @@
+import {global} from '/imports/global/global_things.js';
+import {collections as CLT} from '/imports/global/collections.js';
+// CLT.EnTimeline = new Mongo.Collection('endingNoteTimeline');
+
+Meteor.methods({
+  // enTimelineGetList: function(userId, isPageOwner, postId, postTimeLineDate, userArray, loginUser) {
+  enTimelineGetList: function(userId, isPageOwner, postId, userArray, loginUser, standardDate) {
+    if(Meteor.isServer){
+    var authCondition = [];
+    var authCondition2 = [];
+    var timeCapsuleCondition = [];
+    var bucketCondition = [];
+    var bucketCondition2 = [];
+    if(isPageOwner){
+      // 내 페이지
+      authCondition = [{userId: {$in: userArray}}];
+      authCondition2 = [ {$or: [{lock: false}, {userId: userId}] } ];
+      timeCapsuleCondition = [{ groupMember: {$elemMatch: {userId: loginUser}} }];
+      bucketCondition = [ {$and: [{$or: [{groupUsers: userId}, {lock: false}, {userId: userId}] }, {userId: {$in: userArray}}]}  ];
+    } else {
+      // 남의 페이지
+      authCondition = [{userId: userId}];
+      authCondition2 = [{lock: false}];
+      timeCapsuleCondition = [{lock: false}];
+      bucketCondition = [{lock: false}];
+    }
+
+    // 타임캡슐 리뉴얼 이후 삭제
+    // var beetween = [{}];
+    // if (standardDate) {
+    //   beetween = [{timelineDate: {$lte: standardDate}}];
+    // }
+
+    var result = [];
+    var timeline = CLT.EnTimeline.find(
+      {
+        // postId: {$in: postId},
+        _id: {$in: postId},
+        contentType: 'E', // 히스토리는 아예 안가져옴
+
+        // timelineDate: {$in: postTimeLineDate},
+        // 친구의 히스토리정보와 end데이터는 안가져옴
+        $and: [
+          { $or: [ {userId: userId}, { contentType: {$ne: 'H'}, timeClass: {$ne: 'end'} } ] },
+          { $or: authCondition }
+        ],
+        // $or: beetween // 타임캡슐 리뉴얼 이후 삭제
+        // $and: [
+        //   { $or: [ {userId: userId}, { contentType: {$ne: 'H'}, timeClass: {$ne: 'end'} } ] },
+        //   { $or: authCondition }
+        // ]
+      },
+      {sort: {timelineDate: -1}}
+    ).fetch();
+
+    // 타임캡슐 리뉴얼 이후 추가
+    postId = timeline.map(function(item) {
+      return item.postId;
+    });
+
+    var story = CLT.EnStory.find(
+      {
+        _id: {$in: postId},
+        $or: authCondition,
+        $and: authCondition2
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    var lifeTrace = CLT.EnImLifeTrace.find(
+      {
+        _id: {$in: postId},
+        $or: [{userId: userId}],
+        $and: authCondition2
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    var me = CLT.EnImMe.find(
+      {
+        _id: {$in: postId},
+        $or: [{userId: userId}],
+        $and: authCondition2
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    var withMe = CLT.EnImWithMe.find(
+      {
+        _id: {$in: postId},
+        $or: [{userId: userId}],
+        $and: authCondition2
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    var bucketList = CLT.EnBucketList.find(
+      {
+        _id: {$in: postId},
+        $or: bucketCondition,
+        // $and: authCondition2
+      }, {sort: {regDate: -1}}
+    ).fetch();
+
+    var bucketListExecPlan = CLT.EnBucketListExecPlan.find(
+      {
+        bucketId: {$in: postId},
+        // userId: loginUser
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    var timeCapsule = CLT.EnTimeCapsule.find(
+      {
+        _id: {$in: postId},
+        $or: timeCapsuleCondition,
+        // $and: authCondition2 //조건 넣지 않아도 타임라인에 다른사람의 타임캡슐 이벤트는 보이지 않는다.
+      }, {sort: {regDate: -1}}
+    ).fetch();
+    // var history = CLT.EnHistory.find(
+    //   {
+    //     postId: {$in: postId},
+    //     userId: loginUser,
+    //     // timelineDate:{$in : postTimeLineDate}
+    //   }, {sort: {updateDate: 1}}
+    // ).fetch();
+
+    var future = CLT.EnFutureStory.find(
+      {
+        _id: {$in: postId},
+      }
+    ).fetch();
+
+    var friend = Meteor.users.findOne({username: userId});
+    var inArray = [];
+    timeline.map(function(item, i) {
+      var friendTime = new Date(item.regDate).getTime();
+      if (item.userId !== userId && friend) {
+        friend.profile.friends.accept.map(function(fItem) {
+          if (item.userId === fItem.userId) {
+            friendTime = fItem.regDate;
+          }
+        });
+      }
+      // 친구데이터는 친구등록이후 데이터만 가져온다
+      if (new Date(item.regDate).getTime() >= new Date(friendTime).getTime()) {
+        story.map(function(subItem) {
+          var title = null;
+          if (item.postId === subItem._id) {
+            var category = null;
+            var storyUserId = subItem.userId;
+            title = subItem.title;
+            content = subItem.content;
+            bucketList.map(function(supItem) {
+              if (subItem.postId === supItem._id) {
+                // 그룹일때 각자 버킷스토리 등록한 유저는 따로 보여지는게 아니라 버킷리스트기준으로 보여야되기때문에 로그인유저로 비교해서 userId에 담음
+                if (_.indexOf(supItem.groupUsers, loginUser) !== -1) {
+                  storyUserId = loginUser;
+                } else {
+                  storyUserId = supItem.userId;
+                }
+                category = supItem.category;
+                title = supItem.title;
+                content = '|{preTag}|제목:|{postTag}|' + global.utilEllipsis(subItem.title, 22) + '</p>' + subItem.content;
+              }
+            });
+            var timelineDate = item.timelineDate;
+            if (item.userId !== loginUser) {
+              // 친구데이터는 등록일자로 표시한다
+              timelineDate = subItem.regDate;
+            }
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              subPostId: subItem.postId,
+              userId: storyUserId,
+              type: item.type,
+              contentType: item.contentType,
+              title: title,
+              content: content,
+              tag: subItem.tagList,
+              images: subItem.images,
+              category: category,
+              lock: subItem.lock,
+              timeClass: item.timeClass,
+              startDate: subItem.startDate,
+              timelineDate: global.utilGetDate(timelineDate).defaultYMD,
+              sortDate: global.utilGetDate(subItem.regDate).defaultHMS,//new Date(subItem.regDate).getTime()
+              sort: item.sort
+            });
+          }
+        });
+
+        lifeTrace.map(function(subItem) {
+          if (item.postId === subItem._id) {
+            //타이틀을 태그로 갖고 있는 내 글 수
+            var myContentData = {
+              title : subItem.title,
+              memoryListCount : CLT.EnStory.find({'userId': subItem.userId, 'tagList': { $in: [subItem.title] }}).count()
+            };
+
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              userId: subItem.userId,
+              type: item.type,
+              subType: subItem.type,
+              contentType: item.contentType,
+              title: subItem.title,
+              content: subItem.fromDate + ' ~ ' + subItem.toDate,
+              images: subItem.images,
+              timeClass: item.timeClass,
+              category: null,
+              lock: subItem.lock,
+              startDate: subItem.fromDate,
+              timelineDate: global.utilGetDate(item.timelineDate).defaultYMD,
+              sortDate: global.utilGetDate(subItem.regDate).defaultHMS,
+              sort: item.sort,
+              myContentData : myContentData
+            });
+          }
+        });
+
+        me.map(function(subItem) {
+          if (item.postId === subItem._id) {
+            subItem.answer.map(function(answer) {
+              result.push({
+                _id: item._id,
+                postId: subItem._id,
+                userId: subItem.userId,
+                type: item.type,
+                subType: subItem.type,
+                contentType: item.contentType,
+                title: answer.value,
+                content: null,
+                images: [],
+                timeClass: item.timeClass,
+                category: subItem.questionId,
+                lock: subItem.lock,
+                startDate: global.utilGetDate(answer.regDate).defaultYMD,
+                timelineDate: global.utilGetDate(answer.regDate).defaultYMD,
+                sortDate: global.utilGetDate(answer.regDate).defaultHMS,
+                sort: item.sort
+              });
+            });
+          }
+        });
+
+        withMe.map(function(subItem) {
+          if (item.postId === subItem._id) {
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              userId: subItem.userId,
+              type: item.type,
+              subType: subItem.type,
+              contentType: item.contentType,
+              title: subItem.title,
+              content: subItem.content,
+              images: subItem.images,
+              timeClass: item.timeClass,
+              category: subItem.questionId,
+              lock: subItem.lock,
+              startDate: global.utilGetDate(subItem.regDate).defaultYMD,
+              timelineDate: global.utilGetDate(subItem.regDate).defaultYMD,
+              sortDate: global.utilGetDate(subItem.regDate).defaultHMS,
+              sort: item.sort
+            });
+          }
+        });
+
+        bucketList.map(function(subItem) {
+          if (item.postId === subItem._id) {
+            var startDate = null;
+            var timeClass = 'start';
+            startDate = subItem.startDate;
+            if (item.timeClass === 'end') {
+              timeClass = 'end';
+              startDate = subItem.completeDate;
+            }
+            var timelineDate = item.timelineDate;
+            if (item.userId !== loginUser) {
+              // 친구데이터는 등록일자로 표시한다
+              timelineDate = subItem.regDate;
+            }
+            var write = subItem.userId;
+            var fakegroup = subItem.groupUsers;
+            fakegroup.push(write);
+            var resultFlag = false;
+            if (subItem.groupUsers.length !== 0) {
+              // 버킷그룹이 있을때
+              if (_.indexOf(fakegroup, item.userId) >= 0 && _.indexOf(fakegroup, loginUser) >= 0) {
+                // 타임라인유저가 그룹에 속해 있고, 로그인한유저가 속해 있을때
+                if (item.userId === loginUser) {
+                  resultFlag = true;
+                }
+              } else {
+                if (_.indexOf(inArray, item.postId) === -1) {
+                  // postId가 중복일때 최초의 postId를 가진 데이터만 넣어준다
+                  resultFlag = true;
+                }
+                inArray.push(item.postId);
+              }
+            } else {
+              resultFlag = true;
+            }
+            if (resultFlag) {
+              result.push({
+                _id: item._id,
+                postId: subItem._id,
+                userId: item.userId,
+                type: item.type,
+                contentType: item.contentType,
+                title: subItem.title,
+                content: subItem.content,
+                tag: subItem.tagList,
+                images: subItem.images,
+                timeClass: timeClass,
+                category: subItem.category,
+                lock: subItem.lock,
+                follow: subItem.follow,
+                parentPostId: subItem.postId,
+                startDate: startDate,
+                endDate: subItem.completeDate,
+                timelineDate: global.utilGetDate(timelineDate).defaultYMD,
+                isCompleted: subItem.isCompleted,
+                sortDate: global.utilGetDate(subItem.regDate).defaultHMS,//new Date(subItem.regDate).getTime()
+                sort: item.sort
+              });
+            }
+          }
+        });
+
+        bucketListExecPlan.map(function(subItem) {
+          var planUserId = null;
+          var title = null;
+          var category = null;
+          var lock = false;
+          var isCompleted = null;
+          bucketList.map(function(bkItem) {
+            if (subItem.bucketId === bkItem._id) {
+              // planUserId = bkItem.userId;
+              title = bkItem.title;
+              category = bkItem.category;
+              lock = bkItem.lock;
+              isCompleted = bkItem.isCompleted;
+            }
+          });
+          if (item.postId === subItem._id && item.userId === loginUser) {
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              subPostId: subItem.bucketId,
+              userId: item.userId,
+              type: 'BP',
+              contentType: item.contentType,
+              title: title,
+              content:  subItem.planContent,
+              tag: [],
+              images: [],
+              timeClass: 'start',
+              category: category,
+              lock: lock,
+              startDate: subItem.planStartDate,
+              endDate: subItem.planCompleteDate,
+              timelineDate: global.utilGetDate(subItem.planStartDate).defaultYMD,
+              isCompleted: isCompleted,
+              sortDate: global.utilGetDate(subItem.regDate).defaultHMS,//new Date(subItem.regDate).getTime()
+              sort: item.sort
+            });
+          }
+        });
+
+        timeCapsule.map(function(subItem) {
+          if (item.postId === subItem._id && item.userId === loginUser) {
+            var content = null;
+            var startDate = null;
+            var timeClass = 'start';
+            startDate = item.timelineDate;
+
+            var groupMember = null;
+            groupMember = global.fn_groupMemberNickName(subItem.userId, subItem.groupMember); // 참여자
+            var firstTitle = '';
+            if (subItem.authorType === 'private') {
+              if (subItem.groupMember.length === 1) {
+                // 나에게
+                firstTitle = '수신자';
+              } else {
+                // 개별 수신인 있을때
+                if (subItem.userId === loginUser) {
+                  firstTitle = '수신인';
+                  var without = _.without(_.pluck(subItem.groupMember, 'userId'), subItem.userId);
+                  if (subItem.nonUserGroupMember.length !== 0) {
+                    var nonUserName = _.pluck(subItem.nonUserGroupMember, 'nonUserName');
+                    without = _.union(without, nonUserName);
+                  }
+                  groupMember = global.fn_groupMemberNickName(without[0], without);
+                } else {
+                  firstTitle = '작성자';
+                  groupMember = global.utilGetNickName(subItem.userId);
+                }
+              }
+            } else {
+              firstTitle = '그룹원';
+            }
+            // start일때
+            content = '|{preTag}|'+firstTitle+':|{postTag}| ' + groupMember + '<br/>' + '|{preTag}|매립지:|{postTag}| ' + subItem.buryLocationName + '<br/>' + '|{preTag}|개봉일:|{postTag}| ' + subItem.unsealDate;
+            if (item.timeClass === 'end') {
+              timeClass = 'end';
+              startDate = item.timelineDate;
+              var timeCapsuleMessageCount = CLT.EnCapsuleMessage.find({capsuleId: subItem._id}).count();
+              content = '|{preTag}|'+firstTitle+':|{postTag}| ' + groupMember + '<br/>' + '|{preTag}|매립지:|{postTag}| ' + subItem.buryLocationName + '<br/>' + '|{preTag}|메세지:|{postTag}| ' + timeCapsuleMessageCount + '개 메세지가 있습니다.';
+            }
+
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              subPostId: '',
+              userId: item.userId,
+              type: item.type,
+              status: subItem.status,
+              contentType: item.contentType,
+              title: subItem.title,
+              content: content,
+              buryLocationName : subItem.buryLocationName,
+              tag: [],
+              groupMember: subItem.groupMember,
+              nonUserGroupMember : subItem.nonUserGroupMember,
+              images: [],
+              timeClass: timeClass,
+              category: null,
+              lock: false,
+              startDate: startDate,
+              unsealDate: subItem.unsealDate,
+              timelineDate: global.utilGetDate(startDate).defaultYMD,
+              sortDate: global.utilGetDate(item.regDate).defaultHMS,//new Date(subItem.regDate).getTime()
+              sort: item.sort
+            });
+          }
+        });
+
+        future.map(function(subItem) {
+          if (item.postId === subItem._id && new Date(global.utilGetDate().defaultYMD).getTime() < new Date(item.timelineDate).getTime()) {
+            result.push({
+              _id: item._id,
+              postId: subItem._id,
+              subPostId: subItem.postId,
+              userId: 'admin',
+              type: item.type,
+              contentType: item.contentType,
+              title: subItem.title,
+              content: subItem.content,
+              tag: subItem.tagList,
+              images: subItem.images,
+              category: null,
+              lock: subItem.lock,
+              timeClass: item.timeClass,
+              startDate: subItem.startDate,
+              timelineDate: global.utilGetDate(subItem.startDate).defaultYMD,
+              sortDate: global.utilGetDate(subItem.regDate).defaultHMS,//new Date(subItem.regDate).getTime()
+              sort: item.sort
+            });
+          }
+        });
+      }
+    });
+
+    // result.map(function(item, i) {
+    //   var tempContent = [];
+    //   history.map(function(subItem) {
+    //     if (item.postId === subItem.postId && item.contentType === 'H') {
+    //       result[i].sortDate = global.utilGetDate(subItem.updateDate).defaultHMS;
+    //       tempContent.push({
+    //         typeKey: subItem.typeKey,
+    //         postType: subItem.postType,
+    //         type: subItem.type,
+    //         userId: subItem.userId,
+    //         user: subItem.user,
+    //         updateDate: subItem.updateDate
+    //       });
+    //     }
+    //   });
+    //   if (item.contentType === 'H') {
+    //     result[i].content= _.chain(tempContent).sortBy('updateDate').value().reverse();
+    //     // result[i].content = tempContent;
+    //   }
+    // });
+
+    var resultData = [];
+    if (userId === loginUser) {
+      // 현재타임라인의 유저와 로그인한 유저를 매칭
+      result.map(function(item) {
+        // 시작 종료일이 없을때 타임라인 데이터를 안보여준다. (히스토리데이터는 보여줌)
+        if (item.startDate || item.contentType === 'H' || item.userId !== loginUser) {
+          resultData.push(item);
+        }
+      });
+    } else {
+      // 친구 타임라인 들어왓을때는 히스토리는 제외시킨다
+      result.map(function(item) {
+        if (item.contentType !== 'H') {
+          if (global.fn_isExist(item.startDate)) {
+            resultData.push(item);
+          }
+        }
+      });
+    }
+
+    resultData = _.chain(resultData).sortBy('sort').sortBy('sortDate').sortBy('timelineDate').value().reverse();
+    return resultData;
+    }
+  },
+  enTimelineInsert: function(obj) {
+    _.each(obj, function(item) {
+      CLT.EnTimeline.insert(item);
+    });
+  },
+  enTimelineUpsert: function(_id, obj) {
+    CLT.EnTimeline.upsert(
+      {_id: _id},
+      {$set: obj}
+    );
+  },
+  enTimelineUpdate: function(postId, obj) {
+    _.each(obj, function(item) {
+      CLT.EnTimeline.update(
+        {postId: postId, userId: item.userId, timeClass: item.timeClass, contentType: item.contentType},
+        {$set: item}
+      );
+    });
+  },
+  enTimelineUpdateOne: function(postId, obj) {
+    CLT.EnTimeline.update(
+      {postId: postId, userId: obj.userId, timeClass: obj.timeClass, contentType: obj.contentType},
+      {$set: obj}
+    );
+  },
+  enTimelineDalete: function(postId, userId) {
+    var condition = {
+      postId: postId
+    };
+    var condition2 = {
+      postId: postId
+    };
+    if (userId) {
+      condition.userId = userId;
+      condition2.$or = [{user: userId}, {userId: userId}];
+    }
+    CLT.EnTimeline.remove(condition);
+    CLT.EnHistory.remove(condition2);
+  },
+  // 버킷리스트에 포함되어잇는 스토리삭제할때 쓰는 메서드
+  enTimelineDaleteBuketStory: function(postId, parentPostId) {
+    var condition = {
+      postId: postId
+    };
+    var condition2 = {
+      postId: parentPostId,
+      typeKey: postId
+    };
+    CLT.EnTimeline.remove(condition);
+    CLT.EnHistory.remove(condition2);
+  },
+  myDataCount: function(obj) {
+    var result = null;
+    switch(obj.type) {
+      case 'LT':
+        result = CLT.EnStory.find({'userId': obj.userId, 'tagList': { $in: [obj.title] }}).count();
+      break;
+
+      // ME 일경우
+      case 'ME':
+        switch(obj.subType) {
+          case 'IM': case 'ME':
+            if (Meteor.isServer) {
+              result = CLT.EnStory.find({'userId': obj.userId, 'tagList': { $in: [obj.title] }}).count();
+              // result += CLT.EnImMe.find({
+              //   userId: {$ne: obj.userId},
+              //   questionId: obj.category,
+              //   answer: {$elemMatch: {value: obj.title}}
+              // }).count();
+            }
+          break;
+        }
+      break;
+    }
+    return result;
+  },
+
+  // 똑같은 질문에 똑같은 대답을한 count
+  meDataCount: function(obj) {
+    var result = CLT.EnImMe.find({
+      userId: {$ne: obj.userId},
+      questionId: obj.category,
+      answer: {$elemMatch: {value: obj.title}}
+    }).count();
+    return result;
+  },
+
+  // 타임라인 up버튼
+  timeline_upButton: function(nin_id, userArray, standardDate, type, skip, limit) {
+    if (type === 'ALL') {
+      type = /^/;
+    }
+    return CLT.EnTimeline.find(
+      {_id: {$nin: nin_id}, userId: {$in: userArray}, timelineDate: {$gt: standardDate, $ne: ''}, type: type, contentType: 'E'},
+      {sort: {timelineDate: 1, regDate: 1}, limit: limit}
+    ).fetch();
+  },
+  // 타임라인 up버튼 count
+  timeline_upButton_count: function(nin_id, userArray, standardDate, type, skip, limit) {
+    if (type === 'ALL') {
+      type = /^/;
+    }
+    return CLT.EnTimeline.find(
+      {_id: {$nin: nin_id}, userId: {$in: userArray}, timelineDate: {$gt: standardDate, $ne: ''}, type: type, contentType: 'E'},
+      {sort: {timelineDate: 1, regDate: 1}, limit: limit}
+    ).count();
+  },
+  // 타임라인 down버튼
+  timeline_downButton: function(nin_id, userArray, standardDate, type, skip, limit) {
+    if (type === 'ALL') {
+      type = /^/;
+    }
+    return CLT.EnTimeline.find(
+      {_id: {$nin: nin_id}, userId: {$in: userArray}, timelineDate: {$lte: standardDate, $ne: ''}, type: type, contentType: 'E'},
+      {sort: {timelineDate: -1, regDate: -1}, limit: limit}
+    ).fetch();
+  },
+  // 타임라인 down버튼 count
+  timeline_downButton_count: function(nin_id, userArray, standardDate, type, skip, limit) {
+    if (type === 'ALL') {
+      type = /^/;
+    }
+    return CLT.EnTimeline.find(
+      {_id: {$nin: nin_id}, userId: {$in: userArray}, timelineDate: {$lte: standardDate, $ne: ''}, type: type, contentType: 'E'},
+      {sort: {timelineDate: -1, regDate: -1}, limit: limit}
+    ).count();
+  },
+  // 미래 데이터 확인
+  timeline_main_future: function(userId, userArray, standardDate, type) {
+    if (type === 'ALL') {
+      type = /^/;
+    }
+    var friendsDate = global.fn_getCalDate(standardDate, 1, 'SUM');
+    friendsDate = global.utilGetDate(friendsDate).defaultYMD;
+    return CLT.EnTimeline.find(
+      {
+        userId: {$in: userArray}, type: type, contentType: 'E',
+        // 친구데이터는 타임라인날짜에서 등록일짜로 바꾸기때문에 제외 시킨다
+        $or: [
+          {userId: userId, timelineDate: {$gt: standardDate, $ne: ''}},
+          {userId: {$ne: userId}, timelineDate: {$gt: standardDate, $ne: ''}, regDate: {$gt: friendsDate, $ne: ''}}
+        ]
+      },
+      {sort: {timelineDate: -1, regDate: -1}}
+    ).count();
+  }
+});
+
+

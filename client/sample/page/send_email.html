@@ -1,0 +1,17 @@
+<template name="send_email">
+  {{> header}}
+  <div id="container" style="margin-bottom:30px;">
+      <form class="form">
+          이메일 : <input name="email" type="email" class="form-control"/>
+          내용 : <input name="context" type="text" class="form-control"/>
+          <input type="submit" value="SEND" class="btn btn-primary" />
+      </form>
+  </div>
+  <div>
+    <span>{{hpData}}</span>
+    <input type="text"  name="text"/>
+    <input type="button"  name="button" value="메소드 테스트"/>
+  </div>
+  <input type="button" name="" class="popup_alert" value="alert팝업">
+  <input type="button" name="" class="popup_confirm" value="confirm팝업">
+</template>

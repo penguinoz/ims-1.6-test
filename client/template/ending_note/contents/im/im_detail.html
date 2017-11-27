@@ -1,0 +1,112 @@
+<!-- 나는 > 리스트 상세 -->
+<template name="imDetail">
+  <!-- content -->
+  <div class="content h-scroll hr-scroll">
+    <!-- container -->
+    <div class="container-fluid detail-container">
+      {{#with hpCollection}}
+      <!-- row -->
+      <div class="row detail-article">
+        <!-- list-group-item -->
+        <div class="detail-group">
+          <div class="media-left subject-group">
+            <a id="userProfile" class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+              {{#if g_refreash}}
+                <img class="media-object img-circle img-sm" src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+              {{else}}
+                <img class="media-object img-circle img-sm" src="{{g_getProfileImg this.userId 'thumb'}}" alt="Generic placeholder image" value="{{userId}}">
+              {{/if}}
+            </a>
+            {{> dropdownMenuUserCard targetUserId=this.userId}}
+          </div>
+          <!-- 사용자 정보카드 (위치가 맞지 않아서 적용하지 못함) -->
+          <div class="media-body body-group">
+            <p class="member2">
+               <span class="nickc">{{this.nickName}}</span>
+               <a href="javascript:void(0)" class="btn-lock">
+                  <span class="date">등록 : {{g_dateFormChange this.regDate 'defaultHMS'}}</span>
+                {{#if lock}}
+                  <span class="icon gray lock" aria-hidden="true"></span>
+                {{/if}}
+              </a>
+            </p>
+            <p class="subject im">{{this.title}}</p>
+            <p class="subject">{{this.startDate}}</p>
+          </div>
+        </div>
+        <!-- //list-group-item -->
+        <!-- row -->
+        <div class="row detail-btnContainer">
+          <!-- col -->
+          <div class="col-xs-6 nopm">
+            <div class="group-box" role="group" aria-label="...">
+              <a href="javascript:void(0)" class="group-xs dropdown" data-toggle="dropdown" id="btnLikeList" postId="{{this._id}}">
+                <i class="imsr-icon {{#if hpLikeFlag this.like}}icon-me0045 red{{else}}icon-me0022 gray{{/if}} heart" aria-hidden="true" id="btnLikeList" postId="{{this._id}}"></i>{{this.like.length}}
+              </a>
+              {{> endingNoteLikeList}}
+              <span class="group-xs" id="btnCommentCount"><i class="imsr-icon icon-me0023 "  aria-hidden="true"></i>{{this.commentCount}}</span>
+              <span class="group-xs"><i class="imsr-icon icon-me0024 "  aria-hidden="true"></i>{{this.open}}</span>
+            </div>
+          </div>
+          <!-- //col -->
+          <!-- col -->
+          <div class="col-xs-6 text-right detail-btn nopm">
+            {{> endingNoteLike g_setLikeParameters this 'imDetail'}}
+            {{#if hpisFromPopup}}
+            <!-- btn-group -->
+            <!-- <a class="btn btn-default" href="javascript:void(0)" role="button">좋아요</a> -->
+            {{#if g_userAuth this.userId}}
+              <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="imDetailEdit">수정</a>
+              <a class="btn btn-default btn-sm" href="javascript:void(0)" role="button" id="imDetailDelete">삭제</a>
+            {{/if}}
+            <!-- //btn-group -->
+            {{/if}}
+          </div>
+          <!-- //col -->
+        </div>
+        <!-- Single button -->
+      </div>
+      <!-- Single button -->
+      <div class="row detail-article detail-body">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <!-- <div class="text-right">
+              추억일: {{hpCollection.startDate}}
+            </div> -->
+            <div name="froalaEditor" contenteditable="false">
+            <div class="im-link" >
+              {{#with hpBucketStoryCategory this.postId}}
+                <a href="" id="moveBucketBt"><span class="link-title" >버킷리스트 : </span><span class="link-contents">{{{g_getCategoryTitle this}}}</span></a>
+				      {{/with}}
+            </div>
+            {{#if hpGetContext}}
+              {{> froalaReactive hpGetContext}}
+            {{/if}}
+            </div>
+            {{#if this.tagList}}
+            <div class="tag">
+              <ul>
+              {{#each this.tagList}}
+              <li><a name='tagButton'>#{{this}}</a></li>
+              {{/each}}
+              </ul>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <!-- //row -->
+        {{> endingNoteComment postData=this}}
+      <!-- row -->
+      {{/with}}
+    </div>
+  </div>
+  <!-- //content -->
+  <!-- fix-btnset -->
+  {{#if hpisFromPopup}}
+  <div class="fix-btnset">
+    <a hreg="#" id='btnToList' class="btn btn-primary btn-lg btn-block btn-list" role="button"><span class="imsr-icon icon-me0046"></span>목록</a>
+  </div>
+  {{/if}}
+  <!-- //fix-btnset -->
+</template>

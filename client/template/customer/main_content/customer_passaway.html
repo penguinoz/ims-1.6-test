@@ -1,0 +1,43 @@
+<template name="customerPassaway">
+  <div class="h-scroll hi-scroll">
+    <!-- mypage-title -->
+    <div class="mypage-title">
+      <h2>사망자 설정(임시화면)</h2>
+    </div>
+    <!-- mypage-title -->
+    <!-- content -->
+    <div class="content">
+      <div class="tab-content inner line">
+        <!-- tab-pane -->
+        <div id="profile" class="tab-pane fade in active">
+          <div class="mypage-form" style="width:100%;">
+            <!-- row -->
+            <div class="row">
+              <div class="col-xs-2">사망자 아이디</div>
+              <div class="col-xs-10">
+                <input type="text" placeholder="" id="userId"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-2">설정</div>
+              <div class="col-xs-10">
+                <div class="radio-group">
+                  <label><input type="radio" name='passaway' value="true" /><span class="w2label">죽음</span></label>
+                  <label><input type="radio" name='passaway' value="" /><span class="w2label">해제</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- mypage-content-btnSet -->
+          <div class="mypage-content-btnSet text-center mt30">
+            <a href="javascript:void(0)" class="mypage-cancle" id="cancel">취소</a>
+            <a href="javascript:void(0)" class="mypage-add" id="save">확인</a>
+          </div>
+          <!-- //mypage-content-btnSet -->
+        </div>
+        <!-- //tab-pane -->
+      </div>
+    </div>
+  </div>
+</template>

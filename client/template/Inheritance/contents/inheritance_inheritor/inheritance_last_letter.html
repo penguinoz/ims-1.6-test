@@ -1,0 +1,58 @@
+<!-- 마지막 편지 -->
+<template name="inheritanceLastLetter">
+  <div class="h-scroll hi-scroll">
+    <!-- inh-title -->
+    <div class="inh-title">
+      <h2 class="depth">나의 상속인<span>마지막 편지</span></h2>
+    </div>
+    <!-- inh-title -->
+
+    <!-- content -->
+    <div class="content">
+      <!-- inh-lastletter-search -->
+      <!-- {{#with hpLastLetter}} -->
+      <div class="row inh-lastletter-search">
+        <div class="col-xs-6 text-left">
+          <span class="label-to">To.</span>
+          <span class="name-to" id="toUser">
+            {{#if hpIsImsUser hpLastLetter.name}}
+              {{hpLastLetter.name}}
+            {{else}}
+              {{g_getNickName hpLastLetter.inheritorId}}
+
+            {{/if}}
+          </span>
+        </div>
+
+        <div class="col-xs-6 text-right">
+          <div class="ihn-content-btnSet btn-sm">
+            <a href="javascript:void(0)" class="ihn-modify" id="ihnModify">수정</a>
+              <a href="javascript:void(0)" class="ihn-delete" id="ihnDelete">삭제</a>
+          </div>
+        </div>
+      </div>
+      <!-- //inh-lastletter-search -->
+      <!-- inh-lastletter-input -->
+      <div class="inh-lastletter-input" >
+        <div class="inh-lastletter-content" name="froalaEditor" contenteditable="false">
+          {{#if hpGetContext}}
+            {{> froalaReactive hpGetContext}}
+          {{/if}}
+        </div>
+        <!-- custom-input -->
+        <div class="custom-input text-right">
+          <span class="from-date">{{g_dateFormChange hpLastLetter.lastLetter.updateDate 'korYMD'}}</span>
+          <div class="from-name"><span class="label-from">From&nbsp;&nbsp;</span>{{g_name hpLastLetter.userId}}&nbsp;({{g_getNickName hpLastLetter.userId}}) </div>
+        </div>
+        <!-- //custom-input -->
+      </div>
+      <!-- //inh-lastletter-input -->
+      <div class="ihn-content-btnSet text-center mt30">
+        <a href="javascript:void(0)" class="ihn-list" id="goToList">목록</a>
+      </div>
+      <!-- {{/with}} -->
+    </div>
+    <!-- content -->
+
+  </div>
+</template>

@@ -1,0 +1,10 @@
+diff a/client/stylesheets/style.css b/client/stylesheets/style.css	(rejected hunks)
+@@ -4392,7 +4392,7 @@
+ .type-buket .detail-group .w2label {margin-right: 10px;color:#718b9f;margin-bottom: 0; vertical-align: middle;}
+ .type-buket .detail-group {padding-top: 0px}
+ .type-buket .detail-group .subject-header {position:relative;height:20px; text-align: right}
+-.type-buket .detail-group .subject-header .group-btn {position: absolute; top:0px; left:-10px; padding:1px 4px 1.5px 3px; border:1px solid #9feaeb; border-radius:5px;}
++.type-buket .detail-group .subject-header .group-btn {position: absolute; top:0px; left:-10px; padding:0px 4px 1px 3px; border:1px solid #9feaeb; border-radius:5px;}
+ .type-buket .detail-group .subject-header .group-btn span{font-size: 10px; color:#1d2129;}
+ .type-buket .detail-group .subject-header .group-switch {margin-top: 5px; color:#1d2129; padding-top:2px; }
+ .type-buket .detail-group .subject-header .group-switch span {vertical-align: bottom;}
